@@ -1,0 +1,23 @@
+@import "scss/utils";
+
+.login_wrapper {
+  display: flex;
+  @include bigtablet {
+    height: 100vh;
+  }
+}
+
+.login_bg_wrapper {
+  position: relative;
+  height: 100vh;
+  @include fullHdWidth {
+    width: 50vw;
+  }
+  width: 45vw;
+  @include thousandTwoWidth {
+    width: 50vw;
+  }
+  @include bigtablet {
+    display: none;
+  }
+}

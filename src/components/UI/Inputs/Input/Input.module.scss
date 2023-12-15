@@ -1,0 +1,127 @@
+@import "scss/utils";
+
+.field {
+  position: relative;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 80px;
+  width: 100%;
+}
+
+.field_without_error_label {
+  height: max-content;
+  margin-top: 0;
+}
+
+.field_with_label {
+  @extend .field;
+  height: 88px;
+  margin-top: 0;
+  justify-content: flex-start;
+}
+
+.input {
+  width: 100%;
+  min-height: 45px;
+  background-color: white;
+  outline: none;
+  border-radius: 12px;
+  border: 2px solid #EEE;
+  letter-spacing: 1px;
+  padding: 4px 16px;
+  transition: .2s all ease-in-out;
+
+  @include PoppinsRegular(19px);
+
+  @include laptopWidth {
+    font-size: 16px;
+  }
+  @include phone {
+    min-height: 40px;
+    width: 100%;
+    border-radius: 7px;
+    font-size: 14px;
+  }
+  &:hover {
+    border-color: #EBECFF;
+  }
+  &::placeholder {
+    color: #C6C8CB;
+  }
+  &:focus {
+    border-color: $active-color;
+  }
+  &:disabled {
+    background-color: #EEE;
+    pointer-events: none;
+  }
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
+}
+
+.input_error {
+  background-color: #F5F5F5;
+  color: #E5646C;
+  border-color: #E5646C;
+  &:hover {
+    border-color: #E5646C;
+  }
+  &:focus {
+    border-color: #E5646C;
+  }
+}
+
+.input_label {
+  width: 100%;
+  color: #727880;
+  @include PoppinsRegular(14px);
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+
+.required_indicator {
+  color: #E5646C;
+  @include PoppinsMediumBold(18px);
+}
+
+.input_error_label {
+  width: 100%;
+  color: #E5646C;
+  @include PoppinsRegular(12px);
+  margin-top: 4px;
+  line-height: 15px;
+  text-align: left;
+}
+
+.eye_wrapper {
+  position: absolute;
+  right: 12px;
+  top: 44%;
+  bottom: 50%;
+  width: 16px;
+  height: 16px;
+  color: #9DA2A7;
+  cursor: pointer;
+}
+
+.custom_svg {
+  position: absolute;
+  right: 12px;
+  top: 45%;
+  bottom: 50%;
+  width: 16px;
+  height: 16px;
+  /*color: $gray;*/
+  transition: .2s all ease-in-out;
+  cursor: pointer;
+  &:hover {
+    color: white;
+  }
+  @include phone {
+    bottom: 30px;
+  }
+}

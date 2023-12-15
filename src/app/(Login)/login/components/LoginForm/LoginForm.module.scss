@@ -1,0 +1,92 @@
+@import "scss/utils";
+
+.form_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  @include fullHdWidth {
+    width: 50vw;
+  }
+  width: 55vw;
+  @include thousandTwoWidth {
+    width: 50vw;
+  }
+  @include bigtablet {
+    width: 100%;
+    height: 100%;
+    padding: 100px 0 ;
+  }
+}
+
+.form {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+  @include phoneOrTablet {
+    margin-top: 50px;
+  }
+  @include phone{
+    width: calc(100% - 30px);
+    margin: 50px auto 0;
+  }
+}
+
+.form_title {
+  font-family: Inter, sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  align-items: center;
+  margin-top: -150px;
+  @include bigtablet {
+    margin-top: 0;
+  }
+}
+
+.forgot_password {
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: $active-color;
+  margin-bottom: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: .2s all ease-in-out;
+  &:hover {
+    text-decoration: underline $active-color;
+  }
+}
+
+.login_actions_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  & button {
+    width: 40%;
+    min-width: max-content;
+    @include phone {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+
+  @include phone {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.change_form_text {
+  position: absolute;
+  bottom: 25px;
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.linked_text {
+  @extend .forgot_password;
+  font-size: 14px;
+}

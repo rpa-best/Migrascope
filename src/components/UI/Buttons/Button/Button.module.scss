@@ -1,0 +1,41 @@
+@import "scss/utils";
+
+.button {
+  width: 100%;
+  padding: 16px 32px;
+  color: white;
+  border-radius: 12px;
+  background-color: $active-color;
+  cursor: pointer;
+  transition: .2s all ease-in-out;
+  &:hover {
+    background-color: #5157D0;
+  }
+  &:active {
+    background-color: #585FE3;
+  }
+  &:disabled {
+    background-color: gray;
+    pointer-events: none;
+  }
+  @include bigtablet {
+    padding: 10px 25px ;
+  }
+  @include phoneOrTablet {
+    width: 100%;
+    padding: 8px 30px ;
+  }
+}
+
+.button_gray {
+  @extend .button;
+  background-color: $neutral-light;
+  color: $neutral-light-darker;
+  &:hover {
+    background-color: #DCDCDC;
+  }
+  &:active {
+    background-color: $neutral-light-darker;
+    color: white;
+  }
+}
