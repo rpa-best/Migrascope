@@ -1,9 +1,5 @@
-import scss from 'app/(Main)/MainPage.module.scss';
+import { Main } from 'app/(Main)/components/Main';
 
 export default function Home() {
-    return (
-        <main className={scss.main}>
-            <h1>Тут пока пусто</h1>
-        </main>
-    );
+    return <Main />;
 }

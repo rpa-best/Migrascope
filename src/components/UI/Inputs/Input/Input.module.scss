@@ -2,7 +2,7 @@
 
 .field {
   position: relative;
-  height: 45px;
+  height: 40px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -10,39 +10,53 @@
   width: 100%;
 }
 
+.field_big {
+  height: 48px;
+}
+
 .field_without_error_label {
+  width: 100%;
   height: max-content;
   margin-top: 0;
 }
 
+.field_search {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: calc(50% - 8px);
+    left: 12px;
+    background: url("../../svg/search.svg");
+  }
+}
+
 .field_with_label {
   @extend .field;
-  height: 88px;
+  height: 83px;
   margin-top: 0;
   justify-content: flex-start;
 }
 
 .input {
   width: 100%;
-  min-height: 45px;
+  min-height: 40px;
   background-color: white;
   outline: none;
   border-radius: 12px;
   border: 2px solid #EEE;
   letter-spacing: 1px;
-  padding: 4px 16px;
+  padding: 10px 12px;
   transition: .2s all ease-in-out;
 
-  @include PoppinsRegular(19px);
+  @include PoppinsRegular(14px);
 
-  @include laptopWidth {
-    font-size: 16px;
-  }
   @include phone {
     min-height: 40px;
     width: 100%;
     border-radius: 7px;
-    font-size: 14px;
   }
   &:hover {
     border-color: #EBECFF;
@@ -62,6 +76,10 @@
   }
 }
 
+.input_big {
+  min-height: 48px;
+}
+
 .input_error {
   background-color: #F5F5F5;
   color: #E5646C;
@@ -74,11 +92,18 @@
   }
 }
 
+.input_search {
+  position: relative;
+  background-color: #F5F5F5;
+  border-radius: 24px;
+  padding-left: 40px;
+}
+
 .input_label {
   width: 100%;
   color: #727880;
   @include PoppinsRegular(14px);
-  margin-bottom: 4px;
+  margin-bottom: 9px;
   text-align: left;
 }
 

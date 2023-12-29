@@ -1,11 +1,13 @@
-import { ChangeEventHandler, FocusEvent } from 'react';
+import { ChangeEventHandler, FocusEvent, KeyboardEventHandler } from 'react';
 
 export interface IInputProps {
     value: string;
-    name: string;
+    name: string | 'search';
+    size?: 'default' | 'big';
     onChange:
         | ChangeEventHandler<HTMLInputElement>
         | ChangeEventHandler<HTMLTextAreaElement>;
+    onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
     autoFocus?: boolean;
     handleError?: string | boolean;
     onBlur?: (

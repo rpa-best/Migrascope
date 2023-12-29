@@ -20,6 +20,7 @@ export const Input: React.FC<IInputProps> = ({
     clearable,
     handleError,
     onChange,
+    onKeyDown,
     onBlur,
     autoComplete,
     disabled,
@@ -28,6 +29,7 @@ export const Input: React.FC<IInputProps> = ({
     needErrorLabel = true,
     changePasswordVisibility,
     required = false,
+    size = 'default',
 }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -43,6 +45,8 @@ export const Input: React.FC<IInputProps> = ({
         [scss.field_without_error_label]: !needErrorLabel,
         [scss.field_without_label]: !label,
         [scss.field_with_label]: label && needErrorLabel,
+        [scss.field_search]: name === 'search',
+        [scss.field_big]: size === 'big',
     });
     const labelErrorClass = clsx({
         [scss.input_error_label]: handleError,
@@ -54,7 +58,9 @@ export const Input: React.FC<IInputProps> = ({
 
     const inputClass = clsx({
         [scss.input]: true,
+        [scss.input_big]: size === 'big',
         [scss.input_error]: handleError,
+        [scss.input_search]: name === 'search',
     });
     const handleClearClick = () => {
         onChange('' as any);
@@ -73,6 +79,7 @@ export const Input: React.FC<IInputProps> = ({
                 <label className={labelErrorClass}>{handleError}</label>
             )}
             <input
+                onKeyDown={onKeyDown}
                 tabIndex={tabIndex}
                 autoComplete={autoComplete as string}
                 className={inputClass}

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { useFormik } from 'formik';
 
 import { Input } from 'components/UI/Inputs/Input';
@@ -14,13 +13,12 @@ import {
 } from 'app/(Login)/login/components/LoginForm/types';
 
 import scss from './LoginForm.module.scss';
+import { LoginAction } from 'app/(Login)/actions';
 
 export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
     const [type, setType] = useState<'login' | 'register'>('login');
 
     const itsRegister = type === 'register';
-
-    const onSubmit = (values: ILoginFormTypes) => {};
 
     const {
         values,
@@ -30,6 +28,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
         errors,
         handleSubmit,
         setFieldTouched,
+        resetForm,
         touched,
     } = useFormik<ILoginFormTypes>({
         initialValues: {
@@ -38,7 +37,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
             remember: false,
         },
         validate: LoginFormValidate,
-        onSubmit,
+        onSubmit: (values) => LoginAction(values),
     });
 
     return (
@@ -48,6 +47,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
             </h2>
             <form onSubmit={handleSubmit} className={scss.form}>
                 <Input
+                    size="big"
                     required
                     value={values.email}
                     name="email"
@@ -59,6 +59,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
                     placeholder="Введите email"
                 />
                 <Input
+                    size="big"
                     required
                     value={values.password}
                     name="password"
@@ -78,7 +79,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
                 </span>
                 <div className={scss.login_actions_wrapper}>
                     <InputCheckbox
-                        type="checkbox"
                         value={values.remember}
                         name="rememberCheckbox"
                         onChange={(v) => {
@@ -87,7 +87,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
                         }}
                         label="Запомнить меня"
                     />
-                    <Button type="submit">
+                    <Button size="big" type="submit">
                         {itsRegister ? 'Зарегистрироваться' : 'Войти'}
                     </Button>
                 </div>
@@ -96,7 +96,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
                 {itsRegister ? 'Уже есть аккаунт?' : 'Ещё нет аккаунта?'}
                 <span
                     className={scss.linked_text}
-                    onClick={() => setType(itsRegister ? 'login' : 'register')}
+                    onClick={() => {
+                        resetForm();
+                        setType(itsRegister ? 'login' : 'register');
+                    }}
                 >
                     {itsRegister ? ' Войти' : ' Зарегестрироваться!'}
                 </span>

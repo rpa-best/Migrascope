@@ -18,14 +18,21 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
 }) => {
     const onSubmit = (values: PasswordRecoveryFormTypes) => {};
 
-    const { values, handleChange, handleBlur, errors, handleSubmit, touched } =
-        useFormik<PasswordRecoveryFormTypes>({
-            initialValues: {
-                email: '',
-            },
-            validate: PasswordRecoveryValidate,
-            onSubmit,
-        });
+    const {
+        values,
+        handleChange,
+        resetForm,
+        handleBlur,
+        errors,
+        handleSubmit,
+        touched,
+    } = useFormik<PasswordRecoveryFormTypes>({
+        initialValues: {
+            email: '',
+        },
+        validate: PasswordRecoveryValidate,
+        onSubmit,
+    });
 
     return (
         <section className={scss.form_wrapper}>
@@ -35,6 +42,7 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
             </p>
             <form onSubmit={handleSubmit} className={scss.recovery_form}>
                 <Input
+                    size="big"
                     required
                     value={values.email}
                     name="email"
@@ -47,13 +55,19 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
                 />
                 <div className={scss.login_actions_wrapper}>
                     <Button
+                        size="big"
                         style="gray"
-                        onClick={() => setFormType('login')}
+                        onClick={() => {
+                            resetForm();
+                            setFormType('login');
+                        }}
                         type="button"
                     >
                         Назад
                     </Button>
-                    <Button type="submit">Восстановить</Button>
+                    <Button size="big" type="submit">
+                        Восстановить
+                    </Button>
                 </div>
             </form>
         </section>

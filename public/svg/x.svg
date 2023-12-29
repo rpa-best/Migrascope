@@ -8,18 +8,18 @@
         data-testid="close"
 >
     <rect
-            y="2.057"
+            y="4.057"
             width="2.813"
-            height="17.813"
+            height="13.813"
             rx="1.406"
             transform="rotate(-45.506 0 2.057)"
             fill="currentColor"
     />
     <rect
             x="2.036"
-            y="14.584"
+            y="16.584"
             width="2.813"
-            height="17.813"
+            height="13.813"
             rx="1.406"
             transform="rotate(-135 2.036 14.584)"
             fill="currentColor"

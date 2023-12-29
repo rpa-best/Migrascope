@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tippyjs/react": "^4.2.6",
     "axios": "^1.6.2",
     "change-case": "^5.3.0",
     "formik": "^2.4.5",

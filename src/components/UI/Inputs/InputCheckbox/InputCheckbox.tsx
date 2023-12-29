@@ -6,7 +6,6 @@ import clsx from 'clsx';
 export const InputCheckbox = ({
     name,
     label,
-    type,
     value,
     onChange,
 }: InputCheckboxProps) => {
@@ -30,7 +29,7 @@ export const InputCheckbox = ({
                             onChange(!value);
                         }}
                         name={name}
-                        type={type}
+                        type="checkbox"
                         checked={value}
                     />
                 </label>

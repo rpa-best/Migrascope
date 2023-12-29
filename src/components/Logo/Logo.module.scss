@@ -1,0 +1,22 @@
+@import "scss/utils";
+
+.logo {
+  width: max-content;
+  display: flex;
+  column-gap: 4px;
+}
+
+.logo_title {
+  text-transform: uppercase;
+  color: #7B61FF;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 27px;
+}
+
+.logo_svg {
+  width: 42px;
+  height: 25px;
+}
