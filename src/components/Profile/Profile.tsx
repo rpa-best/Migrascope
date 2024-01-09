@@ -5,6 +5,7 @@ import { ProfileSvgWrapper } from 'components/Profile/ProfileSvgWrapper';
 import scss from 'components/Profile/Profile.module.scss';
 
 export const Profile = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     return (
         <section className={scss.profile_layout}>
             <div className={scss.profile_container}>

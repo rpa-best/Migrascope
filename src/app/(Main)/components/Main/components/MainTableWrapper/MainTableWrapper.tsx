@@ -42,6 +42,7 @@ const tableData = [
 ];
 
 export const MainTableWrapper = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 4000));
     return (
         <>
             <div className={scss.table_title_wrapper}>

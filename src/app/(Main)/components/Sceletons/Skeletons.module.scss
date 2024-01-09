@@ -2,16 +2,22 @@
 
 
 .bars_skeleton_wrapper {
-  height: 213px;
+  height: 219px;
   padding: 30px;
+  @include thousandThreeWidth {
+    min-width: 706px;
+  }
+  @include thousandTwoWidth {
+    min-width: 0;
+  }
   @include bigtablet {
-    height: 200px;
+    height: 209px;
   }
   @include phoneOrTablet {
-    height: 173px;
+    height: 179px;
   }
   @include phone {
-    height: 283px;
+    height: 289px;
   }
 }
 
@@ -46,9 +52,9 @@
 }
 
 .table_title {
-  height: 18.4px;
+  min-height: 24px;
   width: 25%;
-  margin: 24px 0 13px 0;
+  margin: 24px 0 4px 0;
   background-color: $border-color;
   border-radius: 12px;
   @include phoneOrTablet {
@@ -57,8 +63,8 @@
 }
 
 .table_headers {
-  height: 13.4px;
-  margin-bottom: 13px;
+  min-height: 20px;
+  margin-bottom: 4px;
   width: 100%;
   background-color: $border-color;
   border-radius: 12px;

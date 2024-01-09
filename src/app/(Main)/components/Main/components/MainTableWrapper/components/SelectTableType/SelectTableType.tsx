@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { SearchParamsHelper } from 'helpers/searchParamsHelper';
+import { SearchParamsHelper } from 'utils/searchParamsHelper';
 
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
 

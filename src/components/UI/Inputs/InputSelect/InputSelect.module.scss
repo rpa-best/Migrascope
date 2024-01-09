@@ -70,12 +70,39 @@
   }
 }
 
-.list_empty {
-  @include PoppinsRegular(20px);
+.spinner_wrapper {
+  height: 40.8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
 
-  @include laptopWidth {
-    font-size: 16px;
+.loading_spinner {
+  @extend .custom_svg;
+  min-width: 16px;
+  min-height: 16px;
+  margin: 10px 15px;
+  color: $neutral-light-darker;
+  transition: .2s all ease-in-out;
+  animation: rotate 1.5s linear infinite;
+  &:hover {
+    cursor: initial;
+    color: $neutral-light-darker;
   }
+}
+
+@keyframes rotate {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+.list_empty {
+  @include PoppinsRegular(14px);
+
 
   padding: 10px;
   text-align: center;

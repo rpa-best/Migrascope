@@ -1,7 +1,7 @@
 @import "../../scss/utils";
 
 .profile_layout {
-  @include main_offset;
+  @include main_offset_smaller;
   border-bottom: 1px solid $border-color;
 }
 
@@ -39,14 +39,12 @@
   grid-area: username;
   padding-top: 6.5px;
   margin-bottom: auto;
-  font-family: Inter, sans-serif;
-  font-size: 28px;
-  font-weight: 500;
+  @include InterMediumBold(28px);
   @include phoneOrTablet {
     font-size: 24px;
   }
   @include phone {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
@@ -54,8 +52,10 @@
   grid-area: email;
   margin-top: auto;
   padding-bottom: 6.5px;
-  font-family: Inter, sans-serif;
-  font-size: 14px;
+  @include InterRegular(14px);
+  @include phone {
+    font-size: 12px;
+  }
 }
 
 .profile_actions {
@@ -67,7 +67,7 @@
 
 .profile_skeleton {
   width: 100%;
-  height: 128px;
+  height: 128.8px;
   position: relative;
   display: flex;
   column-gap: 24px;
@@ -75,20 +75,20 @@
   border-bottom: 1px solid $border-color;
   overflow: hidden;
   @include phoneOrTablet {
-    height: 108px;
+    height: 108.8px;
     padding: 24px 15px;
     column-gap: 15px;
   }
 }
 
 .skeleton_avatar {
-  width: 80px;
-  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
   border-radius: 50%;
   background-color: $border-color;
   @include phoneOrTablet {
-    width: 60px;
-    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
   }
 }
 

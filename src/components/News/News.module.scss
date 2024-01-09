@@ -118,12 +118,18 @@
 
 .news_skeleton {
   position: relative;
+  max-width: 317px;
   min-width: 317px;
   background-color: $neutral-light;
   padding: 24px;
   overflow: hidden;
   @include thousandThreeWidth {
-    min-width: 308px;
+    max-width: 291px;
+    width: 100%;
+    min-width: 0;
+  }
+  @include thousandTwoWidth {
+    display: none;
   }
 }
 

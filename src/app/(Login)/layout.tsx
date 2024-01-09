@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 import { ToastContainer } from 'react-toastify';
 
-import { poppins } from 'font/montserrat';
+import { poppins } from 'assets/font/poppins';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'scss/utils.scss';
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="ru">
-            <body className={poppins.className}>
+            <body className={poppins.variable}>
                 {children}
                 <ToastContainer />
             </body>

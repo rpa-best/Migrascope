@@ -31,6 +31,8 @@
   @include bigtablet {
     margin: 0 5px;
     padding: 14px 16px;
+    column-gap: 20px;
+    white-space: nowrap;
   }
 }
 
@@ -46,11 +48,7 @@
 
 .navbarlink_text {
   color: $neutral-light-darker;
-  font-family: Inter, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 21px;
+  @include InterMediumBold(14px);
 }
 
 .accounts {
@@ -146,6 +144,9 @@
   &:hover {
     color: black;
     transition: .2s all;
+  }
+  @include phone {
+    right: 10px;
   }
 }
 

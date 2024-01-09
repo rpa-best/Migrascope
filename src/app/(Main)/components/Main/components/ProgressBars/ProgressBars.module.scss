@@ -9,10 +9,7 @@
 }
 
 .bars_title {
-  font-family: Inter, sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
+  @include InterMediumBold(16px);
   margin-bottom: 15px;
 }
 
@@ -69,7 +66,7 @@
 
 .bar_circle_bg {
   position: absolute;
-  top: 2px;
+  top: 0;
   z-index: -1;
   width: 92px;
   height: 92px;
@@ -82,20 +79,13 @@
 
 .bar_amount {
   position: absolute;
-  top: calc(50% - 24px);
-  font-family: Inter, sans-serif;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 27px;
+  top: calc(50% - 28px);
+  @include InterMediumBold(18px);
   color: #1B1D1F;
 }
 
 .bar_title {
   text-align: center;
-  font-family: Inter, sans-serif;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 600;
+  @include InterSemiBold(12px);
   color: $neutral-light-darker;
 }

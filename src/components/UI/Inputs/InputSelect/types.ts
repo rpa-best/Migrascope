@@ -10,6 +10,8 @@ export interface ListProps {
 export interface IInputSelectProps extends Omit<IInputProps, 'onChange'> {
     listValues: { id: number; name: string }[];
     onChange: (item: any) => void;
+    loading?: boolean;
+    fetchable?: boolean;
     setFieldTouched?: (field: string, value: boolean) => void;
     showPrevValue?: boolean;
 }

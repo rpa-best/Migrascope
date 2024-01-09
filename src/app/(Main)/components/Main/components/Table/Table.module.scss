@@ -19,11 +19,18 @@
 
 
 .header_item {
-  @include InterSemiBold(10px);
+  @include PoppinsSemiBold(10px);
   color: #C6C8CB;
   text-transform: uppercase;
   padding: 0 13px 4px 13px;
+  & span {
+    min-width: 12px;
+    min-height: 12px;
+    border-radius: 50%;
+    background-color: black;
+  }
 }
+
 
 .table_body {}
 

@@ -34,10 +34,7 @@
 }
 
 .form_title {
-  font-family: Inter, sans-serif;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 500;
+  @include InterSemiBold(28px);
   align-items: center;
   margin-top: -150px;
   @include bigtablet {
@@ -46,9 +43,7 @@
 }
 
 .forgot_password {
-  font-family: Inter, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
+  @include InterMediumBold(13px);
   color: $active-color;
   margin-bottom: 30px;
   cursor: pointer;
@@ -81,9 +76,7 @@
 .change_form_text {
   position: absolute;
   bottom: 25px;
-  font-family: Inter, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
+  @include InterRegular(14px);
 }
 
 .linked_text {

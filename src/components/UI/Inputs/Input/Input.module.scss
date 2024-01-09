@@ -40,9 +40,15 @@
   justify-content: flex-start;
 }
 
+.field_with_label_big {
+  @extend .field_with_label;
+  height: 102px;
+}
+
 .input {
   width: 100%;
   min-height: 40px;
+  max-height: 40px;
   background-color: white;
   outline: none;
   border-radius: 12px;
@@ -113,6 +119,12 @@
   @include PoppinsMediumBold(18px);
 }
 
+.input_svg_wrapper {
+  position: relative;
+  width: 100%;
+  height: max-content;
+}
+
 .input_error_label {
   width: 100%;
   color: #E5646C;
@@ -125,23 +137,46 @@
 .eye_wrapper {
   position: absolute;
   right: 12px;
-  top: 44%;
-  bottom: 50%;
+  top: calc(50% - 8px);
   width: 16px;
   height: 16px;
   color: #9DA2A7;
   cursor: pointer;
 }
 
-.custom_svg {
-  position: absolute;
-  right: 12px;
-  top: 45%;
-  bottom: 50%;
+.clear_wrapper {
   width: 16px;
   height: 16px;
-  /*color: $gray;*/
+  position: absolute;
+  right: 12px;
+  top: calc(50% - 8px);
+  bottom: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #C6C8CB;
   transition: .2s all ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  &:hover {
+    background-color: white;
+    border-color: $active-color;
+    & svg {
+      color: $neutral-light-darker;
+    }
+  }
+  @include phone {
+    bottom: 30px;
+  }
+}
+
+.custom_svg {
+  width: 7px;
+  height: 7px;
+  color: white;
+  transition: .2s all ease-in-out;
+  margin-right: .5px;
   cursor: pointer;
   &:hover {
     color: white;

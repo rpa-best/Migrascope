@@ -4,7 +4,7 @@ import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
-import { SearchParamsHelper } from 'helpers/searchParamsHelper';
+import { SearchParamsHelper } from 'utils/searchParamsHelper';
 
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
 import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';

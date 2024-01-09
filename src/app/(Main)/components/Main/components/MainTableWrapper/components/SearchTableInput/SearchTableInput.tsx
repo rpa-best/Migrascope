@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, useState } from 'react';
-import { SearchParamsHelper } from 'helpers/searchParamsHelper';
+import { SearchParamsHelper } from 'utils/searchParamsHelper';
 
 import { Input } from 'components/UI/Inputs/Input';
 import useDebouncedFunction from 'hooks/useDebouncedFunction';

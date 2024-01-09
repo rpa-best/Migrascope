@@ -2,17 +2,21 @@ import React from 'react';
 
 import { motion, MotionValue } from 'framer-motion';
 
+import Spinner from '/public/svg/spinner.svg';
+
 import scss from '../InputSelect.module.scss';
 
 interface ListProps {
     list: { id: number; name: string }[];
     handleSetData: (id: number) => void;
     opacity: MotionValue<string>;
+    loading?: boolean;
 }
 
 export const InputSelectList: React.FC<ListProps> = ({
     list,
     handleSetData,
+    loading,
     opacity,
 }) => {
     return (
@@ -33,6 +37,10 @@ export const InputSelectList: React.FC<ListProps> = ({
                         {item.name}
                     </li>
                 ))
+            ) : loading ? (
+                <div className={scss.spinner_wrapper}>
+                    <Spinner className={scss.loading_spinner} />
+                </div>
             ) : (
                 <li className={scss.list_empty}>Не найдено</li>
             )}

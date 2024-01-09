@@ -9,11 +9,8 @@
 .logo_title {
   text-transform: uppercase;
   color: #7B61FF;
-  font-family: Inter, sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 27px;
+  @include InterMediumBold(16px);
+
 }
 
 .logo_svg {

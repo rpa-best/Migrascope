@@ -29,6 +29,8 @@
     }
   }
   & button:nth-child(4) {
+    white-space: nowrap;
+    overflow: hidden;
     grid-area: company;
     flex-grow: 0;
     flex-shrink: 1;
@@ -109,7 +111,7 @@
 }
 
 .table_title_role {
-  @include PoppinsRegular(10px);
+  @include PoppinsSemiBold(10px);
   color: #C6C8CB;
   text-transform: uppercase;
 }

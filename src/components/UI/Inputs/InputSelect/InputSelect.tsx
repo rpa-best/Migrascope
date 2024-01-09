@@ -3,12 +3,13 @@ import Tippy from '@tippyjs/react/headless';
 
 import clsx from 'clsx';
 import { useSpring } from 'framer-motion';
-import { onHide, onMount } from 'helpers/TippyHelper';
+import { onHide, onMount } from 'utils/TippyHelper';
 
 import { InputSelectList } from 'components/UI/Inputs/InputSelect/InputSelectList';
 
 import { IInputSelectProps } from 'components/UI/Inputs/InputSelect/types';
 
+import XSvg from '/public/svg/x.svg';
 import Arrow from '/public/svg/arrow.svg';
 
 import scss from 'components/UI/Inputs/InputSelect/InputSelect.module.scss';
@@ -29,7 +30,10 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     tabIndex,
     needErrorLabel = true,
     listValues,
+    clearable,
     showPrevValue = true,
+    loading,
+    fetchable = false,
 }) => {
     const opacity = useSpring(0);
 
@@ -42,22 +46,30 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     const prevValue = useRef(value);
 
     useEffect(() => {
+        if (fetchable) {
+            setModifiedListValues(listValues);
+            return;
+        }
         setModifiedListValues(
             [...listValues].filter((v) => {
                 return v.name !== value;
             })
         );
-    }, [listValues, value]);
+    }, [fetchable, listValues, value]);
 
     useEffect(() => {
         setInputValue(value);
         prevValue.current = value;
-    }, [value]);
+    }, [fetchable, value]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
         if (setFieldTouched) {
             setFieldTouched(name, true);
+        }
+        if (fetchable) {
+            onChange(inputValue);
+            return;
         }
         setInputValue(inputValue);
 
@@ -83,11 +95,11 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
 
     const onClickOutside = () => {
         setVisible(!visible);
-        if (showPrevValue) {
-            setInputValue(prevValue.current);
-        }
         if (setFieldTouched) {
             setFieldTouched(name, true);
+        }
+        if (showPrevValue) {
+            setInputValue(prevValue.current);
         }
     };
 
@@ -100,6 +112,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
         [scss.field_without_error_label]: !needErrorLabel,
         [scss.field_without_label]: !label,
         [scss.field_with_label]: label && needErrorLabel,
+        [scss.field_search]: name === 'search',
     });
     const labelErrorClass = clsx({
         [scss.input_error_label]: handleError,
@@ -112,67 +125,93 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     const inputClass = clsx({
         [scss.input]: true,
         [scss.input_error]: handleError,
+        [scss.input_search]: name === 'search',
     });
 
+    const handleClearClick = () => {
+        onChange('' as any);
+    };
+
     return (
-        <Tippy
-            onMount={() => onMount(opacity)}
-            onHide={({ unmount }) => onHide({ opacity, unmount })}
-            animation={true}
-            interactive={true}
-            visible={visible}
-            placement="bottom"
-            offset={[0, 4]}
-            onClickOutside={onClickOutside}
-            render={(attrs) => (
-                <InputSelectList
-                    {...attrs}
-                    opacity={opacity}
-                    handleSetData={handleSetData}
-                    list={modifiedListValues}
-                />
-            )}
+        <div
+            style={{
+                position: 'relative',
+                width: '100%',
+                height: 'max-content',
+            }}
         >
-            <div className={fieldClass}>
-                {label ? (
-                    <label className={labelClass}>{label}</label>
-                ) : (
-                    <label className={labelErrorClass}>{handleError}</label>
+            <Tippy
+                onMount={() => onMount(opacity)}
+                onHide={({ unmount }) => onHide({ opacity, unmount })}
+                animation={true}
+                interactive={true}
+                visible={visible}
+                placement="bottom"
+                offset={[0, 4]}
+                onClickOutside={onClickOutside}
+                render={(attrs) => (
+                    <InputSelectList
+                        loading={loading}
+                        {...attrs}
+                        opacity={opacity}
+                        handleSetData={handleSetData}
+                        list={modifiedListValues}
+                    />
                 )}
-                <div
-                    onClick={() => setVisible(true)}
-                    className={scss.input_wrapper}
-                >
-                    <input
-                        onFocus={() => {
-                            setVisible(true);
-                            setInputValue('');
-                        }}
-                        tabIndex={tabIndex}
-                        autoComplete={autoComplete as string}
-                        className={inputClass}
-                        onBlur={onBlur}
-                        type={type}
-                        onChange={handleInputChange}
-                        value={inputValue}
-                        autoFocus={autoFocus}
-                        id={name}
-                        name={name}
-                        ref={inputRef}
-                        placeholder={
-                            prevValue.current ? prevValue.current : placeholder
-                        }
-                        disabled={disabled}
-                    />
-                    <Arrow
-                        onClick={handleArrowClick}
-                        className={arrowClassname}
-                    />
+            >
+                <div className={fieldClass}>
+                    {label ? (
+                        <label className={labelClass}>{label}</label>
+                    ) : (
+                        <label className={labelErrorClass}>{handleError}</label>
+                    )}
+                    <div
+                        onClick={() => setVisible(true)}
+                        className={scss.input_wrapper}
+                    >
+                        <input
+                            onFocus={() => {
+                                setVisible(true);
+                                setInputValue('');
+                            }}
+                            tabIndex={tabIndex}
+                            autoComplete={autoComplete as string}
+                            className={inputClass}
+                            onBlur={onBlur}
+                            type={type}
+                            onChange={handleInputChange}
+                            value={inputValue}
+                            autoFocus={autoFocus}
+                            id={name}
+                            name={name}
+                            ref={inputRef}
+                            placeholder={
+                                prevValue.current
+                                    ? prevValue.current
+                                    : placeholder
+                            }
+                            disabled={disabled}
+                        />
+                        {clearable && inputValue && (
+                            <div className={scss.clear_wrapper}>
+                                <XSvg
+                                    onClick={() => handleClearClick()}
+                                    className={scss.custom_svg}
+                                />
+                            </div>
+                        )}
+                        {name !== 'search' && (
+                            <Arrow
+                                onClick={handleArrowClick}
+                                className={arrowClassname}
+                            />
+                        )}
+                    </div>
+                    {label && (
+                        <label className={labelErrorClass}>{handleError}</label>
+                    )}
                 </div>
-                {label && (
-                    <label className={labelErrorClass}>{handleError}</label>
-                )}
-            </div>
-        </Tippy>
+            </Tippy>
+        </div>
     );
 };

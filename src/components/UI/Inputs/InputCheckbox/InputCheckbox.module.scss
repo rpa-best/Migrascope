@@ -60,10 +60,8 @@
 }
 
 .input_description {
-  font-family: Inter, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
+  @include InterRegular(14px);
+
   color: #1B1D1F;
 }
 

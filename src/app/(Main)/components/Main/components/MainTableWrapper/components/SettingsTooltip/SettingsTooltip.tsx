@@ -5,7 +5,7 @@ import Tippy from '@tippyjs/react/headless';
 import { AnimatePresence, motion, MotionValue, useSpring } from 'framer-motion';
 
 import { useResizeWidth } from 'hooks/useResizeWidth';
-import { onHide } from 'helpers/TippyHelper';
+import { onHide } from 'utils/TippyHelper';
 
 import { AdditionalButton } from 'components/UI/Buttons/AdditionalButton';
 import { SettingsMenu } from 'app/(Main)/components/Main/components/MainTableWrapper/components/SettingsTooltip/SettingsMenu';
