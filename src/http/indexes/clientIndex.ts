@@ -1,43 +1,23 @@
 import axios, { AxiosError } from 'axios';
-import CookiesUniversal from 'universal-cookie';
-import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
-import { toast } from 'react-toastify';
-import { errorToastOptions, warningToastConfig } from 'config/toastConfig';
+import {
+    handleStatus,
+    setClientBearer,
+    toCamelCase,
+} from 'http/indexes/helpers';
 
-const cookiesUni = new CookiesUniversal();
-
-export const $host = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+export const $account = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_ACCOUNT_API_URL,
 });
 
-export const $clientAuth = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+export const $clientOrganization = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_ORGANIZATION_API_URL,
 });
 
-$clientAuth.interceptors.request.use(async (req) => {
-    const accessToken = cookiesUni.get('access');
+[$account, $clientOrganization].forEach((item) => {
+    item.interceptors.request.use(async (req) => setClientBearer(req));
 
-    req.headers.set('Authorization', `Bearer ${accessToken}`);
-    return req;
-});
-
-[$clientAuth, $host].forEach((item) => {
     item.interceptors.response.use(
-        (res) => {
-            if (res.data) snakeToCamelCaseDeep(res.data);
-            return res;
-        },
-        (error: AxiosError) => {
-            const method = error.response?.config.method;
-            const status = error.response?.status as number;
-            if (status === 403) {
-                toast('Недостаточно прав', warningToastConfig);
-            } else if (status >= 400 && status < 500) {
-                toast('Ошибка', errorToastOptions);
-            } else if (status >= 500) {
-                toast('Ошибка сервера', errorToastOptions);
-            }
-            throw error;
-        }
+        (res) => toCamelCase(res),
+        (error: AxiosError) => handleStatus(error)
     );
 });

@@ -3,6 +3,7 @@ $neutral-light: #F5F5F5;
 $neutral-light-darker: #727880;
 $border-color: #EEEEEE;
 $skeleton_bg_color: #BBBBBB;
+$error-color: #E5646C;
 
 @mixin center() {
   width: calc(100% - 30px);
@@ -185,5 +186,14 @@ $skeleton_bg_color: #BBBBBB;
   }
   to {
     transform: translateX(100%);
+  }
+}
+
+@keyframes rotate {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
   }
 }

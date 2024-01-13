@@ -35,14 +35,14 @@
 
 .field_with_label {
   @extend .field;
-  height: 83px;
+  height: 81.4px;
   margin-top: 0;
   justify-content: flex-start;
 }
 
 .field_with_label_big {
   @extend .field_with_label;
-  height: 102px;
+  height: 89.4px;
 }
 
 .input {
@@ -88,13 +88,13 @@
 
 .input_error {
   background-color: #F5F5F5;
-  color: #E5646C;
-  border-color: #E5646C;
+  color: $error-color;
+  border-color: $error-color;
   &:hover {
-    border-color: #E5646C;
+    border-color: $error-color;
   }
   &:focus {
-    border-color: #E5646C;
+    border-color: $error-color;
   }
 }
 
@@ -108,15 +108,15 @@
 .input_label {
   width: 100%;
   color: #727880;
-  @include PoppinsRegular(14px);
-  margin-bottom: 9px;
+  @include InterSemiBold(12px);
+  margin-bottom: 4px;
   text-align: left;
 }
 
 
 .required_indicator {
-  color: #E5646C;
-  @include PoppinsMediumBold(18px);
+  color: $error-color;
+  @include PoppinsSemiBold(12px);
 }
 
 .input_svg_wrapper {
@@ -127,7 +127,7 @@
 
 .input_error_label {
   width: 100%;
-  color: #E5646C;
+  color: $error-color;
   @include PoppinsRegular(12px);
   margin-top: 4px;
   line-height: 15px;

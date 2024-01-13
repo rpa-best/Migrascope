@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 
 import { Input } from 'components/UI/Inputs/Input';
 import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';
 import { Button } from 'components/UI/Buttons/Button';
 
+import { LoginAction } from 'app/(Login)/actions';
 import { LoginFormValidate } from 'app/(Login)/login/components/LoginForm/LoginForm.utils';
 
 import {
@@ -13,13 +14,8 @@ import {
 } from 'app/(Login)/login/components/LoginForm/types';
 
 import scss from './LoginForm.module.scss';
-import { LoginAction } from 'app/(Login)/actions';
 
 export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
-    const [type, setType] = useState<'login' | 'register'>('login');
-
-    const itsRegister = type === 'register';
-
     const {
         values,
         handleChange,
@@ -42,9 +38,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
 
     return (
         <section className={scss.form_wrapper}>
-            <h2 className={scss.form_title}>
-                {itsRegister ? 'Регистрация' : 'Вход'}
-            </h2>
+            <h2 className={scss.form_title}>Вход</h2>
             <form onSubmit={handleSubmit} className={scss.form}>
                 <Input
                     size="big"
@@ -88,20 +82,21 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
                         label="Запомнить меня"
                     />
                     <Button size="big" type="submit">
-                        {itsRegister ? 'Зарегистрироваться' : 'Войти'}
+                        Войти
                     </Button>
                 </div>
             </form>
             <p className={scss.change_form_text}>
-                {itsRegister ? 'Уже есть аккаунт?' : 'Ещё нет аккаунта?'}
+                Ещё нет аккаунта?
                 <span
                     className={scss.linked_text}
                     onClick={() => {
                         resetForm();
-                        setType(itsRegister ? 'login' : 'register');
+                        setFormType('register');
                     }}
                 >
-                    {itsRegister ? ' Войти' : ' Зарегестрироваться!'}
+                    {' '}
+                    Зарегестрироваться!
                 </span>
             </p>
         </section>

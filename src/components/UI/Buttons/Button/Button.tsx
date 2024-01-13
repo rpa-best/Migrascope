@@ -2,9 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { ButtonProps } from 'components/UI/Buttons/Button/types';
+import Spinner from '/public/svg/spinner.svg';
+import { SvgElement } from 'components/UI/Buttons/Button/SvgElement';
 
 import scss from 'components/UI/Buttons/Button/Button.module.scss';
-import { SvgElement } from 'components/UI/Buttons/Button/SvgElement';
 
 export const Button: React.FC<ButtonProps> = ({
     onClick,
@@ -15,6 +16,7 @@ export const Button: React.FC<ButtonProps> = ({
     size = 'default',
     style = 'default',
     svg,
+    loading,
 }) => {
     const buttonClass = clsx({
         [scss.button_default]: style === 'default' && size === 'default',
@@ -36,6 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
         >
             <SvgElement type={svg} />
             {children}
+            {loading && <SvgElement type="loading" />}
         </button>
     );
 };

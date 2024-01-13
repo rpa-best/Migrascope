@@ -1,7 +1,8 @@
 @import "scss/utils";
 
 .button_default {
-  max-height: 48px;
+  position: relative;
+  min-height: 40px;
   width: 100%;
   padding: 10px 16px;
   color: white;
@@ -82,3 +83,14 @@
   top: calc(50% - 8px);
   color: white;
 }
+
+.button_spinner {
+  max-width: 16px;
+  max-height: 16px;
+  position: absolute;
+  right: 8px;
+  color: white;
+  top: calc(50% - 8px);
+  animation: rotate 1.5s infinite linear ;
+}
+

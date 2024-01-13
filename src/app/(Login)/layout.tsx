@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { ToastContainer } from 'react-toastify';
 
 import { poppins } from 'assets/font/poppins';
+import { inter } from 'assets/font/inter';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'scss/utils.scss';
@@ -21,7 +22,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="ru">
-            <body className={poppins.variable}>
+            <body className={`${poppins.variable} ${inter.variable}`}>
                 {children}
                 <ToastContainer />
             </body>

@@ -5,6 +5,7 @@ export interface ButtonProps {
     onClick?: () => void;
     disabled?: boolean;
     nowrap?: boolean;
+    loading?: boolean;
     size?: 'default' | 'big' | 'medium';
-    svg?: 'plus';
+    svg?: 'plus' | 'loading';
 }
