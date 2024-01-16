@@ -1,37 +1,41 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { FormikErrors, useFormik } from 'formik';
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import CookiesUniversal from 'universal-cookie';
+import { toast } from 'react-toastify';
 
 import { PinCodeInput } from 'components/UI/Inputs/PinCodeInput';
 
 import {
     EnterCodeFormValidate,
     isFullFilled,
+    onRegisterSubmit,
+    onResetPasswordSubmit,
 } from 'app/(Login)/login/components/EnterCodeForm/EnterCodeForm.utils';
-import { checkEmail, registerUser } from 'http/accountService/accountService';
+import { checkEmail } from 'http/accountService/accountService';
 
 import RayArrow from '/public/svg/rayArrow.svg';
 import Spinner from '/public/svg/spinner.svg';
 
-import { RegisterUserBody } from 'http/accountService/types';
-import { RegisterFormTypes } from 'app/(Login)/login/components/RegisterForm/types';
+import { successToastConfig } from 'config/toastConfig';
+
 import {
     EnterCodeFormProps,
     EnterCodeFormValues,
 } from 'app/(Login)/login/components/EnterCodeForm/types';
+import {
+    RecoveryPassType,
+    RegisterFormTypes,
+} from 'app/(Login)/login/components/RegisterForm/types';
 
 import scss from './EnterCodeForm.module.scss';
-
-const cookie = new CookiesUniversal();
 
 export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
     setFormType,
     data,
     itsResetPassword,
+    setData,
     previousFormType,
 }) => {
     const router = useRouter();
@@ -41,40 +45,29 @@ export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
     const [sended, setSended] = useState(false);
 
     const onSubmit = async (values: EnterCodeFormValues) => {
-        if (itsResetPassword) {
-            return;
-        }
-        const body = { ...(data as RegisterFormTypes), pvc: values.join('') };
-
         setLoading(true);
 
-        try {
-            const userBody: RegisterUserBody = {
-                name: body.name,
-                phone: body.phone,
-                surname: body.surname,
-                password: body.password,
-                verified_password: body.confirmPassword,
-                lastname: body.patronymic,
-                username: body.email,
-                remember: body.remember,
-                pvc: body.pvc,
-            };
+        const pvc = values.join('');
 
-            const userResponse = await registerUser(userBody);
-
-            cookie.set('access', userResponse.access);
-            cookie.set('refresh', userResponse.refresh);
-
-            router.replace('/');
-        } catch (e) {
-            if (e instanceof AxiosError) {
-                //@ts-ignore
-                errors.code = e.response?.data.pvc[0];
-            }
-        } finally {
-            setLoading(false);
+        if (itsResetPassword) {
+            await onResetPasswordSubmit(
+                pvc,
+                data as RecoveryPassType,
+                errors as { code?: string },
+                setFormType,
+                setData as Dispatch<SetStateAction<RecoveryPassType | null>>
+            );
+            toast('Пароль успешно изменён', successToastConfig);
+        } else {
+            await onRegisterSubmit(
+                pvc,
+                data as RegisterFormTypes,
+                errors as { code?: string },
+                router
+            );
         }
+
+        setLoading(false);
     };
 
     const {
@@ -117,7 +110,7 @@ export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
     }, [isValid, submitForm, values]);
 
     return (
-        <div className={scss.form_wrapper}>
+        <section className={scss.form_wrapper}>
             <form className={scss.form} onSubmit={handleSubmit}>
                 <div className={scss.form_title_wrapper}>
                     <RayArrow onClick={() => setFormType(previousFormType)} />
@@ -147,7 +140,12 @@ export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
                             resetForm();
                             setFieldError('code', '');
                             setSended(true);
-                            await checkEmail(data?.email as string, 'register');
+                            await checkEmail(
+                                data?.email as string,
+                                itsResetPassword
+                                    ? 'change_password'
+                                    : 'register'
+                            );
                         }}
                         className={scss.form_send_again}
                     >
@@ -158,6 +156,6 @@ export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
                     {loading && <Spinner className={scss.loading_spinner} />}
                 </div>
             </form>
-        </div>
+        </section>
     );
 };

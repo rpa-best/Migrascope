@@ -1,12 +1,9 @@
 'use server';
 
 import axios from 'axios';
+
 import { toCamelCase } from 'http/indexes/helpers';
 import { setServerBearer } from 'http/indexes/serverHelper';
-
-export const $accountWithoutAuth = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_ACCOUNT_API_URL,
-});
 
 export const $serverAccount = axios.create({
     baseURL: process.env.NEXT_PUBLIC_ACCOUNT_API_URL,

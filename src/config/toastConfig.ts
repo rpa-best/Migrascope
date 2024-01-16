@@ -13,7 +13,6 @@ export const successToastConfig: ToastOptions = {
     hideProgressBar: true,
     autoClose: 2000,
     type: 'success',
-    theme: 'colored',
 };
 
 export const warningToastConfig: ToastOptions = {

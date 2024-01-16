@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { useRouter } from 'next/navigation';
 
 import { Input } from 'components/UI/Inputs/Input';
 import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';
 import { Button } from 'components/UI/Buttons/Button';
 
-import { LoginAction } from 'app/(Login)/actions';
+import { LoginAction } from 'app/(Login)/login/actions';
 import { LoginFormValidate } from 'app/(Login)/login/components/LoginForm/LoginForm.utils';
 
 import {
@@ -16,6 +17,27 @@ import {
 import scss from './LoginForm.module.scss';
 
 export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
+    const router = useRouter();
+
+    const [loading, setLoading] = useState(false);
+
+    const onSubmit = async (values: ILoginFormTypes) => {
+        try {
+            setLoading(true);
+            await LoginAction(values);
+            router.replace('/');
+        } catch (e) {
+            if (e instanceof Error) {
+                if (e.message === 'username_or_password_invalid') {
+                    errors.email = 'Неправильный логин или пароль';
+                    errors.password = 'Неправильный логин или пароль';
+                }
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const {
         values,
         handleChange,
@@ -33,7 +55,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
             remember: false,
         },
         validate: LoginFormValidate,
-        onSubmit: (values) => LoginAction(values),
+        onSubmit,
     });
 
     return (
@@ -81,7 +103,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
                         }}
                         label="Запомнить меня"
                     />
-                    <Button size="big" type="submit">
+                    <Button loading={loading} size="big" type="submit">
                         Войти
                     </Button>
                 </div>

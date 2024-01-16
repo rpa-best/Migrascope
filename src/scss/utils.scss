@@ -34,6 +34,12 @@ $error-color: #E5646C;
   }
 }
 
+@mixin thousandFourWidth() {
+  @media (max-width: 1400px) {
+    @content
+  }
+}
+
 
 @mixin thousandThreeWidth() {
   @media (max-width: 1300px) {

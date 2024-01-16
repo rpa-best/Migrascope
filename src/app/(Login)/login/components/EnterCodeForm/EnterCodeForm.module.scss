@@ -10,6 +10,10 @@
   & h2 {
     @include InterSemiBold(28px);
     margin-left: 36px;
+    @include phoneOrTablet {
+      font-size: 24px;
+      margin-left: 28px;
+    }
   }
   & svg {
     width: 28px;

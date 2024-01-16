@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
 
-    const access = request.cookies.get('access')?.value;
+    /*    const access = request.cookies.get('access')?.value;
 
     const itsLogin = url.pathname.startsWith('/login');
 
@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
         if (!hasAccess) {
             return NextResponse.redirect(new URL('/login', request.url));
         }
-    }
+    }*/
 }
 
 export const config = {

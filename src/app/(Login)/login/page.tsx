@@ -7,6 +7,7 @@ import LogoImg from '/public/images/login/Logo.png';
 import LoginBackground from '/public/images/login/LoginFormBackground.png';
 
 import scss from './LoginPage.module.scss';
+import Link from 'next/link';
 
 const LoginPage = () => {
     return (
@@ -22,7 +23,9 @@ const LoginPage = () => {
                     priority
                     alt="Фоновое изображение формы Авторизации"
                 />
-                <Image className={scss.logo} src={LogoImg} alt="Logo" />
+                <Link href="/login">
+                    <Image className={scss.logo} src={LogoImg} alt="Logo" />
+                </Link>
             </section>
             <FormsWrapper />
         </main>

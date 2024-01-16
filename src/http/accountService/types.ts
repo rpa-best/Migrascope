@@ -4,7 +4,7 @@ export interface RegisterUserBody {
     verified_password: string;
     name: string;
     surname: string;
-    lastname: string;
+    patronymic: string;
     phone: string;
     pvc: string;
     remember: boolean;
@@ -24,3 +24,21 @@ interface RegisterUserResponse {
 export type RegisterUser = (
     body: RegisterUserBody
 ) => Promise<RegisterUserResponse>;
+
+export interface AuthUserBody {
+    username: string;
+    password: string;
+}
+
+export type AuthUser = (
+    body: AuthUserBody
+) => Promise<Omit<RegisterUserResponse, 'user'>>;
+
+export interface ChangePasswordBody {
+    pvc: string;
+    email: string;
+    password: string;
+    verified_password: string;
+}
+
+export type ChangePassword = (body: ChangePasswordBody) => Promise<void>;

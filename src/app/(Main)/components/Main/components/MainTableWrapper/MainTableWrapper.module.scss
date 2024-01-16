@@ -3,7 +3,7 @@
 .table_actions {
   display: flex;
   column-gap: 12px;
-  @include thousandThreeWidth {
+  @include thousandFourWidth {
     display: grid;
     grid-template-areas: 'a a settings company'
                           'select select search search';
@@ -21,6 +21,7 @@
   }
   & div:nth-child(3) {
     grid-area: settings;
+
     @include bigtablet {
       margin-left: auto;
     }
@@ -34,6 +35,9 @@
     grid-area: company;
     flex-grow: 0;
     flex-shrink: 1;
+    @include fullHdWidth {
+      width: 50%;
+    }
     @include phone {
       order: -3;
     }

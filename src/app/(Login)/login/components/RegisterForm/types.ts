@@ -11,6 +11,14 @@ export interface RegisterFormTypes {
     remember: boolean;
 }
 
+export interface RecoveryPassType {
+    email: string;
+    pvc?: string;
+    password?: string;
+    confirmPassword?: string;
+    errors?: { password?: string };
+}
+
 export interface RegisterUserAction extends RegisterFormTypes {
     pvc: string;
 }

@@ -1,5 +1,6 @@
 import { RegisterFormTypes } from 'app/(Login)/login/components/RegisterForm/types';
 import { isEmailValid } from 'utils/isEmailValid';
+import { checkStringForDigitsAndLetters } from 'app/(Login)/login/helpers/helpers';
 
 export const RegisterFormValidate = (values: RegisterFormTypes) => {
     const errors: Partial<RegisterFormTypes> = {};
@@ -26,6 +27,10 @@ export const RegisterFormValidate = (values: RegisterFormTypes) => {
 
     if (!values.password) {
         errors.password = 'Укажите пароль';
+    } else if (!checkStringForDigitsAndLetters(values.password)) {
+        errors.password = 'Пароль должен содержать буквы и цифры';
+    } else if (values.password.length < 8) {
+        errors.password = 'Пароль должен содержать минимум 8 символов';
     } else if (!values.confirmPassword) {
         errors.confirmPassword = 'Обязательное поле';
     } else if (values.confirmPassword !== values.password) {

@@ -71,6 +71,7 @@
   width: 92px;
   height: 92px;
   @include bigtablet {
+    top: 3px;
     width: 80px;
     height: 80px;
   }
@@ -79,7 +80,7 @@
 
 .bar_amount {
   position: absolute;
-  top: calc(50% - 28px);
+  top: calc(50% - 25px);
   @include InterMediumBold(18px);
   color: #1B1D1F;
 }

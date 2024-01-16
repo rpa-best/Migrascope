@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 
 import { Input } from 'components/UI/Inputs/Input';
 import { Button } from 'components/UI/Buttons/Button';
 
+import { checkEmail } from 'http/accountService/accountService';
 import { PasswordRecoveryValidate } from 'app/(Login)/login/components/PasswordRecoveryForm/PasswordRecoveryUtils';
 
+import { AxiosError } from 'axios';
 import {
     PasswordRecoveryFormProps,
     PasswordRecoveryFormTypes,
@@ -15,8 +17,26 @@ import scss from './PasswordRecoveryForm.module.scss';
 
 export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
     setFormType,
+    previousFormType,
+    data,
+    setData,
 }) => {
-    const onSubmit = (values: PasswordRecoveryFormTypes) => {};
+    const [loading, setLoading] = useState(false);
+    const onSubmit = async (values: PasswordRecoveryFormTypes) => {
+        setLoading(true);
+        try {
+            await checkEmail(values.email, 'change_password');
+            previousFormType.current = 'passRecovery';
+            setData({ email: values.email });
+            setFormType('enterNewPassword');
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                errors.email = 'Такого email не существует';
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const {
         values,
@@ -28,7 +48,7 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
         touched,
     } = useFormik<PasswordRecoveryFormTypes>({
         initialValues: {
-            email: '',
+            email: data?.email ?? '',
         },
         validate: PasswordRecoveryValidate,
         onSubmit,
@@ -36,9 +56,9 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
 
     return (
         <section className={scss.form_wrapper}>
-            <h2 className={scss.form_title}>Восстановление пароля</h2>
+            <h2 className={scss.recovery_form_title}>Восстановление пароля</h2>
             <p className={scss.form_description}>
-                Введите адрес электронной почты, а мы вышлем вам новый пароль
+                Введите адрес электронной почты
             </p>
             <form onSubmit={handleSubmit} className={scss.recovery_form}>
                 <Input
@@ -59,14 +79,15 @@ export const PasswordRecoveryForm: React.FC<PasswordRecoveryFormProps> = ({
                         style="gray"
                         onClick={() => {
                             resetForm();
+                            setData(null);
                             setFormType('login');
                         }}
                         type="button"
                     >
                         Назад
                     </Button>
-                    <Button size="big" type="submit">
-                        Восстановить
+                    <Button loading={loading} size="big" type="submit">
+                        Далее
                     </Button>
                 </div>
             </form>

@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import { Input } from 'components/UI/Inputs/Input';
 import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';
 import { Button } from 'components/UI/Buttons/Button';
+import { InputMask } from 'components/UI/Inputs/InputMask';
 
 import { RegisterFormValidate } from 'app/(Login)/login/components/RegisterForm/RegisterForm.utils';
 
@@ -14,7 +15,6 @@ import {
 import { checkEmail } from 'http/accountService/accountService';
 
 import scss from './RegisterForm.module.scss';
-import { InputMask } from 'components/UI/Inputs/InputMask';
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({
     setFormType,
@@ -23,6 +23,20 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
     data,
 }) => {
     const [loading, setLoading] = useState(false);
+
+    const onSubmit = async (values: RegisterFormTypes) => {
+        setLoading(true);
+        try {
+            await checkEmail(values.email, 'register');
+            setData(values);
+            setFormType('enterCode');
+            previousFormType.current = 'register';
+        } catch (e) {
+            errors.email = 'Такой email уже занят';
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const {
         values,
@@ -36,29 +50,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         touched,
     } = useFormik<RegisterFormTypes>({
         initialValues: {
-            email: data.email ?? '',
-            password: data.password ?? '',
-            name: data.name ?? '',
-            confirmPassword: data.confirmPassword ?? '',
-            patronymic: data.patronymic ?? '',
-            phone: data.phone ?? '',
-            surname: data.surname ?? '',
-            remember: data.remember ?? false,
+            email: data?.email ?? '',
+            password: data?.password ?? '',
+            name: data?.name ?? '',
+            confirmPassword: data?.confirmPassword ?? '',
+            patronymic: data?.patronymic ?? '',
+            phone: data?.phone ?? '',
+            surname: data?.surname ?? '',
+            remember: data?.remember ?? false,
         },
         validate: RegisterFormValidate,
-        onSubmit: async (values) => {
-            setLoading(true);
-            try {
-                await checkEmail(values.email, 'register');
-                setData(values);
-                setFormType('enterCode');
-                previousFormType.current = 'register';
-            } catch (e) {
-                errors.email = 'Такой email уже занят';
-            } finally {
-                setLoading(false);
-            }
-        },
+        onSubmit,
     });
 
     /*console.log(
@@ -126,7 +128,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                         name="phone"
                         required
                         placeholder="+7(___)___-__-__"
-                        handleError={errors.phone}
+                        handleError={touched.phone && errors.phone}
                         value={values.phone}
                         alwaysShowMask={true}
                         size="big"
@@ -188,6 +190,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 <span
                     className={scss.linked_text}
                     onClick={() => {
+                        setData(null);
                         resetForm();
                         setFormType('login');
                     }}

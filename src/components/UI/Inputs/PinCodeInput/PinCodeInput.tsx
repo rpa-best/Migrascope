@@ -4,6 +4,8 @@ import { IPinCodeInputProps } from 'components/UI/Inputs/PinCodeInput/types';
 
 import scss from './PinCodeInput.module.scss';
 
+const onlyDigitsRegex = /^\d+$/;
+
 export const PinCodeInput: React.FC<IPinCodeInputProps> = ({
     digits,
     validateForm,
@@ -36,36 +38,44 @@ export const PinCodeInput: React.FC<IPinCodeInputProps> = ({
         }
     };
 
-    const handleChange = async (index: number, newValue: string) => {
-        const letterRegex = /[a-zA-Z]/;
-        if (letterRegex.test(newValue)) {
+    const handlePaste = async (
+        event: React.ClipboardEvent<HTMLInputElement>
+    ) => {
+        event.preventDefault();
+        let pasteValue = event.clipboardData.getData('text/plain');
+
+        if (!onlyDigitsRegex.test(pasteValue)) {
             return;
         }
-        if (newValue.length > 6) {
-            newValue = newValue.slice(0, 6);
+
+        if (pasteValue.length > length) {
+            pasteValue = pasteValue.slice(0, length);
         }
-        if (newValue.length > 1) {
-            if (letterRegex.test(newValue)) {
-                return;
-            }
-            const coppiedValues = newValue.split('');
+
+        if (pasteValue.length > 1) {
+            const coppiedValues = pasteValue.split('');
             const newDigits = [...digits];
             coppiedValues.forEach((el, index) => {
                 newDigits[index] = el;
             });
             await changeHandler(newDigits);
-            if (coppiedValues.length === 6) {
-                inputRefs.current[index].blur();
+            if (coppiedValues.length === length) {
+                inputRefs.current[length - 1].blur();
             } else {
                 inputRefs.current[coppiedValues.length].focus();
             }
             return;
         }
+    };
+
+    const handleChange = async (index: number, newValue: string) => {
+        if (!onlyDigitsRegex.test(newValue)) {
+            return;
+        }
+
         const oldDigit = digits[index];
         // старую цифру в поле ввода убираем, оставляя только новую
         const newDigit = newValue.trim().replace(oldDigit, '');
-        // если это не цифра, ничего не делаем, пока не будет цифры
-        if (newDigit < '0' || newDigit > '9') return;
         // теперь вызываем callback родителя, чтобы обовить digits
         const newDigits = [...digits]; // копия digits
         newDigits[index] = newDigit;
@@ -90,12 +100,12 @@ export const PinCodeInput: React.FC<IPinCodeInputProps> = ({
 
                     let disabled = false;
 
-                    if (hasLastNumber) {
-                        indexOfLastNumber = lastIndex;
-                        disabled = index < lastIndex;
-                    } else if (!hasFirstNumber) {
+                    if (!hasFirstNumber) {
                         indexOfLastNumber = 0;
                         disabled = index > 0;
+                    } else if (hasLastNumber) {
+                        indexOfLastNumber = lastIndex;
+                        disabled = index < lastIndex;
                     } else {
                         indexOfLastNumber = lastIndex + 1;
                         disabled =
@@ -113,6 +123,7 @@ export const PinCodeInput: React.FC<IPinCodeInputProps> = ({
                             }
                             data-isdisabled={disabled}
                             value={digit}
+                            onPaste={(event) => handlePaste(event)}
                             onBlur={() => validateForm()}
                             onChange={(event) => {
                                 if (disabled) {

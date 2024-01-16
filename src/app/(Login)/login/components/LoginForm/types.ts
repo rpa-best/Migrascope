@@ -1,7 +1,10 @@
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 
 import { FormType } from 'app/(Login)/login/components/types';
-import { RegisterFormTypes } from 'app/(Login)/login/components/RegisterForm/types';
+import {
+    RecoveryPassType,
+    RegisterFormTypes,
+} from 'app/(Login)/login/components/RegisterForm/types';
 
 export interface ILoginFormTypes {
     email: string;
@@ -11,8 +14,10 @@ export interface ILoginFormTypes {
 
 export interface FormProps {
     setFormType: Dispatch<SetStateAction<FormType>>;
-    setData: Dispatch<SetStateAction<RegisterFormTypes | { email: string }>>;
+    setData: Dispatch<
+        SetStateAction<RegisterFormTypes | RecoveryPassType | null>
+    >;
     previousFormType: MutableRefObject<FormType>;
 }
 
-export interface LoginFormProps extends FormProps {}
+export interface LoginFormProps extends Omit<FormProps, 'setData'> {}
