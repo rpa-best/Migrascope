@@ -20,6 +20,13 @@
   }
 }
 
+.passwords_wrapper {
+  @include phone {
+    margin-bottom: 15px;
+  }
+
+}
+
 .register_title {
   @extend .form_title;
   margin-top: -40px;
@@ -34,4 +41,5 @@
 .organized_inputs {
   display: flex;
   column-gap: 10px;
+
 }

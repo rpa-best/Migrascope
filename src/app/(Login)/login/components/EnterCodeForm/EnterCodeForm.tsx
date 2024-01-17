@@ -3,7 +3,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { FormikErrors, useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
 
 import { PinCodeInput } from 'components/UI/Inputs/PinCodeInput';
 
@@ -17,8 +16,6 @@ import { checkEmail } from 'http/accountService/accountService';
 
 import RayArrow from '/public/svg/rayArrow.svg';
 import Spinner from '/public/svg/spinner.svg';
-
-import { successToastConfig } from 'config/toastConfig';
 
 import {
     EnterCodeFormProps,
@@ -55,9 +52,10 @@ export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
                 data as RecoveryPassType,
                 errors as { code?: string },
                 setFormType,
-                setData as Dispatch<SetStateAction<RecoveryPassType | null>>
+                setData as Dispatch<SetStateAction<RecoveryPassType | null>>,
+                previousFormType
             );
-            toast('Пароль успешно изменён', successToastConfig);
+            resetForm();
         } else {
             await onRegisterSubmit(
                 pvc,
@@ -113,7 +111,9 @@ export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
         <section className={scss.form_wrapper}>
             <form className={scss.form} onSubmit={handleSubmit}>
                 <div className={scss.form_title_wrapper}>
-                    <RayArrow onClick={() => setFormType(previousFormType)} />
+                    <RayArrow
+                        onClick={() => setFormType(previousFormType.current)}
+                    />
                     <h2>
                         {itsResetPassword
                             ? 'Восстановление пароля'

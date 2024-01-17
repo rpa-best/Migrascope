@@ -58,7 +58,7 @@ export const FormsWrapper = () => {
         case 'enterCode':
             return (
                 <EnterCodeForm
-                    previousFormType={previousFormType.current}
+                    previousFormType={previousFormType}
                     itsResetPassword={false}
                     data={data}
                     setFormType={setFormType}
@@ -75,7 +75,7 @@ export const FormsWrapper = () => {
                     itsResetPassword={true}
                     setFormType={setFormType}
                     data={data}
-                    previousFormType={previousFormType.current}
+                    previousFormType={previousFormType}
                 />
             );
         case 'enterNewPassword':

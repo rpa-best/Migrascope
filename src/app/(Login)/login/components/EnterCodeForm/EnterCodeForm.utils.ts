@@ -4,14 +4,17 @@ import {
     RegisterFormTypes,
 } from 'app/(Login)/login/components/RegisterForm/types';
 
-import { AxiosError } from 'axios';
 import {
     ChangePasswordAction,
     RegisterAction,
 } from 'app/(Login)/login/actions';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { FormType } from 'app/(Login)/login/components/types';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import { checkEmail } from 'http/accountService/accountService';
+import { toast } from 'react-toastify';
+import { successToastConfig } from 'config/toastConfig';
+import { removePhoneMask } from 'utils/removePhoneMask';
 
 export const EnterCodeFormValidate = (values: EnterCodeFormValues) => {
     const errors: { code?: string } = {};
@@ -28,7 +31,8 @@ export const onResetPasswordSubmit = async (
     data: RecoveryPassType,
     errors: { code?: string },
     setFormType: (v: FormType) => void,
-    setData: Dispatch<SetStateAction<RecoveryPassType | null>>
+    setData: Dispatch<SetStateAction<RecoveryPassType | null>>,
+    previousFormType: MutableRefObject<FormType>
 ) => {
     try {
         const userBody = { ...(data as Required<RecoveryPassType>), pvc };
@@ -38,10 +42,19 @@ export const onResetPasswordSubmit = async (
         if (result) {
             setFormType('login');
             setData(null);
+            toast('Пароль успешно изменён', successToastConfig);
         }
     } catch (e) {
         if (e instanceof Error) {
-            console.log(JSON.parse(e.message));
+            const resErrors = JSON.parse(e.message);
+            if (resErrors.pvc) {
+                errors.code = 'Неверный код';
+                return;
+            } else if (resErrors?.password[0]) {
+                previousFormType.current = 'passRecovery';
+                checkEmail(data.email, 'change_password');
+                setFormType('enterNewPassword');
+            }
         }
     }
 };
@@ -53,14 +66,22 @@ export const onRegisterSubmit = async (
     router: AppRouterInstance
 ) => {
     try {
-        const userBody = { ...(data as RegisterFormTypes), pvc };
+        const userBody = {
+            ...(data as RegisterFormTypes),
+            pvc,
+            phone: removePhoneMask(data.phone),
+        };
 
         const user = await RegisterAction(userBody);
 
         router.replace('/');
     } catch (e) {
         if (e instanceof Error) {
-            console.log(JSON.parse(e.message));
+            const resErrors = JSON.parse(e.message);
+            if (resErrors.pvc) {
+                errors.code = 'Неверный код';
+                return;
+            }
         }
     }
 };

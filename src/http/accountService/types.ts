@@ -42,3 +42,10 @@ export interface ChangePasswordBody {
 }
 
 export type ChangePassword = (body: ChangePasswordBody) => Promise<void>;
+
+interface ValidateFieldsBody {
+    password: string;
+    phone?: string;
+}
+
+export type ValidateFields = (body: ValidateFieldsBody) => Promise<void>;

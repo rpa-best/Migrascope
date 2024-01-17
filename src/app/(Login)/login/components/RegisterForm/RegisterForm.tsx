@@ -12,9 +12,11 @@ import {
     RegisterFormProps,
     RegisterFormTypes,
 } from 'app/(Login)/login/components/RegisterForm/types';
-import { checkEmail } from 'http/accountService/accountService';
+import { checkEmail, validateFields } from 'http/accountService/accountService';
 
 import scss from './RegisterForm.module.scss';
+import { AxiosError } from 'axios';
+import { removePhoneMask } from 'utils/removePhoneMask';
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({
     setFormType,
@@ -28,11 +30,26 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         setLoading(true);
         try {
             await checkEmail(values.email, 'register');
+            await validateFields({
+                password: values.password,
+                phone: removePhoneMask(values.phone),
+            });
             setData(values);
             setFormType('enterCode');
             previousFormType.current = 'register';
         } catch (e) {
-            errors.email = 'Такой email уже занят';
+            if (e instanceof AxiosError) {
+                if (e.response?.data.password) {
+                    errors.password = e.response.data.password;
+                    errors.confirmPassword = e.response.data.password;
+                }
+                if (e.response?.data.phone) {
+                    errors.phone = e.response.data.phone;
+                }
+                if (e.response?.data.email) {
+                    errors.email = 'Такая почта уже занята';
+                }
+            }
         } finally {
             setLoading(false);
         }
@@ -141,34 +158,38 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                         type="tel"
                     />
                 </div>
-                <Input
-                    size="big"
-                    required
-                    value={values.password}
-                    name="password"
-                    changePasswordVisibility
-                    onChange={handleChange}
-                    type="password"
-                    onBlur={handleBlur}
-                    handleError={touched.password && errors.password}
-                    label="Пароль"
-                    placeholder="Введите пароль"
-                />
-                <Input
-                    size="big"
-                    required
-                    value={values.confirmPassword}
-                    name="confirmPassword"
-                    changePasswordVisibility
-                    onChange={handleChange}
-                    type="password"
-                    onBlur={handleBlur}
-                    handleError={
-                        touched.confirmPassword && errors.confirmPassword
-                    }
-                    label="Подтвердите пароль"
-                    placeholder="Подтвердите пароль"
-                />
+                <div className={scss.passwords_wrapper}>
+                    <Input
+                        size="big"
+                        required
+                        value={values.password}
+                        name="password"
+                        changePasswordVisibility
+                        onChange={handleChange}
+                        type="password"
+                        onBlur={handleBlur}
+                        handleError={touched.password && errors.password}
+                        label="Пароль"
+                        placeholder="Введите пароль"
+                    />
+                </div>
+                <div className={scss.passwords_wrapper}>
+                    <Input
+                        size="big"
+                        required
+                        value={values.confirmPassword}
+                        name="confirmPassword"
+                        changePasswordVisibility
+                        onChange={handleChange}
+                        type="password"
+                        onBlur={handleBlur}
+                        handleError={
+                            touched.confirmPassword && errors.confirmPassword
+                        }
+                        label="Подтвердите пароль"
+                        placeholder="Подтвердите пароль"
+                    />
+                </div>
 
                 <div className={scss.login_actions_wrapper}>
                     <InputCheckbox

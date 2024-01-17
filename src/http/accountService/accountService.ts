@@ -2,6 +2,7 @@ import {
     AuthUser,
     ChangePassword,
     RegisterUser,
+    ValidateFields,
 } from 'http/accountService/types';
 import { $account } from 'http/indexes/clientIndex';
 import { AxiosResponse } from 'axios';
@@ -17,6 +18,13 @@ export const registerUser: RegisterUser = async (body) => {
 export const changePassword: ChangePassword = async (body) => {
     const res: AxiosResponse<ReturnType<typeof changePassword>> =
         await $serverAccount.post('change-password/', body);
+
+    return res.data;
+};
+
+export const validateFields: ValidateFields = async (body) => {
+    const res: AxiosResponse<ReturnType<typeof validateFields>> =
+        await $account.post('password_and_phone_validation/', body);
 
     return res.data;
 };

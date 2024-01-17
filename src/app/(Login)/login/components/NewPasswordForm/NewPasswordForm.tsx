@@ -3,6 +3,9 @@ import React from 'react';
 import { Input } from 'components/UI/Inputs/Input';
 import { Button } from 'components/UI/Buttons/Button';
 import { useFormik } from 'formik';
+import { validateFields } from 'http/accountService/accountService';
+
+import { AxiosError } from 'axios';
 import {
     NewPasswordFormProps,
     NewPasswordFormValues,
@@ -17,12 +20,32 @@ export const NewPasswordForm: React.FC<NewPasswordFormProps> = ({
     setData,
     data,
 }) => {
+    const onSubmit = async (values: NewPasswordFormValues) => {
+        try {
+            await validateFields({ password: values.password });
+            previousFormType.current = 'enterNewPassword';
+            setData((prevState) => ({
+                ...prevState,
+                password: values.password,
+                confirmPassword: values.confirmPassword,
+            }));
+            setFormType('enterCodeReset');
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                errors.password = e.response?.data.password;
+                errors.confirmPassword = e.response?.data.password;
+            }
+        }
+    };
+
     const {
         values,
         handleChange,
         handleBlur,
         errors,
         handleSubmit,
+        setTouched,
+        setErrors,
         resetForm,
         touched,
     } = useFormik<NewPasswordFormValues>({
@@ -31,21 +54,13 @@ export const NewPasswordForm: React.FC<NewPasswordFormProps> = ({
             confirmPassword: data?.confirmPassword ?? '',
         },
         validate: NewPasswordFormValidate,
-        onSubmit: (values) => {
-            previousFormType.current = 'enterNewPassword';
-            setData((prevState) => ({
-                ...prevState,
-                password: values.password,
-                confirmPassword: values.confirmPassword,
-            }));
-            setFormType('enterCodeReset');
-        },
+        onSubmit,
     });
 
     return (
         <section className={scss.form_wrapper}>
             <h2 className={scss.form_title}>Новый пароль</h2>
-            <form onSubmit={handleSubmit} className={scss.form}>
+            <form onSubmit={handleSubmit} className={scss.password_form}>
                 <Input
                     size="big"
                     required
