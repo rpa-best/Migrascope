@@ -1,11 +1,15 @@
 import {
     AuthUser,
     ChangePassword,
+    GetServerUser,
+    GetUser,
     RegisterUser,
+    RegisterUserResponse,
+    UpdateTokens,
     ValidateFields,
 } from 'http/accountService/types';
 import { $account } from 'http/indexes/clientIndex';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { $serverAccount } from 'http/indexes/serverIndex';
 
 export const registerUser: RegisterUser = async (body) => {
@@ -22,6 +26,27 @@ export const changePassword: ChangePassword = async (body) => {
     return res.data;
 };
 
+export const updateTokens: UpdateTokens = async (refresh) => {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_ACCOUNT_API_URL}refresh-token/`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            body: JSON.stringify({ refresh }),
+        }
+    );
+
+    const parsedRes: Omit<RegisterUserResponse, 'user'> = await response.json();
+
+    if (response.status === 200) {
+        return parsedRes;
+    }
+
+    return false;
+};
+
 export const validateFields: ValidateFields = async (body) => {
     const res: AxiosResponse<ReturnType<typeof validateFields>> =
         await $account.post('password_and_phone_validation/', body);
@@ -29,9 +54,42 @@ export const validateFields: ValidateFields = async (body) => {
     return res.data;
 };
 
+export const getUser: GetUser = async () => {
+    const res: AxiosResponse<ReturnType<typeof getUser>> =
+        await $account.get('me/');
+
+    return res.data;
+};
+export const getServerUser: GetServerUser = async (access) => {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_ACCOUNT_API_URL}me/`,
+        {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            },
+            method: 'GET',
+            next: {
+                tags: ['server-user'],
+            },
+        }
+    );
+    return await response.json();
+};
+
 export const authUser: AuthUser = async (body) => {
     const res: AxiosResponse<ReturnType<typeof authUser>> =
         await $serverAccount.post('auth/', body);
+
+    return res.data;
+};
+
+export const updateAvatar = async (avatar: File) => {
+    const body = new FormData();
+    body.append('image', avatar);
+    const res: AxiosResponse<{ image: string }> = await $account.put(
+        'avatar/',
+        body
+    );
 
     return res.data;
 };

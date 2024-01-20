@@ -6,7 +6,7 @@ export interface SettingsMenuProps {
     setVisible: (v: boolean) => void;
 }
 
-export interface UserType {
+export interface SelectedUserType {
     id: number;
     name: string;
 }

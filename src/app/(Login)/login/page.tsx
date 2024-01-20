@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { FormsWrapper } from 'app/(Login)/login/components/FormsWrapper';
 import { Logo } from 'components/Logo';
@@ -7,7 +8,6 @@ import LogoImg from '/public/images/login/Logo.png';
 import LoginBackground from '/public/images/login/LoginFormBackground.png';
 
 import scss from './LoginPage.module.scss';
-import Link from 'next/link';
 
 const LoginPage = () => {
     return (

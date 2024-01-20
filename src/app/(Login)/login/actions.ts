@@ -29,7 +29,7 @@ export const LoginAction = async (values: ILoginFormTypes) => {
         cookie.set('refresh', refresh);
     } catch (e) {
         if (e instanceof AxiosError) {
-            throw new Error(e.response?.data.message[0]);
+            throw new Error(e.response?.data.message);
         }
     }
 };

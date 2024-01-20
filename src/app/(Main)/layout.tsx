@@ -31,7 +31,9 @@ export default function RootLayout({
             >
                 <Navbar />
                 <Header />
-                <div style={{ display: 'flex' }}>{children}</div>
+                <div className={scss.child_wrapper} style={{ display: 'flex' }}>
+                    {children}
+                </div>
                 <ToastContainer />
             </body>
         </html>

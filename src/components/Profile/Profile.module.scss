@@ -31,8 +31,50 @@
   }
 }
 
+.profile_avatar_wrapper {
+  position: relative;
+}
+
 .profile_avatar {
+  width: 80px;
+  height: 80px;
+  @include PoppinsRegular(18px);
   grid-area: svg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 2px black;
+  text-shadow: 1px 1px 2px black;
+  @include phoneOrTablet {
+    font-size: 16px;
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.profile_edit_svg_wrapper {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  background: rgba(0,0,0,.1);
+  right: calc(50% - 10px);
+  top: calc(100% - 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 5px;
+  outline: 1px solid transparent;
+  transition: .2s all ease-in-out;
+  cursor: pointer;
+}
+
+.profile_edit_svg {
+  width: 10px;
+  height: 10px;
+  color: white;
 }
 
 .profile_username {
@@ -71,7 +113,7 @@
   position: relative;
   display: flex;
   column-gap: 24px;
-  padding: 24px 30px;
+  padding: 24px 11.5px;
   border-bottom: 1px solid $border-color;
   overflow: hidden;
   @include phoneOrTablet {

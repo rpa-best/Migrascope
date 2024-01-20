@@ -80,12 +80,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         onSubmit,
     });
 
-    /*console.log(
-        atob(
-            'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ'
-        )
-    );*/
-
     return (
         <section className={scss.register_form_wrapper}>
             <h2 className={scss.register_title}>Регистрация</h2>

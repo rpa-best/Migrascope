@@ -1,3 +1,5 @@
+import { number } from 'prop-types';
+
 export interface RegisterUserBody {
     username: string;
     password: string;
@@ -10,7 +12,7 @@ export interface RegisterUserBody {
     remember: boolean;
 }
 
-interface RegisterUserResponse {
+export interface RegisterUserResponse {
     access: string;
     refresh: string;
     user: {
@@ -43,9 +45,27 @@ export interface ChangePasswordBody {
 
 export type ChangePassword = (body: ChangePasswordBody) => Promise<void>;
 
+export type UpdateTokens = (
+    refresh: string
+) => Promise<false | Omit<RegisterUserResponse, 'user'>>;
+
 interface ValidateFieldsBody {
     password: string;
     phone?: string;
 }
 
 export type ValidateFields = (body: ValidateFieldsBody) => Promise<void>;
+
+export interface UserType {
+    username: string;
+    name: string;
+    surname: string;
+    patronymic: string;
+    phone: string;
+    avatar: string;
+    birthday: string;
+}
+
+export type GetUser = () => Promise<UserType>;
+
+export type GetServerUser = (access: string) => Promise<UserType>;

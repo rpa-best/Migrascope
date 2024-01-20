@@ -13,15 +13,14 @@
   & nav {
     grid-area: navbar;
   }
-  & div {
-    &:first-child {
-      grid-area: main;
-    }
-  }
   @include bigtablet {
     grid-template-columns: 220px 1fr;
   }
   @include phoneOrTablet {
     display: block;
   }
+}
+
+.child_wrapper {
+  grid-area: main;
 }

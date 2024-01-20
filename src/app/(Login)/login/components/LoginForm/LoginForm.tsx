@@ -25,10 +25,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
         try {
             setLoading(true);
             await LoginAction(values);
+            console.log('test');
             router.replace('/');
         } catch (e) {
             if (e instanceof Error) {
-                if (e.message === 'username_or_password_invalid') {
+                if (e.message === 'Логин или пароль неверный') {
                     errors.email = 'Неправильный логин или пароль';
                     errors.password = 'Неправильный логин или пароль';
                 }

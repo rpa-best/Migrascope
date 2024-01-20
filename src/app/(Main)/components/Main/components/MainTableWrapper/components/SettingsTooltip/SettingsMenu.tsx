@@ -13,7 +13,7 @@ import { Button } from 'components/UI/Buttons/Button';
 import {
     RolesType,
     SettingsMenuProps,
-    UserType,
+    SelectedUserType,
 } from 'app/(Main)/components/Main/components/MainTableWrapper/components/SettingsTooltip/types';
 
 import scss from './SettingsTooltip.module.scss';
@@ -47,8 +47,8 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({
         return searchParams.get('roles')?.split(',') ?? [];
     }, [searchParams]);
 
-    const [selectedUser, setSelectedUser] = useState<UserType>(
-        queryUser as UserType
+    const [selectedUser, setSelectedUser] = useState<SelectedUserType>(
+        queryUser as SelectedUserType
     );
 
     const [selectedRoles, setSelectedRoles] = useState<RolesType>({
@@ -77,7 +77,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({
                     admin: roles?.includes('admin'),
                     observer: roles?.includes('observer'),
                 });
-                setSelectedUser(queryUser as UserType);
+                setSelectedUser(queryUser as SelectedUserType);
             }
         };
     }, [queryUser, roles, visible]);
