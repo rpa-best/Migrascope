@@ -1,5 +1,3 @@
-import { number } from 'prop-types';
-
 export interface RegisterUserBody {
     username: string;
     password: string;

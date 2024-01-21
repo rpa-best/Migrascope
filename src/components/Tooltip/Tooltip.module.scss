@@ -1,0 +1,17 @@
+@import "scss/utils";
+
+.tippy_wrapper {
+  position: relative;
+
+}
+
+.body_gray {
+  position: fixed;
+  height: 100%;
+  width: 100vw;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.20);
+  z-index: 9000;
+}
+
+

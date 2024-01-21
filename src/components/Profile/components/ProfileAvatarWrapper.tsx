@@ -26,6 +26,8 @@ export const ProfileAvatarWrapper = ({
     const [user] = useUserStore((state) => [state.user]);
     const [setUser] = useUserStore((state) => [state.setUser]);
 
+    const avatar = user?.avatar ?? userData.avatar;
+
     useEffect(() => {
         setUser(userData);
     }, [setUser, userData]);
@@ -36,8 +38,14 @@ export const ProfileAvatarWrapper = ({
 
     return (
         <div className={scss.profile_avatar_wrapper}>
-            {user?.avatar ? (
-                <Image src={user.avatar} alt="user image" />
+            {avatar ? (
+                <Image
+                    className={scss.profile_avatar}
+                    src={avatar}
+                    width={80}
+                    height={80}
+                    alt="user image"
+                />
             ) : (
                 <div
                     style={{ backgroundColor: color }}

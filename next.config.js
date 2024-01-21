@@ -31,6 +31,15 @@ const nextConfig = {
 
         return config;
     },
+    images: {
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'migracontrol.keyman24.ru',
+                pathname: '/media/**',
+            },
+        ],
+    },
     experimental: {
         scrollRestoration: true,
     },

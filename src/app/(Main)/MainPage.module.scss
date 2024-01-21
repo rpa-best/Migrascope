@@ -1,7 +1,8 @@
 @import "scss/utils";
 
 .body {
-  height: 100vh;
+  min-height: 100vh;
+  height: max-content;
   display: grid;
   grid-template-areas: 'navbar header'
                           'navbar main';
@@ -23,4 +24,14 @@
 
 .child_wrapper {
   grid-area: main;
+}
+
+.table_wrapper {
+  @include main_offset_smaller;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 30px;
+  @include phoneOrTablet {
+    padding: 0;
+  }
 }

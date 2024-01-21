@@ -1,0 +1,116 @@
+@import "scss/utils";
+
+.company_wrapper {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1px;
+  background-color: white;
+  border-radius: 20px;
+  padding: 22px;
+  & > button {
+    width: 50%;
+    margin: 0 auto;
+    @include bigtablet {
+      width: 100%;
+    }
+  }
+  @include bigtablet {
+    width: 500px;
+  }
+  @include phoneOrTablet {
+    width: 450px;
+    padding: 25px 15px;
+  }
+  @include phone {
+    width: 94vw;
+    padding: 20px 10px;
+  }
+}
+
+.company_header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 11px;
+  & h3 {
+    @include InterBold(16px);
+  }
+  & svg {
+      @extend .svg;
+      color: #595FE5;
+      cursor: pointer;
+      z-index: 1;
+      transition: .2s all ease-in-out;
+      &:hover {
+        color: black;
+      }
+  }
+}
+
+.search_wrapper {
+  height: 113px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 25px;
+  border-radius: 20px;
+  background-color: $neutral-light;
+  margin-bottom: 18px;
+  @include phoneOrTablet {
+    padding: 15px;
+  }
+  @include phone {
+    height: max-content;
+    white-space: initial;
+  }
+  & > label {
+    &:nth-child(1) {
+      margin-bottom: 8px;
+      @include InterRegular(14px);
+    }
+  }
+}
+
+.search {
+  height: 59px;
+}
+
+.search_error {
+  width: 100%;
+  color: $error-color;
+  @include PoppinsRegular(12px);
+  margin-top: 4px;
+  margin-left: 4px;
+  line-height: 15px;
+  text-align: left;
+}
+
+.input_wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  @include bigtablet {
+    flex-direction: column;
+  }
+  & > label {
+    @include InterSemiBold(12px);
+    letter-spacing: initial;
+    color: black;
+    margin-top: 13px;
+    @include bigtablet {
+      margin-bottom: 5px;
+      margin-top: 0;
+    }
+    & span {
+      @include InterSemiBold(12px);
+      color: $active-color;
+    }
+  }
+  & > div {
+    width: 60%;
+    margin-left: auto;
+    @include bigtablet {
+      width: 100%;
+    }
+  }
+}

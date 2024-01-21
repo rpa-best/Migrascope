@@ -34,7 +34,9 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  color: transparentize(#414141, .1);
+  color: #595FE5;
+  cursor: pointer;
+  z-index: 1;
   transition: .2s all ease-in-out;
   &:hover {
     color: black;

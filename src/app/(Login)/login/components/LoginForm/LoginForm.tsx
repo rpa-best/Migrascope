@@ -25,7 +25,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
         try {
             setLoading(true);
             await LoginAction(values);
-            console.log('test');
             router.replace('/');
         } catch (e) {
             if (e instanceof Error) {
@@ -66,6 +65,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
                 <Input
                     size="big"
                     required
+                    autoComplete="on"
                     value={values.email}
                     name="email"
                     onChange={handleChange}
@@ -78,6 +78,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
                 <Input
                     size="big"
                     required
+                    autoComplete="on"
                     value={values.password}
                     name="password"
                     changePasswordVisibility

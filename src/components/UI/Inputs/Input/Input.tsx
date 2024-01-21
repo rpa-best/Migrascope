@@ -10,6 +10,7 @@ import HiddenEye from 'components/UI/svg/eyeHidden.svg';
 import XSvg from '/public/svg/x.svg';
 
 import scss from 'components/UI/Inputs/Input/Input.module.scss';
+import { Button } from 'components/UI/Buttons/Button';
 
 export const Input: React.FC<IInputProps> = ({
     type = 'text',
@@ -30,6 +31,8 @@ export const Input: React.FC<IInputProps> = ({
     changePasswordVisibility,
     required = false,
     size = 'default',
+    bgColor,
+    submitButton,
 }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -44,6 +47,7 @@ export const Input: React.FC<IInputProps> = ({
     const fieldClass = clsx({
         [scss.field_without_error_label]: !needErrorLabel,
         [scss.field_without_label]: !label,
+        [scss.field_without_label_and_error]: !label && !needErrorLabel,
         [scss.field_with_label]: size !== 'big' && label && needErrorLabel,
         [scss.field_with_label_big]: size === 'big' && label && needErrorLabel,
         [scss.field_search]: name === 'search',
@@ -69,18 +73,17 @@ export const Input: React.FC<IInputProps> = ({
 
     return (
         <div className={fieldClass}>
-            {label ? (
+            {label && (
                 <label htmlFor={name} className={labelClass}>
                     {label}
                     {required && (
                         <span className={scss.required_indicator}>*</span>
                     )}
                 </label>
-            ) : (
-                <label className={labelErrorClass}>{handleError}</label>
             )}
             <div className={scss.input_svg_wrapper}>
                 <input
+                    style={{ backgroundColor: bgColor }}
                     onKeyDown={onKeyDown}
                     tabIndex={tabIndex}
                     autoComplete={autoComplete as string}
@@ -95,6 +98,17 @@ export const Input: React.FC<IInputProps> = ({
                     onBlur={onBlur}
                     disabled={disabled}
                 />
+                {submitButton?.text && (
+                    <div className={scss.input_submit_button}>
+                        <Button
+                            loading={submitButton.loading}
+                            type="button"
+                            onClick={submitButton.onClick}
+                        >
+                            {submitButton.text}
+                        </Button>
+                    </div>
+                )}
                 {changePasswordVisibility && (
                     <div
                         className={scss.eye_wrapper}
@@ -113,7 +127,9 @@ export const Input: React.FC<IInputProps> = ({
                     />
                 </div>
             )}
-            {label && <label className={labelErrorClass}>{handleError}</label>}
+            {handleError && (
+                <label className={labelErrorClass}>{handleError}</label>
+            )}
         </div>
     );
 };

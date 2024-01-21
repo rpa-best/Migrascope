@@ -133,13 +133,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     };
 
     return (
-        <div
-            style={{
-                position: 'relative',
-                width: '100%',
-                height: 'max-content',
-            }}
-        >
+        <div className={scss.input_select_wrapper}>
             <Tippy
                 onMount={() => onMount(opacity)}
                 onHide={({ unmount }) => onHide({ opacity, unmount })}
@@ -160,11 +154,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
                 )}
             >
                 <div className={fieldClass}>
-                    {label ? (
-                        <label className={labelClass}>{label}</label>
-                    ) : (
-                        <label className={labelErrorClass}>{handleError}</label>
-                    )}
+                    {label && <label className={labelClass}>{label}</label>}
                     <div
                         onClick={() => setVisible(true)}
                         className={scss.input_wrapper}
@@ -207,7 +197,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
                             />
                         )}
                     </div>
-                    {label && (
+                    {handleError && (
                         <label className={labelErrorClass}>{handleError}</label>
                     )}
                 </div>

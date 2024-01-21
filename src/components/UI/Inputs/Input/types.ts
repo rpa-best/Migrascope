@@ -7,8 +7,10 @@ export interface IInputProps {
     onChange:
         | ChangeEventHandler<HTMLInputElement>
         | ChangeEventHandler<HTMLTextAreaElement>;
+    submitButton?: { onClick: () => void; text: string; loading?: boolean };
     onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
     autoFocus?: boolean;
+    bgColor?: string;
     handleError?: string | boolean;
     onBlur?: (
         event: FocusEvent<HTMLInputElement> | FocusEvent<HTMLTextAreaElement>

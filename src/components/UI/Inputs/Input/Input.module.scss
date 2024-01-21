@@ -1,5 +1,11 @@
 @import "scss/utils";
 
+.input_select_wrapper {
+  position: relative;
+  width: 100%;
+  height: max-content;
+}
+
 .field {
   position: relative;
   height: 40px;
@@ -31,6 +37,17 @@
     left: 12px;
     background: url("../../svg/search.svg");
   }
+}
+
+.field_without_label {
+  @extend .field;
+  height: 59px;
+  justify-content: flex-start;
+}
+
+.field_without_label_and_error {
+  @extend .field;
+  height: 40px;
 }
 
 .field_with_label {
@@ -132,6 +149,27 @@
   margin-top: 4px;
   line-height: 15px;
   text-align: left;
+}
+
+.input_submit_button {
+  width: 100px;
+  height: 40px;
+  position: absolute;
+  inset: 0;
+  left: auto;
+  border-radius: 40px;
+  overflow: hidden;
+  @include InterRegular(14px);
+  transition: .2s background-color ease-in-out;
+  &:hover {
+    background-color: #5157D0;
+  }
+  &:active {
+    background-color: #585FE3;
+  }
+  color: white;
+  background-color: $active-color;
+  cursor: pointer;
 }
 
 .eye_wrapper {

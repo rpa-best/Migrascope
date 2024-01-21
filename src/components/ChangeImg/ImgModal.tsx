@@ -5,6 +5,7 @@ import scss from './ChangeImg.module.scss';
 
 interface ImgModalProps {
     handleChangeFile: ChangeEventHandler<HTMLInputElement>;
+    loading: boolean;
 }
 
 export const ImgModal = forwardRef<HTMLInputElement, ImgModalProps>(
@@ -37,6 +38,7 @@ export const ImgModal = forwardRef<HTMLInputElement, ImgModalProps>(
                                 alt="Отправить"
                             />
                             <Button
+                                loading={props.loading}
                                 type="button"
                                 size="big"
                                 onClick={onLoadClick}

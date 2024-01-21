@@ -1,5 +1,5 @@
-import { Button } from 'components/UI/Buttons/Button';
 import { AdditionalButton } from 'components/UI/Buttons/AdditionalButton';
+import { ProfileLogoutButton } from 'components/Profile/components/ProfileLogoutButton';
 import { ProfileAvatarWrapper } from 'components/Profile/components/ProfileAvatarWrapper';
 
 import { getServerUser } from 'http/accountService/accountService';
@@ -7,7 +7,6 @@ import { getRandomColor } from 'utils/getRandomColor';
 import { cookies } from 'next/headers';
 
 import scss from 'components/Profile/Profile.module.scss';
-import { ProfileLogoutButton } from 'components/Profile/components/ProfileLogoutButton';
 
 export const Profile = async () => {
     const cookie = cookies();

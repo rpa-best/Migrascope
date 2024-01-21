@@ -9,7 +9,7 @@ import {
     ValidateFields,
 } from 'http/accountService/types';
 import { $account } from 'http/indexes/clientIndex';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { $serverAccount } from 'http/indexes/serverIndex';
 
 export const registerUser: RegisterUser = async (body) => {
@@ -85,8 +85,8 @@ export const authUser: AuthUser = async (body) => {
 
 export const updateAvatar = async (avatar: File) => {
     const body = new FormData();
-    body.append('image', avatar);
-    const res: AxiosResponse<{ image: string }> = await $account.put(
+    body.append('avatar', avatar);
+    const res: AxiosResponse<{ avatar: string }> = await $account.put(
         'avatar/',
         body
     );

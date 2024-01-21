@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { ButtonProps } from 'components/UI/Buttons/Button/types';
-import Spinner from '/public/svg/spinner.svg';
 import { SvgElement } from 'components/UI/Buttons/Button/SvgElement';
 
 import scss from 'components/UI/Buttons/Button/Button.module.scss';

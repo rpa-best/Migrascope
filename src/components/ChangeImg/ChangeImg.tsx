@@ -25,31 +25,36 @@ export const ChangeImg: React.FC<ChangeImgProps> = ({
     const [setVisible] = useModalStore((state) => [state.setVisible]);
     const handleChangeFile: ChangeEventHandler<HTMLInputElement> = (e) => {
         try {
+            setLoading(true);
             if (e.target.files) {
                 if (e.target.files[0].size >= 1048576) {
                     toast('Размер файла превышает 1мб', errorToastOptions);
                     return;
                 }
-                setLoading(true);
+
                 callback(e.target.files[0])
                     .then((r) => {
-                        setUserImg(r.image);
+                        setUserImg(r.avatar);
                         revalidateTagOnClient(revalidateTag);
                     })
                     .finally(() => {
                         setVisible(false);
-                        setLoading(false);
                     });
             }
         } catch (e: any) {
             toast('Непредвиденная ошибка', errorToastOptions);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <>
-            <ImgModal ref={fileInputRef} handleChangeFile={handleChangeFile} />
-            {loading && <Spinner />}
+            <ImgModal
+                loading={loading}
+                ref={fileInputRef}
+                handleChangeFile={handleChangeFile}
+            />
         </>
     );
 };
