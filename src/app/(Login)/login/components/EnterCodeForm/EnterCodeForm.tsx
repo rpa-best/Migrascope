@@ -35,7 +35,6 @@ export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
     setData,
     previousFormType,
 }) => {
-    const router = useRouter();
     const [loading, setLoading] = useState(false);
 
     const [timer, setTimer] = useState(30);
@@ -60,10 +59,11 @@ export const EnterCodeForm: React.FC<EnterCodeFormProps> = ({
             await onRegisterSubmit(
                 pvc,
                 data as RegisterFormTypes,
-                errors as { code?: string },
-                router
+                errors as { code?: string }
             );
         }
+
+        window.location.replace('/');
 
         setLoading(false);
     };
