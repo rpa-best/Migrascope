@@ -34,7 +34,9 @@ export default function Home() {
                 <Suspense fallback={<BarsSkeleton />}>
                     <ProgressBars barsData={barsData} />
                 </Suspense>
-                <TableActions />
+                <Suspense>
+                    <TableActions />
+                </Suspense>
                 <section className={scss.table_wrapper}>
                     <Suspense fallback={<TableSkeleton />}>
                         <OrganizationTable />
