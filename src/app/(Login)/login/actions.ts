@@ -23,10 +23,7 @@ export const LoginAction = async (values: ILoginFormTypes) => {
         username: values.email,
     };
     try {
-        const { access, refresh } = await authUser(body);
-
-        cookie.set('access', access);
-        cookie.set('refresh', refresh);
+        return await authUser(body);
     } catch (e) {
         if (e instanceof AxiosError) {
             return e.response?.data.message;
@@ -57,12 +54,7 @@ export const RegisterAction = async ({
         pvc: pvc,
     };
     try {
-        const userResponse = await registerUser(body);
-
-        cookie.set('access', userResponse.access);
-        cookie.set('refresh', userResponse.refresh);
-
-        return userResponse.user;
+        return await registerUser(body);
     } catch (e) {
         if (e instanceof AxiosError) {
             return JSON.stringify(e.response?.data);

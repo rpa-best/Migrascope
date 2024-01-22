@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 
+import CookiesUniversal from 'universal-cookie';
+
 import { Input } from 'components/UI/Inputs/Input';
 import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';
-import { Button } from 'components/UI/Buttons/Button';
 
+import { Button } from 'components/UI/Buttons/Button';
 import { LoginAction } from 'app/(Login)/login/actions';
+
 import { LoginFormValidate } from 'app/(Login)/login/components/LoginForm/LoginForm.utils';
 
 import {
@@ -16,9 +19,10 @@ import {
 
 import scss from './LoginForm.module.scss';
 
+const cookie = new CookiesUniversal();
+
 export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
     const router = useRouter();
-
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (values: ILoginFormTypes) => {
@@ -26,14 +30,17 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
             setLoading(true);
             const result = await LoginAction(values);
 
-            if (result) {
+            if (typeof result === 'string') {
                 if (result === 'Логин или пароль неверный') {
                     errors.email = 'Неправильный логин или пароль';
                     errors.password = 'Неправильный логин или пароль';
+                    return;
                 }
-                return;
+            } else {
+                cookie.set('access', result.access);
+                cookie.set('refresh', result.refresh);
+                router.replace('/');
             }
-            router.replace('/');
         } finally {
             setLoading(false);
         }

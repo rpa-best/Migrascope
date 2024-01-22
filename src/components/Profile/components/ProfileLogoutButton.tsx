@@ -20,7 +20,7 @@ export const ProfileLogoutButton = () => {
         handleLogout();
         cookies.remove('access');
         cookies.remove('refresh');
-        router.replace('/login');
+        window.location.replace('/login');
     };
 
     return (

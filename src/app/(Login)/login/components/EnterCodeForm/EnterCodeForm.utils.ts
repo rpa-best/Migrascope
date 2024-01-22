@@ -14,6 +14,9 @@ import { checkEmail } from 'http/accountService/accountService';
 import { toast } from 'react-toastify';
 import { successToastConfig } from 'config/toastConfig';
 import { removePhoneMask } from 'utils/removePhoneMask';
+import CookiesUniversal from 'universal-cookie';
+
+const cookie = new CookiesUniversal();
 
 export const EnterCodeFormValidate = () => {
     const errors: { code?: string } = {};
@@ -57,8 +60,7 @@ export const onResetPasswordSubmit = async (
 export const onRegisterSubmit = async (
     pvc: string,
     data: RegisterFormTypes,
-    errors: { code?: string },
-    router: AppRouterInstance
+    errors: { code?: string }
 ) => {
     const userBody = {
         ...(data as RegisterFormTypes),
@@ -68,8 +70,11 @@ export const onRegisterSubmit = async (
 
     const result = await RegisterAction(userBody);
 
+    console.log(typeof result);
+
     if (typeof result !== 'string') {
-        router.replace('/');
+        cookie.set('access', result?.access);
+        cookie.set('refresh', result?.refresh);
     } else {
         const resErrors = JSON.parse(result);
         if (resErrors.pvc) {
