@@ -4,20 +4,22 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
 
-import { AddCompanyValidate } from 'components/AddCompany/AddCompany.utils';
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
 import { Button } from 'components/UI/Buttons/Button';
 import { Input } from 'components/UI/Inputs/Input';
 
+import revalidateTagOnClient from 'utils/revalidateTagOnClient';
+import { AddCompanyValidate } from 'components/AddCompany/AddCompany.utils';
+import { createOrganization } from 'http/organizationService/organizationService';
+
 import { OrgFormData } from 'components/AddCompany/tempData';
 
 import { AddCompanyProps, AddCompanyValues } from 'components/AddCompany/types';
+import { CreateOrgBody } from 'http/organizationService/types';
 
 import ExitSvg from '/public/svg/x.svg';
 
 import scss from './AddCompany.module.scss';
-import { createOrganization } from 'http/organizationService/organizationService';
-import { CreateOrgBody } from 'http/organizationService/types';
 
 export const AddCompany: React.FC<AddCompanyProps> = ({
     opacity,
@@ -28,18 +30,23 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
 
     const onSubmit = async (values: AddCompanyValues) => {
         setLoading(true);
-        const body: CreateOrgBody = {
-            name: values.orgName,
-            inn: values.inn,
-            actual_address: values.actualAddress,
-            legal_address: values.legalAddress,
-            name_director: values.directorName,
-            organizational_form: values.orgForm?.id as number,
-            patronymic_director: values.directorPatronymic,
-            surname_director: values.directorSurname,
-        };
-        await createOrganization(body);
-        setLoading(false);
+        try {
+            const body: CreateOrgBody = {
+                name: values.orgName,
+                inn: values.inn,
+                actual_address: values.actualAddress,
+                legal_address: values.legalAddress,
+                name_director: values.directorName,
+                organizational_form: values.orgForm?.id as number,
+                patronymic_director: values.directorPatronymic,
+                surname_director: values.directorSurname,
+            };
+            await createOrganization(body);
+            revalidateTagOnClient('server-organization');
+            setVisible(false);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const {

@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, {
+    ChangeEvent,
+    ChangeEventHandler,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import Tippy from '@tippyjs/react/headless';
 
 import clsx from 'clsx';
@@ -89,7 +95,12 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
         setVisible(!visible);
     };
 
-    const handleArrowClick = () => {
+    const handleArrowClick: ChangeEventHandler<HTMLOrSVGElement> = (event) => {
+        if (visible) {
+            event.stopPropagation();
+            setVisible(false);
+            return;
+        }
         inputRef.current?.focus();
     };
 
@@ -111,7 +122,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     const fieldClass = clsx({
         [scss.field_without_error_label]: !needErrorLabel,
         [scss.field_without_label]: !label,
-        [scss.field_with_label]: label && needErrorLabel,
+        [scss.field_without_label_and_error]: !label && !needErrorLabel,
         [scss.field_search]: name === 'search',
     });
     const labelErrorClass = clsx({

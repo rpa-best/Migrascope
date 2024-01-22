@@ -186,6 +186,16 @@ $error-color: #E5646C;
   animation: shimmer 1.5s infinite linear;
 }
 
+.spinner_default {
+  max-width: 16px;
+  max-height: 16px;
+  position: absolute;
+  right: 8px;
+  color: white;
+  top: calc(50% - 8px);
+  animation: rotate 1.5s infinite linear;
+}
+
 @keyframes shimmer {
   from {
     transform: translateX(-25%);

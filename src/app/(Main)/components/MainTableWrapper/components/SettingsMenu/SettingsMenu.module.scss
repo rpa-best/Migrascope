@@ -25,6 +25,7 @@
 .buttons_wrapper {
   margin-top: 30px;
   display: flex;
+  justify-content: center;
   column-gap: 14px;
   & button {
     width: calc(50% - 14px);

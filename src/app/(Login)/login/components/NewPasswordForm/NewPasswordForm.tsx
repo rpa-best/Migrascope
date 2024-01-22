@@ -44,8 +44,6 @@ export const NewPasswordForm: React.FC<NewPasswordFormProps> = ({
         handleBlur,
         errors,
         handleSubmit,
-        setTouched,
-        setErrors,
         resetForm,
         touched,
     } = useFormik<NewPasswordFormValues>({

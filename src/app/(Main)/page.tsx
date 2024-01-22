@@ -8,7 +8,7 @@ import {
 } from 'app/(Main)/components/Sceletons/Skeletons';
 import { ProgressBars } from 'app/(Main)/components/ProgressBars';
 import { TableActions } from 'app/(Main)/components/TableActions';
-import { MainTableWrapper } from 'app/(Main)/components/MainTableWrapper';
+import { OrganizationTable } from 'app/(Main)/components/OrganizationTable';
 import { NewsSkeleton } from 'components/News/Skeleton';
 import { News } from 'components/News';
 
@@ -37,8 +37,7 @@ export default function Home() {
                 <TableActions />
                 <section className={scss.table_wrapper}>
                     <Suspense fallback={<TableSkeleton />}>
-                        <MainTableWrapper />
-                        {/*<OrganizationTable />*/}
+                        <OrganizationTable />
                     </Suspense>
                 </section>
             </main>

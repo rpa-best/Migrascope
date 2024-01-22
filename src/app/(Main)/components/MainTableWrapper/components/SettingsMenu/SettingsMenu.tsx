@@ -119,6 +119,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({
             <h4 className={scss.settings_title}>Фильтрация списка компаний</h4>
             <div className={scss.select_user_wrapper}>
                 <InputSelect
+                    needErrorLabel={false}
                     listValues={testUsers}
                     onChange={(v) => {
                         unsavedChanges.current = true;

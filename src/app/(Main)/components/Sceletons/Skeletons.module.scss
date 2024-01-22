@@ -38,6 +38,7 @@
   flex-direction: column;
   overflow: hidden;
   row-gap: 4px;
+  margin-top: 24px;
   @include thousandThreeWidth {
     height: 482px;
   }
@@ -46,6 +47,7 @@
   }
   @include phoneOrTablet {
     height: max-content;
+    @include main_offset_smaller
   }
   @include phone {
     height: 465px;
@@ -85,13 +87,14 @@
 }
 
 .table_row {
-  height: 50.4px;
+  height: 57.6px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   column-gap: 12px;
   border: 1px solid $border-color;
+  background-color: $border-color;
   border-radius: 12px;
 }
 
