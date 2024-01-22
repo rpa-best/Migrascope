@@ -33,27 +33,23 @@ export const onResetPasswordSubmit = async (
     setData: Dispatch<SetStateAction<RecoveryPassType | null>>,
     previousFormType: MutableRefObject<FormType>
 ) => {
-    try {
-        const userBody = { ...(data as Required<RecoveryPassType>), pvc };
+    const userBody = { ...(data as Required<RecoveryPassType>), pvc };
 
-        const result = await ChangePasswordAction(userBody);
+    const result = await ChangePasswordAction(userBody);
 
-        if (result) {
-            setFormType('login');
-            setData(null);
-            toast('Пароль успешно изменён', successToastConfig);
-        }
-    } catch (e) {
-        if (e instanceof Error) {
-            const resErrors = JSON.parse(e.message);
-            if (resErrors.pvc) {
-                errors.code = 'Неверный код';
-                return;
-            } else if (resErrors?.password[0]) {
-                previousFormType.current = 'passRecovery';
-                checkEmail(data.email, 'change_password');
-                setFormType('enterNewPassword');
-            }
+    if (typeof result === 'boolean') {
+        setFormType('login');
+        setData(null);
+        toast('Пароль успешно изменён', successToastConfig);
+    } else {
+        const resErrors = JSON.parse(result as string);
+        if (resErrors.pvc) {
+            errors.code = 'Неверный код';
+            return;
+        } else if (resErrors?.password[0]) {
+            previousFormType.current = 'passRecovery';
+            checkEmail(data.email, 'change_password');
+            setFormType('enterNewPassword');
         }
     }
 };
@@ -64,23 +60,21 @@ export const onRegisterSubmit = async (
     errors: { code?: string },
     router: AppRouterInstance
 ) => {
-    try {
-        const userBody = {
-            ...(data as RegisterFormTypes),
-            pvc,
-            phone: removePhoneMask(data.phone),
-        };
+    const userBody = {
+        ...(data as RegisterFormTypes),
+        pvc,
+        phone: removePhoneMask(data.phone),
+    };
 
-        await RegisterAction(userBody);
+    const result = await RegisterAction(userBody);
 
+    if (typeof result !== 'string') {
         router.replace('/');
-    } catch (e) {
-        if (e instanceof Error) {
-            const resErrors = JSON.parse(e.message);
-            if (resErrors.pvc) {
-                errors.code = 'Неверный код';
-                return;
-            }
+    } else {
+        const resErrors = JSON.parse(result);
+        if (resErrors.pvc) {
+            errors.code = 'Неверный код';
+            return;
         }
     }
 };

@@ -29,7 +29,7 @@ export const LoginAction = async (values: ILoginFormTypes) => {
         cookie.set('refresh', refresh);
     } catch (e) {
         if (e instanceof AxiosError) {
-            throw new Error(e.response?.data.message);
+            return e.response?.data.message;
         }
     }
 };
@@ -65,7 +65,7 @@ export const RegisterAction = async ({
         return userResponse.user;
     } catch (e) {
         if (e instanceof AxiosError) {
-            throw new Error(JSON.stringify(e.response?.data));
+            return JSON.stringify(e.response?.data);
         }
     }
 };
@@ -87,7 +87,7 @@ export const ChangePasswordAction = async (changeProps: {
         return true;
     } catch (e) {
         if (e instanceof AxiosError) {
-            throw new Error(JSON.stringify(e.response?.data));
+            return JSON.stringify(e.response?.data);
         }
     }
 };
