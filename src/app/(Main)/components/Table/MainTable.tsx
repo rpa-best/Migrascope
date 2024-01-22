@@ -2,7 +2,6 @@
 
 import React, { useState, createContext, memo } from 'react';
 
-import { TableSkeleton } from 'app/(Main)/components/Sceletons/Skeletons';
 import { ColumnHeader } from 'app/(Main)/components/Table/ColumnHeader';
 import { Row } from 'app/(Main)/components/Table/Row';
 import { Pagination } from 'app/(Main)/components/Table/Pagination/Pagination';
@@ -26,7 +25,6 @@ export const MainTable = memo(function MemoTable({
 
     return (
         <>
-            {headers.length === 0 && <TableSkeleton withoutTitle />}
             <div className={scss.table_wrapper}>
                 <table className={scss.table}>
                     <thead className={scss.table_headers}>
