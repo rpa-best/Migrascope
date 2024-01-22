@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:  
+  migrascope:
+    container_name: migrascope
+    build: .
+    env_file:
+      - ./.env
+    ports:
+      - 4000:3000
+    command: npm run start -p 3000
