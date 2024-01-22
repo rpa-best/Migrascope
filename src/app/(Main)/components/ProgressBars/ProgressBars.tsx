@@ -9,7 +9,7 @@ import scss from './ProgressBars.module.scss';
 export const ProgressBars: React.FC<ProgressBarsProps> = async ({
     barsData,
 }) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    /*await new Promise((resolve) => setTimeout(resolve, 2000));*/
     return (
         <section className={scss.bars_layout}>
             <h3 className={scss.bars_title}>Прогресс по задачам</h3>
