@@ -1,6 +1,6 @@
-import {BarsSkeleton} from "app/(Main)/components/Sceletons/Skeletons";
+import { NewsSkeleton } from 'components/News/Skeleton';
 
 export default function Loading() {
     // You can add any UI inside Loading, including a Skeleton.
-    return <BarsSkeleton />
+    return <NewsSkeleton />;
 }
