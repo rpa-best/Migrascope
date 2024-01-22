@@ -24,15 +24,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ setFormType }) => {
     const onSubmit = async (values: ILoginFormTypes) => {
         try {
             setLoading(true);
-            await LoginAction(values);
-            router.replace('/');
-        } catch (e) {
-            if (e instanceof Error) {
-                if (e.message === 'Логин или пароль неверный') {
+            const result = await LoginAction(values);
+
+            if (result) {
+                if (result === 'Логин или пароль неверный') {
                     errors.email = 'Неправильный логин или пароль';
                     errors.password = 'Неправильный логин или пароль';
                 }
+                return;
             }
+            router.replace('/');
         } finally {
             setLoading(false);
         }

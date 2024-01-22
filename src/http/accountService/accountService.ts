@@ -49,7 +49,7 @@ export const updateTokens: UpdateTokens = async (refresh) => {
 
 export const validateFields: ValidateFields = async (body) => {
     const res: AxiosResponse<ReturnType<typeof validateFields>> =
-        await $account.post('password_and_phone_validation/', body);
+        await $account.post('password-and-phone-validation/', body);
 
     return res.data;
 };
