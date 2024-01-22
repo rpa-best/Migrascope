@@ -1,4 +1,3 @@
-import { EnterCodeFormValues } from 'app/(Login)/login/components/EnterCodeForm/types';
 import {
     RecoveryPassType,
     RegisterFormTypes,
@@ -16,7 +15,7 @@ import { toast } from 'react-toastify';
 import { successToastConfig } from 'config/toastConfig';
 import { removePhoneMask } from 'utils/removePhoneMask';
 
-export const EnterCodeFormValidate = (values: EnterCodeFormValues) => {
+export const EnterCodeFormValidate = () => {
     const errors: { code?: string } = {};
 
     return errors;
@@ -72,7 +71,7 @@ export const onRegisterSubmit = async (
             phone: removePhoneMask(data.phone),
         };
 
-        const user = await RegisterAction(userBody);
+        await RegisterAction(userBody);
 
         router.replace('/');
     } catch (e) {

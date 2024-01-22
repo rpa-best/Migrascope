@@ -18,7 +18,20 @@ export interface OrganizationType {
     bankInfoId: number;
 }
 
-export type GetOrganizations = () => Promise<Response<OrganizationType>>;
+export type GetOrganizations = (
+    access: string
+) => Promise<Response<OrganizationType>>;
+
+export interface OrganizationUser {
+    id: number;
+    role: string;
+    user: string;
+    organization: number;
+}
+
+export type GetOrganizationUsers = (
+    orgId: number
+) => Promise<Response<OrganizationUser>>;
 
 export interface CreateOrgBody {
     organizational_form: number;

@@ -2,16 +2,15 @@
 
 import React, { ChangeEventHandler, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import { usePathname } from 'next/navigation';
 
-import revalidate from 'utils/revalidate';
 import { useModalStore } from 'store/modalStore/modalVisibleStore';
 
-import { ChangeImgProps } from 'components/ChangeImg/types';
-import { errorToastOptions } from 'config/toastConfig';
 import { ImgModal } from 'components/ChangeImg/ImgModal';
-import Spinner from '/public/svg/spinner.svg';
 import revalidateTagOnClient from 'utils/revalidateTagOnClient';
+
+import { errorToastOptions } from 'config/toastConfig';
+
+import { ChangeImgProps } from 'components/ChangeImg/types';
 
 export const ChangeImg: React.FC<ChangeImgProps> = ({
     setUserImg,

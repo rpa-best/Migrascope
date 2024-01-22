@@ -12,27 +12,13 @@ export const BarsSkeleton = () => {
     );
 };
 
-export const TableSkeleton = ({
-    withoutTitle = false,
-}: {
-    withoutTitle?: boolean;
-}) => {
+export const TableSkeleton = () => {
     return (
         <div className={scss.skeleton_table_wrapper}>
-            {!withoutTitle && <div className={scss.table_title} />}
-            <div className={scss.table_headers} />
             <div className={scss.table_body}>
                 {Array.from({ length: 5 }).map((_, index) => (
-                    <div key={index} className={scss.table_row}>
-                        {Array.from({ length: 4 }).map((_, index) => (
-                            <div key={index} className={scss.table_td} />
-                        ))}
-                    </div>
+                    <div key={index} className={scss.table_row} />
                 ))}
-            </div>
-            <div className={scss.table_pagination}>
-                <div className={scss.pagination_input} />
-                <div className={scss.pagination_numbers} />
             </div>
             <div className={scss.shimmer} />
         </div>

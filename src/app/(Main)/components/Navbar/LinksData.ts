@@ -3,7 +3,7 @@ import { NavbarLink } from 'app/(Main)/components/Navbar/types';
 import Profile from '/public/svg/profile.svg';
 import Tasks from 'app/(Main)/components/Navbar/svg/case.svg';
 import Forms from '/public/svg/notifications.svg';
-import Building from 'app/(Main)/components/Navbar/svg/building.svg';
+import Building from '/public/svg/building.svg';
 import People from 'app/(Main)/components/Navbar/svg/people.svg';
 import Globe from 'app/(Main)/components/Navbar/svg/globe.svg';
 

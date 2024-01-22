@@ -2,8 +2,11 @@
 
 .table_wrapper {
   overflow-x: auto;
-  @include phone {
-    max-width: calc(100vw - 20px);
+  @include bigtablet {
+    max-width: calc(100vw - 280px);
+  }
+  @include phoneOrTablet {
+    max-width: calc(100vw - 50px);
   }
 }
 
@@ -12,8 +15,8 @@
   border-collapse: separate;
   border-spacing: 0 4px;
   table-layout: fixed;
-  @include phone {
-    width: max-content;
+  @include bigtablet {
+    min-width: 600px;
   }
 }
 
@@ -34,7 +37,8 @@
 
 .table_body {}
 
-.table_row {}
+.table_row {
+}
 
 .row_td {
   @include PoppinsRegular(14px);
@@ -60,7 +64,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 24px;
-  @include phoneOrTablet {
+  @include bigtablet {
     row-gap: 10px;
     flex-flow: row wrap-reverse;
     justify-content: space-between;

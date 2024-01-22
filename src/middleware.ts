@@ -31,6 +31,9 @@ export async function middleware(request: NextRequest) {
                 if (itsLogin)
                     return NextResponse.redirect(new URL('/', request.url));
             } else {
+                if (itsLogin) {
+                    return;
+                }
                 return NextResponse.redirect(new URL('/login', request.url));
             }
         } else {
