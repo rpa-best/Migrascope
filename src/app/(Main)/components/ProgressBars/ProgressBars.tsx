@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { ProgressBar } from 'app/(Main)/components/ProgressBars/ProgressBar';
-
 import { ProgressBarsProps } from 'app/(Main)/components/ProgressBars/types';
+export const dynamic = 'force-dynamic';
 
 import scss from './ProgressBars.module.scss';
 
