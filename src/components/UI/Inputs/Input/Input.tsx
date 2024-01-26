@@ -37,8 +37,12 @@ export const Input: React.FC<IInputProps> = ({
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     const passType = useMemo(() => {
-        return passwordVisible ? 'text' : type;
-    }, [passwordVisible, type]);
+        if (changePasswordVisibility) {
+            return passwordVisible ? 'text' : type;
+        } else {
+            return type;
+        }
+    }, [changePasswordVisibility, passwordVisible, type]);
 
     const handleVisibility = () => {
         setPasswordVisible(!passwordVisible);

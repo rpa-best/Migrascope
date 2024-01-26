@@ -1,13 +1,9 @@
 import { AxiosResponse } from 'axios';
-import {
-    CreateOrganization,
-    GetOrganizations,
-    GetOrganizationUsers,
-} from 'http/organizationService/types';
+import * as T from 'http/organizationService/types';
 import { $clientOrganization } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 
-export const getServerOrganization: GetOrganizations = async (access) => {
+export const getServerOrganization: T.GetOrganizations = async (access) => {
     const response = await fetch(
         `${process.env.NEXT_PUBLIC_ORGANIZATION_API_URL}organization/`,
         {
@@ -25,14 +21,23 @@ export const getServerOrganization: GetOrganizations = async (access) => {
     return parsedRes;
 };
 
-export const getOrganizationUsers: GetOrganizationUsers = async (orgId) => {
+export const getClientOrganizationByInfo: T.GetOrganizationByInfo = async (
+    info
+) => {
+    const res: AxiosResponse<ReturnType<typeof getClientOrganizationByInfo>> =
+        await $clientOrganization.get(`${info}/search-organization/`);
+
+    return res.data;
+};
+
+export const getOrganizationUsers: T.GetOrganizationUsers = async (orgId) => {
     const res: AxiosResponse<ReturnType<typeof getOrganizationUsers>> =
         await $clientOrganization.get(`${orgId}/users/`);
 
     return res.data;
 };
 
-export const createOrganization: CreateOrganization = async (body) => {
+export const createOrganization: T.CreateOrganization = async (body) => {
     const res: AxiosResponse<ReturnType<typeof createOrganization>> =
         await $clientOrganization.post('organization/', body);
 

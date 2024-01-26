@@ -47,3 +47,9 @@ export interface CreateOrgBody {
 export type CreateOrganization = (
     body: CreateOrgBody
 ) => Promise<Response<OrganizationType>>;
+
+interface OrganizationInfo extends Omit<OrganizationType, 'name'> {
+    nameOrganization: string;
+}
+
+export type GetOrganizationByInfo = (info: string) => Promise<OrganizationInfo>;

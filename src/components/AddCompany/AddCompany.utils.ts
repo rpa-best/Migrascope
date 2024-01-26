@@ -11,5 +11,9 @@ export const AddCompanyValidate = (values: AddCompanyValues) => {
         }
     }
 
+    if (values.inn.toString().length < 10) {
+        errors.inn = 'Длина поля не может быть меньше 10';
+    }
+
     return errors;
 };
