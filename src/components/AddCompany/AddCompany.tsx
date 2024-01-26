@@ -10,16 +10,25 @@ import { Input } from 'components/UI/Inputs/Input';
 
 import revalidateTagOnClient from 'utils/revalidateTagOnClient';
 import { AddCompanyValidate } from 'components/AddCompany/AddCompany.utils';
-import { createOrganization } from 'http/organizationService/organizationService';
+import {
+    createOrganization,
+    getClientOrganizationByInfo,
+} from 'http/organizationService/organizationService';
 
 import { OrgFormData } from 'components/AddCompany/tempData';
 
-import { AddCompanyProps, AddCompanyValues } from 'components/AddCompany/types';
+import {
+    AddCompanyProps,
+    AddCompanyValues,
+    OrgFormType,
+} from 'components/AddCompany/types';
 import { CreateOrgBody } from 'http/organizationService/types';
 
 import ExitSvg from '/public/svg/x.svg';
 
 import scss from './AddCompany.module.scss';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 export const AddCompany: React.FC<AddCompanyProps> = ({
     opacity,
@@ -58,6 +67,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
         errors,
         setFieldTouched,
         handleSubmit,
+        setValues,
         touched,
     } = useFormik<AddCompanyValues>({
         initialValues: {
@@ -73,6 +83,33 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
         validate: AddCompanyValidate,
         onSubmit,
     });
+
+    const handleInputSubmit = async () => {
+        try {
+            const info = await getClientOrganizationByInfo(values.inn);
+            setValues({
+                directorName: info.nameDirector,
+                directorPatronymic: info.patronymicDirector,
+                orgName: info.nameOrganization,
+                orgForm: OrgFormData.find(
+                    (el) => el.name === info.organizationalForm
+                ) as OrgFormType,
+                inn: info.inn,
+                legalAddress: info.legalAddress,
+                actualAddress: info.actualAddress,
+                directorSurname: info.surnameDirector,
+            });
+            toast('Организация успешно найдена', {
+                type: 'success',
+            });
+            console.log(info);
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                await setFieldTouched('inn', true);
+                errors.inn = e.response?.data.error;
+            }
+        }
+    };
 
     useEffect(() => {
         if (!visible) {
@@ -106,7 +143,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                     <Input
                         needErrorLabel={false}
                         submitButton={{
-                            onClick: () => {},
+                            onClick: () => handleInputSubmit(),
                             text: 'Поиск',
                         }}
                         onBlur={() => {
@@ -117,7 +154,14 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                         value={values.inn}
                         name="search"
                         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                            setFieldValue('inn', event.target.value);
+                            const value = event.target.value;
+                            const isNumber = /^\d+$/.test(value);
+                            if (!value) {
+                                setFieldValue('inn', '');
+                            }
+                            if (isNumber) {
+                                setFieldValue('inn', value);
+                            }
                         }}
                     />
                     {touched.inn && (

@@ -1,8 +1,8 @@
 import { NewsItem } from 'components/News/components/NewsItem';
 
 import { temporaryNews } from 'components/News/types';
+
 import scss from './News.module.scss';
-export const dynamic = 'force-dynamic';
 
 export const News = async () => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
