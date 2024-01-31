@@ -40,6 +40,21 @@
   }
 }
 
+.button_default_white {
+  @extend .button_default;
+  background-color: white;
+  color: black;
+  border: 1px solid #EEE;
+  &:hover {
+    border-color: $active-color;
+    background-color: white;
+  }
+  &:active {
+    background-color: $active-color;
+    color: white;
+  }
+}
+
 .button_big {
   @extend .button_default;
   height: 56px;

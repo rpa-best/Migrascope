@@ -1,0 +1,9 @@
+@import "scss/utils";
+
+.orgs_wrapper {
+  @include main_offset_smaller;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}

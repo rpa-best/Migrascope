@@ -1,7 +1,7 @@
 export interface ButtonProps {
     children: string | string[];
-    type: HTMLButtonElement['type'];
-    style?: 'default' | 'gray';
+    type?: HTMLButtonElement['type'];
+    style?: 'default' | 'gray' | 'white';
     onClick?: () => void;
     disabled?: boolean;
     nowrap?: boolean;

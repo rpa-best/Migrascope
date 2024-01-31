@@ -1,9 +1,10 @@
-@import "scss/utils";
+@import "../../scss/utils";
 
 .organization_table {
   display: flex;
   flex-direction: column;
   margin-top: 24px;
+  row-gap: 4px;
   @include phoneOrTablet {
     @include main_offset_smaller
   }

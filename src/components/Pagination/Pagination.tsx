@@ -3,14 +3,13 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 import { generatePagination } from 'utils/generatePagination';
-import { PaginationInput } from 'app/(Main)/components/Table/Pagination/PaginationInput';
-import { PaginationNumber } from 'app/(Main)/components/Table/Pagination/PaginationNumber';
 
 import { PaginatorProps } from 'app/(Main)/components/Table/types';
-
+import { PaginationInput } from 'components/Pagination/PaginationInput';
+import { PaginationNumber } from 'components/Pagination/PaginationNumber';
 import ArrowSvg from '/public/svg/arrow.svg';
 
-import scss from '../Table.module.scss';
+import scss from './Pagination.module.scss';
 
 export const Pagination: React.FC<PaginatorProps> = ({ totalPages }) => {
     const pathname = usePathname();

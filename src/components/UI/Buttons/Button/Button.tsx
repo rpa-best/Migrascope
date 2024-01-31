@@ -9,7 +9,7 @@ import scss from 'components/UI/Buttons/Button/Button.module.scss';
 export const Button: React.FC<ButtonProps> = ({
     onClick,
     disabled,
-    type,
+    type = 'button',
     children,
     nowrap = false,
     size = 'default',
@@ -20,6 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
     const buttonClass = clsx({
         [scss.button_default]: style === 'default' && size === 'default',
         [scss.button_default_gray]: style === 'gray' && size === 'default',
+        [scss.button_default_white]: style === 'white' && size === 'default',
         [scss.button_big]: style === 'default' && size === 'big',
         [scss.button_big_gray]: style === 'gray' && size === 'big',
         [scss.button_medium]: style === 'default' && size === 'medium',

@@ -3,8 +3,6 @@
 import React, { useState, createContext, memo } from 'react';
 
 import { ColumnHeader } from 'app/(Main)/components/Table/ColumnHeader';
-import { Row } from 'app/(Main)/components/Table/Row';
-import { Pagination } from 'app/(Main)/components/Table/Pagination/Pagination';
 
 import {
     IHeader,
@@ -13,6 +11,8 @@ import {
 } from 'app/(Main)/components/Table/types';
 
 import scss from './Table.module.scss';
+import { Pagination } from 'components/Pagination';
+import { Row } from 'app/(Main)/components/Table/Row';
 
 export const TableContext = createContext<ITableContext | null>(null);
 

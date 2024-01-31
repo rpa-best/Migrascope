@@ -1,1 +1,0 @@
-export { SearchTableInput } from './SearchTableInput';

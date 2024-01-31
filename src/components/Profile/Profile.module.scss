@@ -106,7 +106,11 @@
   align-items: center;
   column-gap: 8px;
   @include phone {
-    display: none;
+    & button {
+      &:first-child {
+        display: none;
+      }
+    }
   }
 }
 

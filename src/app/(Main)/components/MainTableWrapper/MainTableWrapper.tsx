@@ -41,7 +41,7 @@ const tableData = [
     },
 ];
 
-export const MainTableWrapper = async () => {
+export const MainTableWrapper: React.FC<any> = async () => {
     await new Promise((resolve) => setTimeout(resolve, 2500));
     return (
         <>

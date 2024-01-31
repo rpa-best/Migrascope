@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 import { useResizeWidth } from 'hooks/useResizeWidth';
 
 import { SelectTableType } from 'app/(Main)/components/MainTableWrapper/components/SelectTableType';
-import { SearchTableInput } from 'app/(Main)/components/MainTableWrapper/components/SearchTableInput/SearchTableInput';
+import { SearchInput } from 'components/SearchInput';
 import { SettingsMenu } from 'app/(Main)/components/MainTableWrapper/components/SettingsMenu';
 import { AdditionalButton } from 'components/UI/Buttons/AdditionalButton';
 import { Tooltip } from 'components/Tooltip';
@@ -39,7 +39,7 @@ export const TableActions = () => {
     return (
         <div className={scss.table_actions}>
             <SelectTableType />
-            <SearchTableInput />
+            <SearchInput />
             <Tooltip RenderedComponent={SettingsMenu}>
                 <AdditionalButton svg="sliders" type="button" />
             </Tooltip>

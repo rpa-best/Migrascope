@@ -6,7 +6,7 @@ import { InputSelect } from 'components/UI/Inputs/InputSelect';
 
 import { SearchParamsHelper } from 'utils/searchParamsHelper';
 
-import { TableTypesData } from 'app/(Main)/components/MainTableWrapper/components/SearchTableInput/data';
+import { TableTypesData } from 'app/(Main)/components/MainTableWrapper/components/SelectTableType/data';
 
 import scss from 'app/(Main)/components/MainTableWrapper/MainTableWrapper.module.scss';
 
