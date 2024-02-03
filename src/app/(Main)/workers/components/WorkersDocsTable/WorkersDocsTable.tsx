@@ -17,7 +17,7 @@ export const WorkersDocsTable = memo(function MemoTable({
     return (
         <>
             <div className={scss.worker_docs_table_wrapper}>
-                <table className={scss.table}>
+                <table className={scss.worker_docs_table}>
                     <thead className={scss.table_headers}>
                         <tr>
                             {headers.map((el, index) => (
@@ -26,15 +26,8 @@ export const WorkersDocsTable = memo(function MemoTable({
                         </tr>
                     </thead>
                     <tbody className={scss.table_body}>
-                        {tableData.map((item, index) => {
-                            return (
-                                <tr
-                                    key={index}
-                                    className={scss.worker_docs_table_row}
-                                >
-                                    <Row {...item} />
-                                </tr>
-                            );
+                        {tableData?.map((item, index) => {
+                            return <Row key={index} {...item} />;
                         })}
                     </tbody>
                 </table>

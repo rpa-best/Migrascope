@@ -50,16 +50,12 @@ export const InputMask = ({
 
     return (
         <div className={fieldClass}>
-            {label ? (
+            {label && (
                 <label htmlFor={name} className={labelClass}>
                     {label}
                     {required && (
                         <span className={scss.required_indicator}>*</span>
                     )}
-                </label>
-            ) : (
-                <label htmlFor={name} className={labelErrorClass}>
-                    {handleError}
                 </label>
             )}
             <Input
@@ -80,7 +76,9 @@ export const InputMask = ({
                 placeholder={placeholder}
                 onBlur={onBlur}
             />
-            {label && <label className={labelErrorClass}>{handleError}</label>}
+            {handleError && (
+                <label className={labelErrorClass}>{handleError}</label>
+            )}
         </div>
     );
 };

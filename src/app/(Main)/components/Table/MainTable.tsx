@@ -43,7 +43,7 @@ export const MainTable = memo(function MemoTable({
                         }}
                     >
                         <tbody className={scss.table_body}>
-                            {tableData.map((item, index) => {
+                            {tableData?.map((item, index) => {
                                 return (
                                     <tr key={index} className={scss.table_row}>
                                         <Row item={item} headers={headers} />

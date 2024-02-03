@@ -17,7 +17,7 @@ export interface InputMaskProps
     alwaysShowMask: boolean | undefined;
     mask: string;
     placeholder: string;
-    label: string;
+    label?: string;
     maskPlaceholder?: string;
     autoComplete?: string;
     disabled?: boolean;

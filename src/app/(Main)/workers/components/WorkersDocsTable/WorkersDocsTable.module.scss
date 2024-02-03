@@ -5,9 +5,21 @@
   @extend .table_wrapper;
   max-width: 100%;
   @include main_offset-smaller;
-  margin-top: 8px;
   @include bigtablet {
+    max-width: calc(100vw - 270px);
     padding: 0;
+  }
+  margin-top: 8px;
+  @include phoneOrTablet {
+    max-width: 100%;
+  }
+}
+
+.worker_docs_table {
+  @extend .table;
+  @include bigtablet {
+    min-width: 600px;
+    overflow-x: auto;
   }
 }
 
@@ -24,12 +36,31 @@
 }
 
 .worker_docs_table_row {
-  min-height: 192px;
-  height: 192px;
+  height: 80px;
   border-bottom: 1px solid $border-color;
+  cursor: pointer;
   & td {
     height: inherit;
     border-bottom: 1px solid $border-color;
+  }
+  &[data-isopen='true'] {
+    & > td {
+      border-bottom: none;
+    }
+  }
+}
+
+.docs_wrapper {
+
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  & p {
+    @include InterSemiBold(11px);
+    color: #9DA2A7;
   }
 }
 
@@ -37,11 +68,15 @@
 .worker_docs_td_info {
   display: flex;
   flex-direction: column;
-  & p {
+  & a {
     &:first-child {
       @include InterSemiBold(14px);
+      width: max-content;
       color: $active-color;
       margin-bottom: 10px;
+      &:hover {
+        text-decoration: underline;
+      }
     }
     @include PoppinsRegular(14px);
     line-height: 21px;
@@ -49,20 +84,39 @@
   }
 }
 
+.worker_docs_subtitle {
+  @include PoppinsRegular(14px);
+  line-height: 21px;
+  @include phoneOrTablet {
+    font-size: 12px;
+  }
+}
+
+
 .worker_docs_td_docs {
   height: 100%;
   display: flex;
   flex-direction: column;
+  row-gap: 5px;
   justify-content: space-between;
   & span {
     @include PoppinsRegular(12px);
     color: #727880;
+    white-space: nowrap;
     display: flex;
     align-items: center;
     height: 100%;
+    padding: 13px 0;
     border-bottom: 1px solid $border-color;
-    &:last-child {
-      border-bottom: none;
+  }
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid $border-color;
+    & button {
+      height: 32px;
+      width: max-content;
     }
   }
 }

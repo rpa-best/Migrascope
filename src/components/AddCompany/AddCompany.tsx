@@ -102,7 +102,6 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
             toast('Организация успешно найдена', {
                 type: 'success',
             });
-            console.log(info);
         } catch (e) {
             if (e instanceof AxiosError) {
                 await setFieldTouched('inn', true);

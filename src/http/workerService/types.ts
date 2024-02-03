@@ -21,3 +21,17 @@ interface Worker {
 }
 
 export type GetWorkers = (org: string) => Promise<Response<Worker>>;
+
+export interface CreateWorkerBody {
+    avatar: File;
+    organization: number;
+    name: string;
+    surname: string;
+    patronymic: string;
+    citizenship: string;
+    identification_card: string;
+    phone: string;
+    email: string;
+}
+
+export type CreateWorker = (body: CreateWorkerBody) => Promise<void>;

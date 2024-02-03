@@ -5,8 +5,6 @@ import { cookies } from 'next/headers';
 import { getServerOrganization } from 'http/organizationService/organizationService';
 import { OrgTableWrapper } from 'components/OrganizationTable/OrgTableWrapper';
 
-import { TemporaryWorkersData } from 'app/(Main)/workers/components/WorkersDocsTable/tempData';
-
 import scss from './WorkersPage.module.scss';
 
 export default async function WorkersPage() {
@@ -19,12 +17,13 @@ export default async function WorkersPage() {
         <main style={{ width: '100%' }}>
             <WorkersActions />
             <div className={scss.orgs_wrapper}>
-                <OrgTableWrapper orgs={organizations.results}>
-                    <WorkersDocsTable
-                        tableData={TemporaryWorkersData}
-                        headers={['ФИО/Компания', 'Документы', 'Действует до']}
-                    />
-                </OrgTableWrapper>
+                <OrgTableWrapper
+                    ChildrenComponent={WorkersDocsTable as any}
+                    propsToComponent={{
+                        headers: ['ФИО/Компания', 'Вид договора'],
+                    }}
+                    orgs={organizations.results}
+                />
             </div>
         </main>
     );

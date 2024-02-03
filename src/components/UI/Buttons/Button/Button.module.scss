@@ -27,6 +27,18 @@
   }
 }
 
+.button_default_small_hollow {
+  @extend .button_default;
+  min-height: 32px;
+  background-color: white;
+  border: 1px solid $active-color;
+  color: $active-color;
+  padding: 8px 16px;
+  &:hover {
+    color: white;
+  }
+}
+
 .button_default_gray {
   @extend .button_default;
   background-color: $neutral-light;

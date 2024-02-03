@@ -1,4 +1,7 @@
-import { OrganizationType } from 'http/organizationService/types';
+import {
+    OrganizationType,
+    OrganizationUser,
+} from 'http/organizationService/types';
 import React from 'react';
 
 export interface OrganizationTableRowProps {
@@ -6,10 +9,13 @@ export interface OrganizationTableRowProps {
     name: string;
     clickedId: number | null;
     setClickedId: (id: number | null) => void;
-    children: React.ReactElement;
+    ChildrenComponent: React.FC<{ users: OrganizationUser[] | null }>;
+    propsToComponent?: { [key: string]: any };
+    refresh: boolean;
 }
 
 export interface OrgTableWrapperProps {
     orgs: OrganizationType[];
-    children: React.ReactElement;
+    propsToComponent?: { [key: string]: any };
+    ChildrenComponent: React.FC<{ users: OrganizationUser[] | null }>;
 }

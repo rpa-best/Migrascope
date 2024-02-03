@@ -22,6 +22,10 @@ export type GetOrganizations = (
     access: string
 ) => Promise<Response<OrganizationType>>;
 
+export type GetOrganizationsOnClient = () => Promise<
+    Response<OrganizationType>
+>;
+
 export interface OrganizationUser {
     id: number;
     role: string;

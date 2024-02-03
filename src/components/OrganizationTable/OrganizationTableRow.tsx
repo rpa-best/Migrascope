@@ -3,17 +3,15 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { Column } from 'app/(Main)/components/Table/Column';
-import { MainTable } from 'app/(Main)/components/Table';
+import { getOrganizationUsers } from 'http/organizationService/organizationService';
 
 import { OrganizationTableRowProps } from 'components/OrganizationTable/types';
+import { OrganizationUser } from 'http/organizationService/types';
 
 import BuildingSvg from '/public/svg/building.svg';
+import Spinner from '/public/svg/spinner.svg';
 
 import scss from 'components/OrganizationTable/OrganizationTable.module.scss';
-import { getOrganizationUsers } from 'http/organizationService/organizationService';
-import { OrganizationUser } from 'http/organizationService/types';
-import Spinner from '/public/svg/spinner.svg';
 
 const tableData = [
     {
@@ -57,8 +55,10 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     id,
     name,
     setClickedId,
+    propsToComponent,
     clickedId,
-    children,
+    ChildrenComponent,
+    refresh,
 }) => {
     const [orgUsers, setOrgUsers] = useState<OrganizationUser[] | null>(null);
 
@@ -71,6 +71,10 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
             setVisible(false);
         }
     }, [clickedId, id]);
+
+    useEffect(() => {
+        setOrgUsers(null);
+    }, [refresh]);
 
     const handleOrgClick = async () => {
         if (visible) {
@@ -114,7 +118,10 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'max-content', opacity: 1 }}
                     >
-                        {children}
+                        <ChildrenComponent
+                            {...propsToComponent}
+                            users={orgUsers}
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>
