@@ -14,9 +14,10 @@ export const OrganizationTable = async () => {
 
     return (
         <div className={scss.organization_table}>
-            <OrgTableWrapper orgs={organizations?.results}>
-                <MainTableWrapper />
-            </OrgTableWrapper>
+            <OrgTableWrapper
+                ChildrenComponent={MainTableWrapper}
+                orgs={organizations?.results}
+            />
         </div>
     );
 };
