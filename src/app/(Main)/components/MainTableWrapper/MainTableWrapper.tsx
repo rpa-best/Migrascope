@@ -1,3 +1,5 @@
+'use client';
+
 import { MainTable } from 'app/(Main)/components/Table/MainTable';
 import { Column } from 'app/(Main)/components/Table/Column';
 
@@ -41,8 +43,7 @@ const tableData = [
     },
 ];
 
-export const MainTableWrapper: React.FC<any> = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2500));
+export const MainTableWrapper = async () => {
     return (
         <>
             <div className={scss.table_title_wrapper}>
