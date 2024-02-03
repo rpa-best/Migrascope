@@ -27,6 +27,18 @@
   }
 }
 
+.button_default_small_hollow {
+  @extend .button_default;
+  min-height: 32px;
+  background-color: white;
+  border: 1px solid $active-color;
+  color: $active-color;
+  padding: 8px 16px;
+  &:hover {
+    color: white;
+  }
+}
+
 .button_default_gray {
   @extend .button_default;
   background-color: $neutral-light;
@@ -36,6 +48,21 @@
   }
   &:active {
     background-color: $neutral-light-darker;
+    color: white;
+  }
+}
+
+.button_default_white {
+  @extend .button_default;
+  background-color: white;
+  color: black;
+  border: 1px solid #EEE;
+  &:hover {
+    border-color: $active-color;
+    background-color: white;
+  }
+  &:active {
+    background-color: $active-color;
     color: white;
   }
 }

@@ -1,1 +1,1 @@
-export { Row } from './Row';
+export { Row } from 'app/(Main)/components/Table/Row/Row';

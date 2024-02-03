@@ -1,13 +1,16 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { SearchParamsHelper } from 'utils/searchParamsHelper';
 
 import { Input } from 'components/UI/Inputs/Input';
 import useDebouncedFunction from 'hooks/useDebouncedFunction';
+import { SearchInputProps } from 'components/SearchInput/types';
 
-export const SearchTableInput = () => {
+export const SearchInput: React.FC<SearchInputProps> = ({
+    placeholder = 'Поиск',
+}) => {
     const query = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -19,12 +22,16 @@ export const SearchTableInput = () => {
 
     const debouncedQueryChange = useDebouncedFunction(
         handleQueryChange,
-        500,
+        300,
         true
     );
 
     function handleQueryChange(value: string) {
-        queryHelper.set('search', value);
+        if (!value) {
+            queryHelper.delete('search');
+        } else {
+            queryHelper.set('search', value);
+        }
         router.replace(pathname + queryHelper.getParams, { scroll: false });
     }
 
@@ -41,7 +48,7 @@ export const SearchTableInput = () => {
             name="search"
             value={inputValue}
             onChange={handleInputValueChange}
-            placeholder="Поиск"
+            placeholder={placeholder}
         />
     );
 };

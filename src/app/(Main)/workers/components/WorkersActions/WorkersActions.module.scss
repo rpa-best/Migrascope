@@ -1,0 +1,38 @@
+@import "scss/utils";
+
+.actions_wrapper {
+  @include main_offset;
+  display: flex;
+  justify-content: space-between;
+  column-gap: 16px;
+  margin-top: 24px;
+  @include bigtablet {
+    flex-direction: column-reverse;
+    row-gap: 10px;
+  }
+  & > div {
+    width: 300px;
+    @include bigtablet {
+      width: max-content;
+      @include phone {
+        width: 100%;
+      }
+    }
+    &:not(:first-child) {
+      display: flex;
+      column-gap: inherit;
+      width: max-content;
+      @include bigtablet {
+        width: 100%;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        & > button {
+          width: max-content;
+        }
+      }
+    }
+  }
+  @include bigtablet {
+    column-gap: 8px;
+  }
+}

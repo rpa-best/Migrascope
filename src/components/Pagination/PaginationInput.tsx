@@ -9,7 +9,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import { Input } from 'components/UI/Inputs/Input';
 
-import scss from 'app/(Main)/components/Table/Table.module.scss';
+import scss from './Pagination.module.scss';
 
 export const PaginationInput = () => {
     const router = useRouter();

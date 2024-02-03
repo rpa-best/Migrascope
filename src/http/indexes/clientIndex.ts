@@ -13,7 +13,11 @@ export const $clientOrganization = axios.create({
     baseURL: process.env.NEXT_PUBLIC_ORGANIZATION_API_URL,
 });
 
-[$account, $clientOrganization].forEach((item) => {
+export const $clientWorker = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_WORKER_API_URL,
+});
+
+[$account, $clientOrganization, $clientWorker].forEach((item) => {
     item.interceptors.request.use(async (req) => setClientBearer(req));
 
     item.interceptors.response.use(

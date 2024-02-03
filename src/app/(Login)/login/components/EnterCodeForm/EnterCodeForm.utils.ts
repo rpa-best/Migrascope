@@ -70,8 +70,6 @@ export const onRegisterSubmit = async (
 
     const result = await RegisterAction(userBody);
 
-    console.log(typeof result);
-
     if (typeof result !== 'string') {
         cookie.set('access', result?.access);
         cookie.set('refresh', result?.refresh);

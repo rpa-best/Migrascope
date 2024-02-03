@@ -1,19 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { Column } from 'app/(Main)/components/Table/Column';
-import { MainTable } from 'app/(Main)/components/Table';
+import { getOrganizationUsers } from 'http/organizationService/organizationService';
 
-import { OrganizationTableRowProps } from 'app/(Main)/components/OrganizationTable/types';
+import { OrganizationTableRowProps } from 'components/OrganizationTable/types';
+import { OrganizationUser } from 'http/organizationService/types';
 
 import BuildingSvg from '/public/svg/building.svg';
-
-import scss from 'app/(Main)/components/OrganizationTable/OrganizationTable.module.scss';
-import { getOrganizationUsers } from 'http/organizationService/organizationService';
-import { OrganizationUser } from 'http/organizationService/types';
 import Spinner from '/public/svg/spinner.svg';
+
+import scss from 'components/OrganizationTable/OrganizationTable.module.scss';
 
 const tableData = [
     {
@@ -56,6 +54,11 @@ const tableData = [
 export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     id,
     name,
+    setClickedId,
+    propsToComponent,
+    clickedId,
+    ChildrenComponent,
+    refresh,
 }) => {
     const [orgUsers, setOrgUsers] = useState<OrganizationUser[] | null>(null);
 
@@ -63,14 +66,26 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
 
     const [visible, setVisible] = useState(false);
 
+    useEffect(() => {
+        if (clickedId && clickedId !== id) {
+            setVisible(false);
+        }
+    }, [clickedId, id]);
+
+    useEffect(() => {
+        setOrgUsers(null);
+    }, [refresh]);
+
     const handleOrgClick = async () => {
         if (visible) {
             setVisible(false);
+            setClickedId(null);
             return;
         }
 
         if (orgUsers) {
             setVisible(true);
+            setClickedId(id);
             return;
         }
 
@@ -79,6 +94,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
             const users = await getOrganizationUsers(id);
             setOrgUsers(users.results);
             setVisible(true);
+            setClickedId(id);
         } finally {
             setLoading(false);
         }
@@ -102,16 +118,10 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'max-content', opacity: 1 }}
                     >
-                        <MainTable
-                            paginationData={{ totalPages: 15 }}
-                            tableData={tableData}
-                        >
-                            <Column field="id" header="Айдишник" />
-                            <Column field="name1" header="Имя пользователя" />
-                            <Column field="name2" header="Активность" />
-                            <Column field="name3" header="Длинная строка" />
-                            <Column field="name4" header="Длинная новая" />
-                        </MainTable>
+                        <ChildrenComponent
+                            {...propsToComponent}
+                            users={orgUsers}
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>

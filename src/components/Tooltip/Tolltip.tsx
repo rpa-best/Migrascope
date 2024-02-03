@@ -16,6 +16,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     children,
     needResize,
     customXOffset,
+    propsToComponent,
     customYOffset,
 }) => {
     const { phoneBreak } = useResizeWidth();
@@ -59,6 +60,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
                 onClickOutside={() => setVisible(!visible)}
                 render={(attrs) => (
                     <RenderedComponent
+                        {...propsToComponent}
                         visible={visible}
                         setVisible={setVisible}
                         opacity={opacity}

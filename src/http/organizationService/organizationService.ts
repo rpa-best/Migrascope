@@ -4,21 +4,35 @@ import { $clientOrganization } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 
 export const getServerOrganization: T.GetOrganizations = async (access) => {
-    const response = await fetch(
-        `${process.env.NEXT_PUBLIC_ORGANIZATION_API_URL}organization/`,
-        {
-            headers: {
-                Authorization: `Bearer ${access}`,
-            },
-            method: 'GET',
-            next: {
-                tags: ['server-organization'],
-            },
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_ORGANIZATION_API_URL}organization/`,
+            {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+                method: 'GET',
+                next: {
+                    tags: ['server-organization'],
+                },
+            }
+        );
+        if (response.status !== 200) {
+            throw new Error('failed to fetch Organization');
         }
-    );
-    const parsedRes = await response.json();
-    snakeToCamelCaseDeep(parsedRes);
-    return parsedRes;
+        const parsedRes = await response.json();
+        snakeToCamelCaseDeep(parsedRes);
+        return parsedRes;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const getOrganizationOnClient: T.GetOrganizationsOnClient = async () => {
+    const res: AxiosResponse<ReturnType<typeof getOrganizationOnClient>> =
+        await $clientOrganization.get(`organization/`);
+
+    return res.data;
 };
 
 export const getClientOrganizationByInfo: T.GetOrganizationByInfo = async (

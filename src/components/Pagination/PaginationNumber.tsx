@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 import { PaginatorButtonProps } from 'app/(Main)/components/Table/types';
 
-import scss from 'app/(Main)/components/Table/Table.module.scss';
+import scss from './Pagination.module.scss';
 
 export const PaginationNumber: React.FC<PaginatorButtonProps> = ({
     href,

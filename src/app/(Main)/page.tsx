@@ -8,7 +8,7 @@ import {
 } from 'app/(Main)/components/Sceletons/Skeletons';
 import { ProgressBars } from 'app/(Main)/components/ProgressBars';
 import { TableActions } from 'app/(Main)/components/TableActions';
-import { OrganizationTable } from 'app/(Main)/components/OrganizationTable';
+import { OrganizationTable } from 'components/OrganizationTable';
 import { NewsSkeleton } from 'components/News/Skeleton';
 import { News } from 'components/News';
 

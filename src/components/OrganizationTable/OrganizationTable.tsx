@@ -1,9 +1,10 @@
 import { cookies } from 'next/headers';
 
-import { OrganizationTableRow } from 'app/(Main)/components/OrganizationTable/OrganizationTableRow';
+import { OrgTableWrapper } from 'components/OrganizationTable/OrgTableWrapper';
 import { getServerOrganization } from 'http/organizationService/organizationService';
+import { MainTableWrapper } from 'app/(Main)/components/MainTableWrapper';
 
-import scss from './OrganizationTable.module.scss';
+import scss from 'components/OrganizationTable/OrganizationTable.module.scss';
 
 export const OrganizationTable = async () => {
     const cookieStore = cookies();
@@ -13,13 +14,9 @@ export const OrganizationTable = async () => {
 
     return (
         <div className={scss.organization_table}>
-            {organizations.results.map((el, index) => (
-                <OrganizationTableRow
-                    key={index}
-                    id={el.id}
-                    name={`"${el.organizationalForm}" ${el.name}`}
-                />
-            ))}
+            <OrgTableWrapper orgs={organizations?.results}>
+                <MainTableWrapper />
+            </OrgTableWrapper>
         </div>
     );
 };

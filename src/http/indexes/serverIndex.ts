@@ -13,7 +13,11 @@ export const $serverOrganization = axios.create({
     baseURL: process.env.NEXT_PUBLIC_ORGANIZATION_API_URL,
 });
 
-[$serverAccount, $serverOrganization].forEach((instance) => {
+export const $serverWorker = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_WORKER_API_URL,
+});
+
+[$serverAccount, $serverOrganization, $serverWorker].forEach((instance) => {
     instance.interceptors.request.use(async (req) => setServerBearer(req));
     instance.interceptors.response.use((res) => toCamelCase(res));
 });
