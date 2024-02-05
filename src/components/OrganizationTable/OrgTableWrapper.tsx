@@ -10,6 +10,7 @@ export const OrgTableWrapper: React.FC<OrgTableWrapperProps> = ({
     orgs,
     ChildrenComponent,
     propsToComponent,
+    which,
 }) => {
     const [clickedId, setClickedId] = useState<number | null>(null);
     const [refresh, setRefresh] = useState(false);
@@ -20,6 +21,7 @@ export const OrgTableWrapper: React.FC<OrgTableWrapperProps> = ({
 
     return orgs?.map((el, index) => (
         <OrganizationTableRow
+            which={which}
             refresh={refresh}
             clickedId={clickedId}
             setClickedId={setClickedId}

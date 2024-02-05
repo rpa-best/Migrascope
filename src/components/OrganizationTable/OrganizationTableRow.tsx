@@ -3,53 +3,23 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { getOrganizationUsers } from 'http/organizationService/organizationService';
+import {
+    getOrganizationUsers,
+    getOrganizationWorkers,
+} from 'http/organizationService/organizationService';
+import {
+    fetchWorkersDocuments,
+    formatToTableData,
+} from 'components/OrganizationTable/OrganizationTable.utils';
 
 import { OrganizationTableRowProps } from 'components/OrganizationTable/types';
 import { OrganizationUser } from 'http/organizationService/types';
+import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/tempData';
 
 import BuildingSvg from '/public/svg/building.svg';
 import Spinner from '/public/svg/spinner.svg';
 
 import scss from 'components/OrganizationTable/OrganizationTable.module.scss';
-
-const tableData = [
-    {
-        id: 1,
-        name1: 'testim0',
-        name2: 'testiruem0',
-        name3: 'testiruemдлинную',
-        name4: 'testiruemдли',
-    },
-    {
-        id: 2,
-        name1: 'testim1',
-        name2: 'testiruem1',
-        name3: 'testiruem длинную',
-        name4: 'testiruem ',
-    },
-    {
-        id: 3,
-        name1: 'testim2',
-        name2: 'testiruem2',
-        name3: 'testiruem длинную',
-        name4: 'testiruem ',
-    },
-    {
-        id: 4,
-        name1: 'testim3',
-        name2: 'testiruem3',
-        name3: 'testiruem длинную',
-        name4: 'testiruem',
-    },
-    {
-        id: 5,
-        name1: 'testim4',
-        name2: 'testiruem4',
-        name3: 'testiruem длинную',
-        name4: 'testiruem',
-    },
-];
 
 export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     id,
@@ -57,10 +27,13 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     setClickedId,
     propsToComponent,
     clickedId,
+    which,
     ChildrenComponent,
     refresh,
 }) => {
-    const [orgUsers, setOrgUsers] = useState<OrganizationUser[] | null>(null);
+    const [orgUsers, setOrgUsers] = useState<
+        (OrganizationUser | TemporaryDataType)[] | null
+    >(null);
 
     const [loading, setLoading] = useState(false);
 
@@ -88,11 +61,23 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
             setClickedId(id);
             return;
         }
-
         try {
             setLoading(true);
-            const users = await getOrganizationUsers(id);
-            setOrgUsers(users.results);
+            let data: (TemporaryDataType | OrganizationUser)[];
+            if (which === 'users') {
+                const res = await getOrganizationUsers(id);
+                data = res.results;
+            } else {
+                const workers = await getOrganizationWorkers(id);
+
+                const workersWithDocuments = await fetchWorkersDocuments(
+                    workers.results
+                );
+
+                data = formatToTableData(workersWithDocuments);
+            }
+
+            setOrgUsers(data);
             setVisible(true);
             setClickedId(id);
         } finally {
@@ -120,7 +105,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
                     >
                         <ChildrenComponent
                             {...propsToComponent}
-                            users={orgUsers}
+                            tableData={orgUsers}
                         />
                     </motion.div>
                 )}

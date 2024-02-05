@@ -18,11 +18,12 @@ export default async function WorkersPage() {
             <WorkersActions />
             <div className={scss.orgs_wrapper}>
                 <OrgTableWrapper
+                    which="workers"
                     ChildrenComponent={WorkersDocsTable as any}
                     propsToComponent={{
                         headers: ['ФИО/Компания', 'Вид договора'],
                     }}
-                    orgs={organizations.results}
+                    orgs={organizations?.results}
                 />
             </div>
         </main>

@@ -15,6 +15,7 @@ export const OrganizationTable = async () => {
     return (
         <div className={scss.organization_table}>
             <OrgTableWrapper
+                which="users"
                 ChildrenComponent={MainTableWrapper}
                 orgs={organizations?.results}
             />
