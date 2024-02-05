@@ -43,7 +43,7 @@ const tableData = [
     },
 ];
 
-export const MainTableWrapper = async () => {
+export const MainTableWrapper = () => {
     return (
         <>
             <div className={scss.table_title_wrapper}>

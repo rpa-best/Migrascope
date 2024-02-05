@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import * as T from 'http/organizationService/types';
-import { $clientOrganization } from 'http/indexes/clientIndex';
+import { $clientOrganization, $clientWorker } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 
 export const getServerOrganization: T.GetOrganizations = async (access) => {
@@ -18,7 +18,9 @@ export const getServerOrganization: T.GetOrganizations = async (access) => {
             }
         );
         if (response.status !== 200) {
-            throw new Error('failed to fetch Organization');
+            throw new Error(
+                'failed to fetch Organization status: ' + response.status
+            );
         }
         const parsedRes = await response.json();
         snakeToCamelCaseDeep(parsedRes);
@@ -50,6 +52,24 @@ export const getOrganizationUsers: T.GetOrganizationUsers = async (orgId) => {
 
     return res.data;
 };
+
+export const getOrganizationWorkers: T.GetOrganizationWorkers = async (
+    orgId
+) => {
+    const res: AxiosResponse<ReturnType<typeof getOrganizationWorkers>> =
+        await $clientWorker.get(`${orgId}/list/`);
+
+    return res.data;
+};
+
+export const getOrganizationWorkerDocument: T.GetOrganizationWorkerDocument =
+    async (workerId) => {
+        const res: AxiosResponse<
+            ReturnType<typeof getOrganizationWorkerDocument>
+        > = await $clientWorker.get(`${workerId}/document/`);
+
+        return res.data;
+    };
 
 export const createOrganization: T.CreateOrganization = async (body) => {
     const res: AxiosResponse<ReturnType<typeof createOrganization>> =
