@@ -11,7 +11,7 @@ export interface OrganizationType {
     surnameDirector: string;
     patronymicDirector: string;
     legalAddress: string;
-    actualAddress: string;
+    actualAddress: string[];
     createAt: string;
     balance: number;
     owner: number;
@@ -91,7 +91,7 @@ export interface CreateOrgBody {
     surname_director: string;
     patronymic_director: string;
     legal_address: string;
-    actual_address: string;
+    actual_address: string[];
 }
 
 export type CreateOrganization = (

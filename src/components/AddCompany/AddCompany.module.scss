@@ -114,3 +114,25 @@
     }
   }
 }
+
+.addresses_wrapper {
+  & button {
+    margin-bottom: 15px;
+  }
+}
+
+.address_input_wrapper {
+  position: relative;
+  & svg {
+    position: absolute;
+    right: 5px;
+    top: 14px;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    transition: .1s color ease-in-out;
+    &:hover {
+      color: red;
+    }
+  }
+}

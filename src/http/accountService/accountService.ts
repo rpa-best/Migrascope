@@ -79,7 +79,6 @@ export const getServerUser: GetServerUser = async (access) => {
 export const authUser: AuthUser = async (body) => {
     const res: AxiosResponse<ReturnType<typeof authUser>> =
         await $serverAccount.post('auth/', body);
-
     return res.data;
 };
 
