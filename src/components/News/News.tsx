@@ -5,8 +5,6 @@ import { temporaryNews } from 'components/News/types';
 import scss from './News.module.scss';
 
 export const News = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
     return (
         <aside className={scss.news_layout}>
             <div className={scss.news}>

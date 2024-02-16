@@ -23,6 +23,8 @@ export const Button: React.FC<ButtonProps> = ({
             style === 'hollow' && size === 'small',
         [scss.button_default_gray]: style === 'gray' && size === 'default',
         [scss.button_default_white]: style === 'white' && size === 'default',
+        [scss.button_default_hollowActive]:
+            style === 'hollowActive' && size === 'default',
         [scss.button_big]: style === 'default' && size === 'big',
         [scss.button_big_gray]: style === 'gray' && size === 'big',
         [scss.button_medium]: style === 'default' && size === 'medium',

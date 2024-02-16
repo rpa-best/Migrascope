@@ -55,16 +55,22 @@
 .button_default_white {
   @extend .button_default;
   background-color: white;
-  color: black;
+  color: $active-color;
   border: 1px solid #EEE;
   &:hover {
     border-color: $active-color;
-    background-color: white;
+    color: white;
+    background-color: $active-color;
   }
   &:active {
     background-color: $active-color;
     color: white;
   }
+}
+
+.button_default_hollowActive {
+  @extend .button_default_white;
+  border: 1px solid $active-color;
 }
 
 .button_big {

@@ -3,7 +3,7 @@ import {
     OrganizationUser,
 } from 'http/organizationService/types';
 import React from 'react';
-import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/tempData';
+import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/types';
 
 type ChildrenComponentType = React.FC<{
     tableData: (OrganizationUser | TemporaryDataType)[] | null;

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import { AnimatePresence, motion, MotionValue, useSpring } from 'framer-motion';
 
@@ -24,7 +24,9 @@ export const Tooltip: React.FC<TooltipProps> = ({
     const opacity = useSpring(0);
     const [visible, setVisible] = useState(false);
 
-    const xOffset = customXOffset ?? (phoneBreak ? -300 : -125);
+    const xOffset = useMemo(() => {
+        return customXOffset ?? (phoneBreak ? -300 : -125);
+    }, [customXOffset, phoneBreak]);
 
     function onMount(opacity: MotionValue<number>) {
         opacity.set(1);

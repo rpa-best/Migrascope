@@ -1,6 +1,6 @@
 import { Response } from 'http/types';
 
-interface Worker {
+export interface Worker {
     id: number;
     name: string;
     surname: string;
@@ -34,4 +34,15 @@ export interface CreateWorkerBody {
     email: string;
 }
 
+export interface UpdateWorkerBody extends Omit<CreateWorkerBody, 'avatar'> {
+    avatar: string | File;
+}
+
 export type CreateWorker = (body: CreateWorkerBody) => Promise<void>;
+
+export type UpdateWorker = (
+    workerId: number,
+    body: UpdateWorkerBody
+) => Promise<void>;
+
+export type GetWorker = (orgId: number, workerId: number) => Promise<Worker>;

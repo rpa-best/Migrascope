@@ -1,0 +1,10 @@
+@import "scss/utils";
+@import "app/(Main)/workers/components/WorkerForm/WorkerForm.module.scss";
+
+.document_form_title {
+  @extend .worker_form_title;
+}
+
+.document_form_wrapper {
+  @extend .addWorker_wrapper;
+}

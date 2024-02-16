@@ -1,0 +1,1 @@
+export { DocumentTooltipWrapper } from './DocumentTooltipWrapper';

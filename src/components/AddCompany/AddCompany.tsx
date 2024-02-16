@@ -15,6 +15,7 @@ import {
     getClientOrganizationByInfo,
 } from 'http/organizationService/organizationService';
 
+import XSvg from '/public/svg/x.svg';
 import { OrgFormData } from 'components/AddCompany/tempData';
 
 import {
@@ -35,6 +36,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
     visible,
     setVisible,
 }) => {
+    const [adressesCount, setAdressesCount] = useState(1);
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (values: AddCompanyValues) => {
@@ -77,7 +79,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
             directorSurname: '',
             orgForm: null,
             orgName: '',
-            actualAddress: '',
+            actualAddress: [''],
             legalAddress: '',
         },
         validate: AddCompanyValidate,
@@ -113,6 +115,8 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
     useEffect(() => {
         if (!visible) {
             resetForm();
+            setAdressesCount(1);
+            values.actualAddress = [''];
         }
     }, [resetForm, visible]);
 
@@ -213,15 +217,58 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                 <label>
                     Фактический адрес<span>*</span>
                 </label>
-
-                <Input
-                    handleError={touched.actualAddress && errors.actualAddress}
-                    value={values.actualAddress}
-                    placeholder="Фактический адрес"
-                    onBlur={handleBlur}
-                    name="actualAddress"
-                    onChange={handleChange}
-                />
+                <div className={scss.addresses_wrapper}>
+                    {Array.from({ length: adressesCount }).map((el, index) => (
+                        <div className={scss.address_input_wrapper} key={index}>
+                            <Input
+                                handleError={
+                                    touched.actualAddress &&
+                                    (errors.actualAddress as string)
+                                }
+                                value={values.actualAddress[index]}
+                                placeholder="Фактический адрес"
+                                onBlur={handleBlur}
+                                name="actualAddress"
+                                onChange={(
+                                    e: ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    const newArr = values.actualAddress.map(
+                                        (el, actIndex) => {
+                                            if (actIndex === index) {
+                                                return e.target.value;
+                                            } else {
+                                                return el;
+                                            }
+                                        }
+                                    );
+                                    setFieldValue('actualAddress', newArr);
+                                }}
+                            />
+                            {index !== 0 &&
+                                index === values.actualAddress.length - 1 && (
+                                    <XSvg
+                                        onClick={() => {
+                                            values.actualAddress =
+                                                values.actualAddress.slice(
+                                                    0,
+                                                    index
+                                                );
+                                            setAdressesCount((c) => c - 1);
+                                        }}
+                                    />
+                                )}
+                        </div>
+                    ))}
+                    <Button
+                        style="hollowActive"
+                        onClick={() => {
+                            values.actualAddress[adressesCount] = '';
+                            setAdressesCount((c) => c + 1);
+                        }}
+                    >
+                        Добавить фактический адресс
+                    </Button>
+                </div>
             </div>
 
             <div className={scss.input_wrapper}>

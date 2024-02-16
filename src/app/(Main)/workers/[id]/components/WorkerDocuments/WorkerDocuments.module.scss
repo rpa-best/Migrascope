@@ -1,0 +1,158 @@
+@import "scss/utils";
+
+.documents_empty {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & p {
+    @include InterSemiBold(20px);
+    color: #B4B4B4;
+    @include phoneOrTablet {
+      font-size: 16px;
+    }
+  }
+}
+
+.documents_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.plus_button {
+  width: max-content;
+  min-width: 30px;
+  max-width: 30px;
+  min-height: 30px;
+  max-height: 30px;
+  font-size: 25px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: $active-color;
+  color: white;
+  cursor: pointer;
+  transition: .2s background-color ease-in-out;
+  &:hover {
+    background-color: #5157D0;
+  }
+  &:active {
+    background-color: #585FE3;
+  }
+}
+
+.documents_cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 14px;
+  row-gap: 14px;
+  margin-top: 10px;
+  @include thousandTwoWidth {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+  }
+  @include phone {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.document_card_wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: #F8F8F8;
+  border-radius: 10px;
+  padding: 9px 13px;
+}
+
+.document_card_header {
+  display: flex;
+  justify-content: space-between;
+  & h5 {
+    @include InterSemiBold(16px);
+    letter-spacing: 0;
+  }
+}
+
+.svg_default {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  transition: .2s color ease-in-out;
+  &:hover {
+    color: $active-color;
+    &:nth-child(2) {
+      color: $error-color;
+    }
+  }
+  &:active {
+    color: $active-color;
+    &:nth-child(2) {
+      color: $error-color;
+    }
+  }
+}
+
+.document_card_actions {
+  display: flex;
+  column-gap: 8px;
+  & svg {
+    @extend .svg_default;
+  }
+}
+
+.document_card_content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  & p {
+    @include InterRegular(12px);
+    color: #A0A0A0;
+    letter-spacing: 0;
+    & span {
+      color: black;
+    }
+  }
+}
+
+.card_content_file {
+  margin-top: 11px;
+  display: flex;
+  column-gap: 4px;
+  & svg {
+    width: 16px;
+    height: 16px;
+    color: $active-color;
+  }
+  & p {
+    @include InterMediumBold(12px);
+    letter-spacing: 0;
+    color: $active-color;
+  }
+}
+
+.content_buttons {
+  display: flex;
+  justify-content: center;
+  column-gap: 24px;
+  margin-top: 23px;
+  @include laptopWidth {
+    column-gap: 5px;
+    justify-content: space-around;
+  }
+  @include thousandTwoWidth {
+    justify-content: center;
+    column-gap: 24px;
+  }
+  @include bigtablet {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  & > button {
+    width: max-content;
+    @include bigtablet {
+      width: 100%;
+    }
+  }
+}
