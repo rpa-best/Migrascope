@@ -61,7 +61,7 @@ export interface WorkerDocuments {
     series: string;
     number: string;
     dateIssue: string;
-    issued_whom: string;
+    issuedWhom: string;
     territoryAction: string;
     dateEnd: string;
     archive: true;

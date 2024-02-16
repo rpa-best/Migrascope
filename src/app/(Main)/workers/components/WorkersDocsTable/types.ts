@@ -1,5 +1,19 @@
 import { TableProps } from 'app/(Main)/components/Table/types';
-import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/tempData';
+
+interface DocsType {
+    typeDocument: string;
+    dateEnd: string;
+}
+
+export interface TemporaryDataType {
+    id: number;
+    userInfo: {
+        orgId: number;
+        name: string;
+        subtitle: string;
+    };
+    docs: DocsType[];
+}
 
 export interface WorkersTableProps extends Pick<TableProps, 'paginationData'> {
     tableData: TemporaryDataType[];

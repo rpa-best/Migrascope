@@ -14,7 +14,7 @@ import {
 
 import { OrganizationTableRowProps } from 'components/OrganizationTable/types';
 import { OrganizationUser } from 'http/organizationService/types';
-import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/tempData';
+import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/types';
 
 import BuildingSvg from '/public/svg/building.svg';
 import Spinner from '/public/svg/spinner.svg';

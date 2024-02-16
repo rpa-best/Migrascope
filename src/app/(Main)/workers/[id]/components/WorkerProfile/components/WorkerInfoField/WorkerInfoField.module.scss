@@ -1,0 +1,18 @@
+@import "scss/utils";
+
+.field_wrapper {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  border-bottom: 1px solid $border-color;
+  & span {
+    @include InterRegular(12px);
+    color: #A0A0A0;
+  }
+  & p {
+    @include InterRegular(12px);
+    color: #1A1A1A;
+    margin-bottom: 5px;
+  }
+}

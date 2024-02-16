@@ -1,0 +1,101 @@
+@import "scss/utils";
+
+.worker_header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  & h3 {
+    @include InterSemiBold(20px);
+    @include phoneOrTablet {
+      font-size: 16px;
+    }
+  }
+}
+
+.svg_default {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: .2s color ease-in-out;
+  &:hover {
+    color: $active-color;
+    &:nth-child(2) {
+      color: $error-color;
+    }
+  }
+  &:active {
+    color: $active-color;
+    &:nth-child(2) {
+      color: $error-color;
+    }
+  }
+  @include phoneOrTablet {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.profile_actions {
+  display: flex;
+  align-items: center;
+  column-gap: 14px;
+  & svg {
+    @extend .svg_default
+  }
+}
+
+.worker_content {
+  display: flex;
+  column-gap: 25px;
+  @include bigtablet {
+    flex-direction: column;
+  }
+}
+
+.worker_content_image {
+  height: 280px;
+  min-width: 210px;
+  position: relative;
+  @include thousandTwoWidth {
+    height: 240px;
+  }
+  @include bigtablet {
+    height: 250px;
+    width: 250px;
+    min-width: 250px;
+  }
+  @include phoneOrTablet {
+    height: 200px;
+    width: 200px;
+    min-width: 200px;
+    margin: 0 auto;
+  }
+}
+
+.worker_content_fields {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 48px;
+  @include laptopWidth {
+    column-gap: 40px;
+  }
+  @include thousandTwoWidth {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+  }
+  @include phone {
+    display: flex;
+    flex-direction: column;
+  }
+  & > button {
+    margin-top: 15px;
+    width: max-content;
+    margin-left: auto;
+    grid-column-end: -1;
+    @include phoneOrTablet {
+      width: 100%;
+      margin: 15px auto 0;
+    }
+  }
+}

@@ -9,7 +9,7 @@ import { WorkersDocsRowProps } from 'app/(Main)/workers/components/WorkersDocsTa
 
 import scss from 'app/(Main)/workers/components/WorkersDocsTable/WorkersDocsTable.module.scss';
 
-export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo }) => {
+export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo, id }) => {
     const [visible, setVisible] = useState(false);
 
     return (
@@ -23,7 +23,7 @@ export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo }) => {
                     <div className={scss.worker_docs_td_info}>
                         <Link
                             onClick={(e) => e.stopPropagation()}
-                            href="workers/id"
+                            href={`workers/${userInfo.orgId}-${id}`}
                         >
                             {userInfo.name}
                         </Link>

@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import * as T from 'http/organizationService/types';
 import { $clientOrganization, $clientWorker } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
+import { $serverWorker } from 'http/indexes/serverIndex';
 
 export const getServerOrganization: T.GetOrganizations = async (access) => {
     try {
@@ -67,6 +68,15 @@ export const getOrganizationWorkerDocument: T.GetOrganizationWorkerDocument =
         const res: AxiosResponse<
             ReturnType<typeof getOrganizationWorkerDocument>
         > = await $clientWorker.get(`${workerId}/document/`);
+
+        return res.data;
+    };
+
+export const getOrganizationWorkerDocumentSsr: T.GetOrganizationWorkerDocument =
+    async (workerId) => {
+        const res: AxiosResponse<
+            ReturnType<typeof getOrganizationWorkerDocument>
+        > = await $serverWorker.get(`${workerId}/document/`);
 
         return res.data;
     };

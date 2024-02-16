@@ -1,20 +1,11 @@
 import { OrganizationType } from 'http/organizationService/types';
 import { RenderedComponentProps } from 'components/Tooltip/types';
+import { Worker } from 'http/workerService/types';
+import { ImageType } from 'components/DropImage/types';
 
 export interface WorkerFormProps extends RenderedComponentProps {
     type: 'edit' | 'create';
-}
-
-interface WorkerImageType {
-    img: File;
-    preview: string;
-}
-
-export interface WorkerImageProps {
-    image: WorkerImageType | null;
-    isDragActive: boolean;
-    rootProps: any;
-    deleteImage: () => void;
+    worker: Worker;
 }
 
 export interface IdentificationCardType {
@@ -24,7 +15,7 @@ export interface IdentificationCardType {
 }
 
 export interface WorkerFormValues {
-    avatar: WorkerImageType | null;
+    avatar: ImageType | string | null;
     organization: OrganizationType | null;
     name: string;
     surname: string;

@@ -1,0 +1,49 @@
+@import "scss/utils";
+
+.worker_page_layout {
+  @include main_offset;
+  width: 100%;
+  padding-top: 10px;
+  @include phoneOrTablet {
+    padding-top: 10px;
+  }
+}
+
+.worker_page {
+  padding: 19px;
+  border-radius: 15px;
+  background-color: $neutral-light;
+  & > aside {
+    &:nth-child(2) {
+      margin-top: 20px;
+    }
+  }
+  @include phoneOrTablet {
+    padding: 15px;
+  }
+  @include phone {
+    padding: 10px;
+  }
+}
+
+.worker_page_section {
+  & h2 {
+    @include InterSemiBold(20px);
+    margin-bottom: 18px;
+    @include phoneOrTablet {
+      font-size: 16px;
+    }
+  }
+}
+
+.worker_page_section_content {
+  background-color: white;
+  padding: 23px;
+  border-radius: 15px;
+  @include phoneOrTablet {
+    padding: 15px;
+  }
+  @include phone {
+    padding: 10px;
+  }
+}

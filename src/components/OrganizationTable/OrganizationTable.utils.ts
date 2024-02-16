@@ -9,6 +9,7 @@ export const formatToTableData = (obj: WorkerWithDocuments[]) => {
         return {
             id: worker.id,
             userInfo: {
+                orgId: worker.organization,
                 name: `${worker.name} ${worker.surname}`,
                 subtitle: worker.status,
             },

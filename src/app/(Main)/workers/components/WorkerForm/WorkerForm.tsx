@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
@@ -6,7 +8,10 @@ import { usePathname } from 'next/navigation';
 
 import revalidate from 'utils/revalidate';
 import {
+    setInitialValues,
+    WorkerPatch,
     WorkerSubmit,
+    WorkerSubmitValues,
     WorkerValidate,
 } from 'app/(Main)/workers/components/WorkerForm/WorkerForm.utils';
 import { getOrganizationOnClient } from 'http/organizationService/organizationService';
@@ -15,7 +20,6 @@ import { Input } from 'components/UI/Inputs/Input';
 import { InputMask } from 'components/UI/Inputs/InputMask';
 import { Button } from 'components/UI/Buttons/Button';
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
-import { WorkerImage } from 'app/(Main)/workers/components/WorkerForm/WorkerImage';
 
 import { identificationCardData } from 'app/(Main)/workers/components/WorkerForm/data';
 
@@ -26,9 +30,11 @@ import {
 import { OrganizationType } from 'http/organizationService/types';
 
 import scss from './WorkerForm.module.scss';
+import { DropImage } from 'components/DropImage/DropImage';
 
 export const WorkerForm: React.FC<WorkerFormProps> = ({
     type,
+    worker,
     visible,
     setVisible,
     opacity,
@@ -49,19 +55,23 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
         resetForm,
         setErrors,
     } = useFormik<WorkerFormValues>({
-        initialValues: {
-            avatar: null,
-            email: '',
-            citizenship: '',
-            identificationCard: null,
-            name: '',
-            organization: null,
-            patronymic: '',
-            phone: '',
-            surname: '',
-        },
+        initialValues: setInitialValues(worker),
         onSubmit: async (values) => {
-            const result = await WorkerSubmit(values, setLoading, setErrors);
+            let result;
+            if (type === 'create') {
+                result = await WorkerSubmit(
+                    values as WorkerSubmitValues,
+                    setLoading,
+                    setErrors
+                );
+            } else {
+                result = await WorkerPatch(
+                    worker.id,
+                    values,
+                    setLoading,
+                    setErrors
+                );
+            }
             if (result) {
                 setVisible(false);
                 revalidate(path);
@@ -71,10 +81,14 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
     });
 
     useEffect(() => {
-        if (!visible) {
-            resetForm();
+        if (type === 'edit') {
+            if (!visible) {
+                resetForm({
+                    values: setInitialValues(worker),
+                });
+            }
         }
-    }, [resetForm, visible]);
+    }, [worker, visible]);
 
     const onDrop = async (acceptedFiles: any) => {
         await setFieldValue('avatar', {
@@ -84,8 +98,18 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
     };
 
     useEffect(() => {
-        getOrganizationOnClient().then((d) => setOrganizations(d.results));
-    }, []);
+        if (visible) {
+            getOrganizationOnClient().then((d) => {
+                if (type === 'edit') {
+                    setFieldValue(
+                        'organization',
+                        d.results.find((org) => org.id === worker.organization)
+                    );
+                }
+                setOrganizations(d.results);
+            });
+        }
+    }, [visible]);
 
     const { getRootProps, isDragActive } = useDropzone({
         maxFiles: 1,
@@ -110,7 +134,7 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
                         ? 'Редактирование данных о сотруднике'
                         : 'Создание нового сотрудника'}
                 </h3>
-                <WorkerImage
+                <DropImage
                     deleteImage={() => setFieldValue('avatar', null)}
                     isDragActive={isDragActive}
                     image={values.avatar}
@@ -126,22 +150,24 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
                         </label>
                     )}
                 </div>
-                <div className={scss.input_wrapper}>
-                    <label>
-                        Компания<span>*</span>
-                    </label>
-                    <InputSelect
-                        onChange={(v) => setFieldValue('organization', v)}
-                        value={values.organization?.name as string}
-                        name="organization"
-                        placeholder="Укажите компанию"
-                        onBlur={handleBlur}
-                        handleError={
-                            touched.organization && errors.organization
-                        }
-                        listValues={organizations}
-                    />
-                </div>
+                {type === 'create' && (
+                    <div className={scss.input_wrapper}>
+                        <label>
+                            Компания<span>*</span>
+                        </label>
+                        <InputSelect
+                            onChange={(v) => setFieldValue('organization', v)}
+                            value={values.organization?.name as string}
+                            name="organization"
+                            placeholder="Укажите компанию"
+                            onBlur={handleBlur}
+                            handleError={
+                                touched.organization && errors.organization
+                            }
+                            listValues={organizations}
+                        />
+                    </div>
+                )}
                 <div className={scss.input_wrapper}>
                     <label>
                         Фамилия<span>*</span>
