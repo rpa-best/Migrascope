@@ -8,6 +8,7 @@ export interface Worker {
     gender: string;
     citizenship: string;
     birthday: string;
+    position: string;
     placeBirth: string;
     identificationCard: string;
     status: string;
@@ -34,15 +35,35 @@ export interface CreateWorkerBody {
     email: string;
 }
 
-export interface UpdateWorkerBody extends Omit<CreateWorkerBody, 'avatar'> {
+export interface UpdateWorkerBody {
     avatar: string | File;
+    registration_address: string;
+    identification_card: string;
+    name: string;
+    surname: string;
+    patronymic: string;
+    gender: 'male' | 'female';
+    citizenship: string;
+    birthday: string;
+    place_birth: string;
+    position: string;
+    status: string;
+    phone: string;
+    email: string;
+    processing_personal_data: boolean;
+    date_dismissal: string;
+    organization: number;
 }
 
 export type CreateWorker = (body: CreateWorkerBody) => Promise<void>;
 
 export type UpdateWorker = (
     workerId: number,
-    body: UpdateWorkerBody
+    body: Partial<UpdateWorkerBody>
 ) => Promise<void>;
 
-export type GetWorker = (orgId: number, workerId: number) => Promise<Worker>;
+export type GetWorker = (
+    orgId: number,
+    workerId: number,
+    access: string
+) => Promise<Worker>;

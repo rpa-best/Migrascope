@@ -89,13 +89,41 @@
     flex-direction: column;
   }
   & > button {
+    height: 40px;
     margin-top: 15px;
-    width: max-content;
+    width: 130px;
     margin-left: auto;
     grid-column-end: -1;
     @include phoneOrTablet {
       width: 100%;
       margin: 15px auto 0;
+    }
+  }
+}
+
+.edit_svg {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  bottom: -5px;
+  left: calc(50% - 16.5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparentize(black, .5);
+  border-radius: 50%;
+  transition: .2s all ease-in-out;
+  cursor: pointer;
+  & svg {
+    width: 11px;
+    height: 11px;
+    color: transparentize(white, .3);
+    transition: .2s all ease-in-out;
+  }
+  &:hover {
+    background-color: $active-color;
+    & svg {
+      color: white;
     }
   }
 }

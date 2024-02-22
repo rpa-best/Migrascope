@@ -16,7 +16,6 @@ export const WorkersActions = () => {
                 <DownloadButton />
                 <Tooltip
                     needResize={true}
-                    propsToComponent={{ type: 'create' }}
                     RenderedComponent={WorkerForm as any}
                 >
                     <Button nowrap svg="plus">

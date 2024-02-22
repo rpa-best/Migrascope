@@ -12,6 +12,7 @@ export interface InputMaskProps
         | 'size'
         | 'needErrorLabel'
         | 'required'
+        | 'style'
     > {
     onChange: (value: string) => void;
     alwaysShowMask: boolean | undefined;

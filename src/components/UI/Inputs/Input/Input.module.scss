@@ -99,6 +99,26 @@
   }
 }
 
+.input_hollow {
+  @extend .input;
+  border-width: 0 0 1px 0;
+  border-radius: 0;
+  padding-left: 0;
+  border-bottom: 1px solid $border-color;
+  &:disabled {
+    background-color: transparent;
+    pointer-events: stroke;
+  }
+  &:focus {
+    &::placeholder {
+      color: #C6C8CB;
+    }
+  }
+  &::placeholder {
+    color: black;
+  }
+}
+
 .input_big {
   min-height: 48px;
 }
@@ -128,6 +148,11 @@
   @include InterSemiBold(12px);
   margin-bottom: 4px;
   text-align: left;
+}
+
+.input_label_hollow {
+  @include InterRegular(12px);
+  color: #A0A0A0;
 }
 
 

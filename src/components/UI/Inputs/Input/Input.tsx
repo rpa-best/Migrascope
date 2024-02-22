@@ -31,6 +31,7 @@ export const Input: React.FC<IInputProps> = ({
     changePasswordVisibility,
     required = false,
     size = 'default',
+    style = 'default',
     bgColor,
     submitButton,
 }) => {
@@ -62,12 +63,14 @@ export const Input: React.FC<IInputProps> = ({
     });
 
     const labelClass = clsx({
-        [scss.input_label]: label,
+        [scss.input_label]: label && style === 'default',
+        [scss.input_label_hollow]: label && style === 'hollow',
     });
 
     const inputClass = clsx({
-        [scss.input]: true,
-        [scss.input_big]: size === 'big',
+        [scss.input]: style === 'default',
+        [scss.input_hollow]: style === 'hollow',
+        [scss.input_big]: style === 'default' && size === 'big',
         [scss.input_error]: handleError,
         [scss.input_search]: name === 'search',
     });
@@ -131,7 +134,7 @@ export const Input: React.FC<IInputProps> = ({
                     />
                 </div>
             )}
-            {handleError && (
+            {handleError && !disabled && (
                 <label className={labelErrorClass}>{handleError}</label>
             )}
         </div>

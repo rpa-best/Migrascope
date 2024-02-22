@@ -4,7 +4,6 @@ import { Worker } from 'http/workerService/types';
 import { ImageType } from 'components/DropImage/types';
 
 export interface WorkerFormProps extends RenderedComponentProps {
-    type: 'edit' | 'create';
     worker: Worker;
 }
 

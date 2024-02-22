@@ -38,6 +38,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     listValues,
     clearable,
     showPrevValue = true,
+    style = 'default',
     loading,
     fetchable = false,
 }) => {
@@ -130,11 +131,13 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     });
 
     const labelClass = clsx({
-        [scss.input_label]: label,
+        [scss.input_label]: label && style === 'default',
+        [scss.input_label_hollow]: label && style === 'hollow',
     });
 
     const inputClass = clsx({
-        [scss.input]: true,
+        [scss.input]: style === 'default',
+        [scss.input_hollow]: style === 'hollow',
         [scss.input_error]: handleError,
         [scss.input_search]: name === 'search',
     });
@@ -201,7 +204,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
                                 />
                             </div>
                         )}
-                        {name !== 'search' && (
+                        {name !== 'search' && !disabled && (
                             <Arrow
                                 onClick={handleArrowClick}
                                 className={arrowClassname}

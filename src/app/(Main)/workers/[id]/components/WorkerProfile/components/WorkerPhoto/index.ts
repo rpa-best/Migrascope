@@ -1,0 +1,1 @@
+export { WorkerPhoto } from './WorkerPhoto';
