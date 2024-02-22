@@ -20,6 +20,7 @@ export const InputMask = ({
     type,
     maskPlaceholder,
     size = 'default',
+    style = 'default',
     needErrorLabel = true,
     autoComplete,
     required,
@@ -38,12 +39,14 @@ export const InputMask = ({
     });
 
     const labelClass = clsx({
-        [scss.input_label]: label,
+        [scss.input_label]: label && style === 'default',
+        [scss.input_label_hollow]: label && style === 'hollow',
     });
 
     const inputClass = clsx({
-        [scss.input]: true,
-        [scss.input_big]: size === 'big',
+        [scss.input]: style === 'default',
+        [scss.input_hollow]: style === 'hollow',
+        [scss.input_big]: style === 'default' && size === 'big',
         [scss.input_error]: handleError,
         [scss.input_search]: name === 'search',
     });

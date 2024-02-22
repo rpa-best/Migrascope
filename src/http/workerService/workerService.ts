@@ -29,7 +29,10 @@ export const updateWorker: T.UpdateWorker = async (workerId, body) => {
         if (key === 'avatar' && typeof value === 'string') {
             continue;
         }
-        WorkerFormData.append(key, value);
+        if (!value) {
+            continue;
+        }
+        WorkerFormData.append(key, value as any);
     }
 
     const workers: AxiosResponse<ReturnType<typeof updateWorker>> =
@@ -38,9 +41,18 @@ export const updateWorker: T.UpdateWorker = async (workerId, body) => {
     return workers.data;
 };
 
-export const getWorkerSsr: T.GetWorker = async (orgId, workerId) => {
-    const res: AxiosResponse<ReturnType<typeof getWorkerSsr>> =
-        await $serverWorker.get(`${orgId}/list/${workerId}/`);
-
-    return res.data;
+export const getWorkerSsr: T.GetWorker = async (orgId, workerId, access) => {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_WORKER_API_URL}${orgId}/list/${workerId}/`,
+        {
+            headers: {
+                Authorization: `Bearer ${access}`,
+            },
+            method: 'GET',
+            next: {
+                tags: ['server-worker'],
+            },
+        }
+    );
+    return await response.json();
 };

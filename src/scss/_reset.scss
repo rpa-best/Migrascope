@@ -33,7 +33,7 @@ li {
 }
 
 [data-tippy-root] {
-  width: calc(100%);
+  width: calc(100% - 6px);
 }
 
 :root {

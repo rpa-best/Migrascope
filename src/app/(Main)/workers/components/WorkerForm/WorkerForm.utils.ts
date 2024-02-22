@@ -70,54 +70,7 @@ export const WorkerSubmit = async (
     }
 };
 
-export const WorkerPatch = async (
-    workerId: number,
-    {
-        avatar,
-        organization,
-        email,
-        surname,
-        name,
-        patronymic,
-        identificationCard,
-        phone,
-        citizenship,
-    }: WorkerFormValues,
-    setLoading: (v: boolean) => void,
-    setErrors: (errors: FormikErrors<WorkerFormValues>) => void
-) => {
-    const body: UpdateWorkerBody = {
-        avatar: typeof avatar !== 'string' ? (avatar?.img as File) : avatar,
-        citizenship,
-        email,
-        surname,
-        name,
-        patronymic,
-        phone: removePhoneMask(phone),
-        organization: organization?.id as number,
-        identification_card: identificationCard?.slug as string,
-    };
-    try {
-        setLoading(true);
-        await updateWorker(workerId, body);
-        return true;
-    } catch (e) {
-        if (e instanceof AxiosError) {
-            if (e.response?.data.phone) {
-                setErrors({ phone: e.response.data.phone });
-            }
-
-            if (e.response?.data.email) {
-                setErrors({ email: e.response.data.email });
-            }
-        }
-        return false;
-    } finally {
-        setLoading(false);
-    }
-};
-
-export const setInitialValues = (worker: Worker) => {
+export const setWorkerCreateFormInitialValues = (worker: Worker) => {
     return {
         avatar: worker?.avatar ?? null,
         email: worker?.email ?? '',

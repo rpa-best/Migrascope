@@ -33,7 +33,11 @@ export const ChangeImg: React.FC<ChangeImgProps> = ({
 
                 callback(e.target.files[0])
                     .then((r) => {
-                        setUserImg(r.avatar);
+                        if (setUserImg) {
+                            if (r) {
+                                setUserImg(r.avatar);
+                            }
+                        }
                         revalidateTagOnClient(revalidateTag);
                     })
                     .finally(() => {

@@ -8,8 +8,7 @@ import { usePathname } from 'next/navigation';
 
 import revalidate from 'utils/revalidate';
 import {
-    setInitialValues,
-    WorkerPatch,
+    setWorkerCreateFormInitialValues,
     WorkerSubmit,
     WorkerSubmitValues,
     WorkerValidate,
@@ -20,6 +19,7 @@ import { Input } from 'components/UI/Inputs/Input';
 import { InputMask } from 'components/UI/Inputs/InputMask';
 import { Button } from 'components/UI/Buttons/Button';
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
+import { DropImage } from 'components/DropImage/DropImage';
 
 import { identificationCardData } from 'app/(Main)/workers/components/WorkerForm/data';
 
@@ -30,10 +30,8 @@ import {
 import { OrganizationType } from 'http/organizationService/types';
 
 import scss from './WorkerForm.module.scss';
-import { DropImage } from 'components/DropImage/DropImage';
 
 export const WorkerForm: React.FC<WorkerFormProps> = ({
-    type,
     worker,
     visible,
     setVisible,
@@ -52,26 +50,16 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
         handleBlur,
         setFieldTouched,
         handleSubmit,
-        resetForm,
         setErrors,
     } = useFormik<WorkerFormValues>({
-        initialValues: setInitialValues(worker),
+        initialValues: setWorkerCreateFormInitialValues(worker),
         onSubmit: async (values) => {
-            let result;
-            if (type === 'create') {
-                result = await WorkerSubmit(
-                    values as WorkerSubmitValues,
-                    setLoading,
-                    setErrors
-                );
-            } else {
-                result = await WorkerPatch(
-                    worker.id,
-                    values,
-                    setLoading,
-                    setErrors
-                );
-            }
+            const result = await WorkerSubmit(
+                values as WorkerSubmitValues,
+                setLoading,
+                setErrors
+            );
+
             if (result) {
                 setVisible(false);
                 revalidate(path);
@@ -79,16 +67,6 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
         },
         validate: WorkerValidate,
     });
-
-    useEffect(() => {
-        if (type === 'edit') {
-            if (!visible) {
-                resetForm({
-                    values: setInitialValues(worker),
-                });
-            }
-        }
-    }, [worker, visible]);
 
     const onDrop = async (acceptedFiles: any) => {
         await setFieldValue('avatar', {
@@ -100,12 +78,6 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
     useEffect(() => {
         if (visible) {
             getOrganizationOnClient().then((d) => {
-                if (type === 'edit') {
-                    setFieldValue(
-                        'organization',
-                        d.results.find((org) => org.id === worker.organization)
-                    );
-                }
                 setOrganizations(d.results);
             });
         }
@@ -130,9 +102,7 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
         >
             <form onSubmit={handleSubmit}>
                 <h3 className={scss.worker_form_title}>
-                    {type === 'edit'
-                        ? 'Редактирование данных о сотруднике'
-                        : 'Создание нового сотрудника'}
+                    Создание нового сотрудника
                 </h3>
                 <DropImage
                     deleteImage={() => setFieldValue('avatar', null)}
@@ -150,24 +120,23 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
                         </label>
                     )}
                 </div>
-                {type === 'create' && (
-                    <div className={scss.input_wrapper}>
-                        <label>
-                            Компания<span>*</span>
-                        </label>
-                        <InputSelect
-                            onChange={(v) => setFieldValue('organization', v)}
-                            value={values.organization?.name as string}
-                            name="organization"
-                            placeholder="Укажите компанию"
-                            onBlur={handleBlur}
-                            handleError={
-                                touched.organization && errors.organization
-                            }
-                            listValues={organizations}
-                        />
-                    </div>
-                )}
+
+                <div className={scss.input_wrapper}>
+                    <label>
+                        Компания<span>*</span>
+                    </label>
+                    <InputSelect
+                        onChange={(v) => setFieldValue('organization', v)}
+                        value={values.organization?.name as string}
+                        name="organization"
+                        placeholder="Укажите компанию"
+                        onBlur={handleBlur}
+                        handleError={
+                            touched.organization && errors.organization
+                        }
+                        listValues={organizations}
+                    />
+                </div>
                 <div className={scss.input_wrapper}>
                     <label>
                         Фамилия<span>*</span>
