@@ -74,6 +74,7 @@ export const Input: React.FC<IInputProps> = ({
         [scss.input_error]: handleError,
         [scss.input_search]: name === 'search',
     });
+
     const handleClearClick = () => {
         onChange('' as any);
     };

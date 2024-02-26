@@ -80,7 +80,6 @@ export const WorkerEditForm: FC<WorkerEditFormProps> = ({ worker }) => {
         <form onSubmit={handleSubmit} className={scss.worker_content_fields}>
             {filteredFields.map((el, index) => {
                 const key = el[0] as keyof WorkerEditFormValues;
-
                 return (
                     <WorkerInput
                         type={getWorkerInputType(key)}
