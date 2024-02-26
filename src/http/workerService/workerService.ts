@@ -1,7 +1,7 @@
 import * as T from './types';
 import { AxiosResponse } from 'axios';
 import { $clientWorker } from 'http/indexes/clientIndex';
-import { $serverWorker } from 'http/indexes/serverIndex';
+import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 
 export const getWorkers: T.GetWorkers = async (org) => {
     const workers: AxiosResponse<ReturnType<typeof getWorkers>> =
@@ -54,5 +54,7 @@ export const getWorkerSsr: T.GetWorker = async (orgId, workerId, access) => {
             },
         }
     );
-    return await response.json();
+    const parsedRes = await response.json();
+    snakeToCamelCaseDeep(parsedRes);
+    return parsedRes;
 };

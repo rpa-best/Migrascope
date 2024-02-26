@@ -1,12 +1,12 @@
-import Image from 'next/image';
+import { cookies } from 'next/headers';
 
+import { WorkerPhoto } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/WorkerPhoto';
 import { ProfileActions } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/ProfileActions';
 import { WorkerEditForm } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/WorkerEditForm/WorkerEditForm';
+
 import { getWorkerSsr } from 'http/workerService/workerService';
 
 import scss from './WorkerProfile.module.scss';
-import { WorkerPhoto } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/WorkerPhoto';
-import { cookies } from 'next/headers';
 
 export const WorkerProfile = async ({
     orgId,

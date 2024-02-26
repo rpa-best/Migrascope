@@ -26,7 +26,9 @@ export const WorkerPhoto = ({ id, photo }: { id: number; photo: string }) => {
     return (
         <div className={scss.worker_content_image}>
             <Image
-                style={{ borderRadius: '15px' }}
+                style={{
+                    borderRadius: '15px',
+                }}
                 fill
                 src={photo}
                 alt="worker-image"

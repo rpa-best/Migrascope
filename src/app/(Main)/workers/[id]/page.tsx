@@ -14,18 +14,18 @@ export default async function WorkerPage({
     return (
         <main className={scss.worker_page_layout}>
             <div className={scss.worker_page}>
-                <aside className={scss.worker_page_section}>
+                <section className={scss.worker_page_section}>
                     <h2>Профиль сотрудника</h2>
                     <div className={scss.worker_page_section_content}>
                         <WorkerProfile orgId={+orgId} workerId={+id} />
                     </div>
-                </aside>
-                <aside className={scss.worker_page_section}>
+                </section>
+                <section className={scss.worker_page_section}>
                     <h2>Документы сотрудника</h2>
                     <div className={scss.worker_page_section_content}>
                         <WorkerDocuments workerId={+id} />
                     </div>
-                </aside>
+                </section>
             </div>
         </main>
     );
