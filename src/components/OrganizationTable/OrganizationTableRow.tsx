@@ -4,16 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import {
-    getOrganizationUsers,
-    getOrganizationWorkers,
-} from 'http/organizationService/organizationService';
-import {
     fetchWorkersDocuments,
     formatToTableData,
 } from 'components/OrganizationTable/OrganizationTable.utils';
+import { getUsers, getWorkers } from 'http/workerService/workerService';
 
+import { OrganizationUser } from 'http/workerService/types';
 import { OrganizationTableRowProps } from 'components/OrganizationTable/types';
-import { OrganizationUser } from 'http/organizationService/types';
 import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/types';
 
 import BuildingSvg from '/public/svg/building.svg';
@@ -65,10 +62,10 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
             setLoading(true);
             let data: (TemporaryDataType | OrganizationUser)[];
             if (which === 'users') {
-                const res = await getOrganizationUsers(id);
+                const res = await getUsers(id);
                 data = res.results;
             } else {
-                const workers = await getOrganizationWorkers(id);
+                const workers = await getWorkers(id);
 
                 const workersWithDocuments = await fetchWorkersDocuments(
                     workers.results

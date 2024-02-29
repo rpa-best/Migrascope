@@ -24,3 +24,13 @@ export interface WorkerFormValues {
     phone: string;
     email: string;
 }
+
+export interface WorkerErrorTypes
+    extends Omit<WorkerFormValues, 'avatar' | 'organization'> {
+    avatar: string;
+    organization: string;
+}
+
+export interface WorkerSubmitValues extends Omit<WorkerFormValues, 'avatar'> {
+    avatar: ImageType;
+}

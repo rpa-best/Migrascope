@@ -47,40 +47,6 @@ export const getClientOrganizationByInfo: T.GetOrganizationByInfo = async (
     return res.data;
 };
 
-export const getOrganizationUsers: T.GetOrganizationUsers = async (orgId) => {
-    const res: AxiosResponse<ReturnType<typeof getOrganizationUsers>> =
-        await $clientOrganization.get(`${orgId}/users/`);
-
-    return res.data;
-};
-
-export const getOrganizationWorkers: T.GetOrganizationWorkers = async (
-    orgId
-) => {
-    const res: AxiosResponse<ReturnType<typeof getOrganizationWorkers>> =
-        await $clientWorker.get(`${orgId}/list/`);
-
-    return res.data;
-};
-
-export const getOrganizationWorkerDocument: T.GetOrganizationWorkerDocument =
-    async (workerId) => {
-        const res: AxiosResponse<
-            ReturnType<typeof getOrganizationWorkerDocument>
-        > = await $clientWorker.get(`${workerId}/document/`);
-
-        return res.data;
-    };
-
-export const getOrganizationWorkerDocumentSsr: T.GetOrganizationWorkerDocument =
-    async (workerId) => {
-        const res: AxiosResponse<
-            ReturnType<typeof getOrganizationWorkerDocument>
-        > = await $serverWorker.get(`${workerId}/document/`);
-
-        return res.data;
-    };
-
 export const createOrganization: T.CreateOrganization = async (body) => {
     const res: AxiosResponse<ReturnType<typeof createOrganization>> =
         await $clientOrganization.post('organization/', body);

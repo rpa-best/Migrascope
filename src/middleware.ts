@@ -22,9 +22,9 @@ export async function middleware(request: NextRequest) {
 
         const isTokenExpired = expireDate < new Date();
 
-        if (isTokenExpired) {
-            const updatedSuccessfully = await updateTokens(refresh as string);
+        const updatedSuccessfully = await updateTokens(refresh as string);
 
+        if (isTokenExpired) {
             if (updatedSuccessfully) {
                 request.cookies.set('access', updatedSuccessfully.access);
                 request.cookies.set('refresh', updatedSuccessfully.refresh);

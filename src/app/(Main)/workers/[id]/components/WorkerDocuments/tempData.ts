@@ -1,4 +1,4 @@
-import { WorkerDocuments } from 'http/organizationService/types';
+import { WorkerDocuments } from 'http/workerService/types';
 
 export const docsTempData: Partial<WorkerDocuments>[] = [
     {

@@ -43,7 +43,7 @@ export const WorkerInput: FC<WorkerInputProps> = ({
                     label={translateToRussian(objKey)}
                     mask="99.99.9999"
                     onBlur={() => setFieldTouched('birthday', true)}
-                    handleError={touched.birthday && (errors.birthday as any)}
+                    handleError={touched.birthday && errors.birthday}
                     name="birthday"
                 />
             );

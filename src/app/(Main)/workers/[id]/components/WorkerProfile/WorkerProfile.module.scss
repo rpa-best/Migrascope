@@ -52,10 +52,17 @@
   }
 }
 
+
 .worker_content_image {
   height: 280px;
   min-width: 210px;
+  width: 100%;
+  max-width: 250px;
   position: relative;
+  & > img {
+    height: auto!important;
+    object-fit: cover;
+  }
   @include thousandTwoWidth {
     height: 240px;
   }

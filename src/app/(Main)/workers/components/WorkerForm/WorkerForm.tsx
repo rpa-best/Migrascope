@@ -10,7 +10,6 @@ import revalidate from 'utils/revalidate';
 import {
     setWorkerCreateFormInitialValues,
     WorkerSubmit,
-    WorkerSubmitValues,
     WorkerValidate,
 } from 'app/(Main)/workers/components/WorkerForm/WorkerForm.utils';
 import { getOrganizationOnClient } from 'http/organizationService/organizationService';
@@ -26,6 +25,7 @@ import { identificationCardData } from 'app/(Main)/workers/components/WorkerForm
 import {
     WorkerFormProps,
     WorkerFormValues,
+    WorkerSubmitValues,
 } from 'app/(Main)/workers/components/WorkerForm/WorkerForm.types';
 import { OrganizationType } from 'http/organizationService/types';
 

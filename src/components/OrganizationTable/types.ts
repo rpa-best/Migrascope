@@ -1,9 +1,7 @@
-import {
-    OrganizationType,
-    OrganizationUser,
-} from 'http/organizationService/types';
 import React from 'react';
+import { OrganizationType } from 'http/organizationService/types';
 import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/types';
+import { OrganizationUser } from 'http/workerService/types';
 
 type ChildrenComponentType = React.FC<{
     tableData: (OrganizationUser | TemporaryDataType)[] | null;
