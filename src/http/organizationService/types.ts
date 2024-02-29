@@ -26,63 +26,6 @@ export type GetOrganizationsOnClient = () => Promise<
     Response<OrganizationType>
 >;
 
-export interface OrganizationWorker {
-    id: number;
-    registration_address: string;
-    name: string;
-    surname: string;
-    patronymic: string;
-    gender: string;
-    citizenship: string;
-    birthday: string;
-    place_birth: string;
-    identificationCard: string;
-    position: string;
-    status: string;
-    phone: string;
-    email: string;
-    avatar: string;
-    processingPersonalData: boolean;
-    dateDismissal: string;
-    organization: number;
-}
-
-export interface OrganizationUser {
-    id: number;
-    role: string;
-    user: string;
-    organization: number;
-}
-
-export interface WorkerDocuments {
-    id: number;
-    fileDocument: string;
-    typeDocument: string;
-    series: string;
-    number: string;
-    dateIssue: string;
-    issuedWhom: string;
-    territoryAction: string;
-    dateEnd: string;
-    archive: true;
-}
-
-export interface WorkerWithDocuments extends OrganizationWorker {
-    documents: WorkerDocuments[];
-}
-
-export type GetOrganizationUsers = (
-    orgId: number
-) => Promise<Response<OrganizationUser>>;
-
-export type GetOrganizationWorkers = (
-    orgId: number
-) => Promise<Response<OrganizationWorker>>;
-
-export type GetOrganizationWorkerDocument = (
-    workerId: number
-) => Promise<Response<WorkerDocuments>>;
-
 export interface CreateOrgBody {
     organizational_form: number;
     name: string;

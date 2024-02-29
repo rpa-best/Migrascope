@@ -1,8 +1,5 @@
-import {
-    OrganizationWorker,
-    WorkerWithDocuments,
-} from 'http/organizationService/types';
-import { getOrganizationWorkerDocument } from 'http/organizationService/organizationService';
+import { Worker, WorkerWithDocuments } from 'http/workerService/types';
+import { getWorkerDocuments } from 'http/workerService/workerService';
 
 export const formatToTableData = (obj: WorkerWithDocuments[]) => {
     return obj.map((worker) => {
@@ -23,10 +20,10 @@ export const formatToTableData = (obj: WorkerWithDocuments[]) => {
     });
 };
 
-export const fetchWorkersDocuments = async (workers: OrganizationWorker[]) => {
+export const fetchWorkersDocuments = async (workers: Worker[]) => {
     return await Promise.all(
         workers.map(async (worker) => {
-            const doc = await getOrganizationWorkerDocument(worker.id);
+            const doc = await getWorkerDocuments(worker.id);
             return {
                 ...worker,
                 documents: doc.results,

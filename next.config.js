@@ -35,7 +35,7 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'migracontrol.keyman24.ru',
-                pathname: '/media/**',
+                pathname: '/api/v1.1/media/**',
             },
         ],
     },

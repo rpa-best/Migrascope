@@ -1,7 +1,10 @@
 import { IInputProps } from 'components/UI/Inputs/Input/types';
 
 export interface InputDateProps
-    extends Pick<IInputProps, 'name' | 'autoFocus' | 'type' | 'style'> {
+    extends Pick<
+        IInputProps,
+        'name' | 'autoFocus' | 'type' | 'style' | 'needErrorLabel'
+    > {
     value: Date | null;
     onBlur?: <T>(e: T) => void;
     onChange: (value: Date) => void;
@@ -11,5 +14,6 @@ export interface InputDateProps
     label?: string;
     disabled?: boolean;
     minDate?: Date;
-    handleError?: string;
+    maxDate?: Date;
+    handleError?: string | boolean;
 }

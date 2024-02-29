@@ -23,7 +23,6 @@ export const useResizeWidth = () => {
     }, []);
 
     return {
-        width,
         tabletBreak: (width as number) <= tabletBreakpoint,
         bigTabletBreak: (width as number) <= bigTabletBreakpoint,
         laptopBreak: (width as number) <= laptopBreakpoint,

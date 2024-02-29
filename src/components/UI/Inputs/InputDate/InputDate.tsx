@@ -23,10 +23,14 @@ export const InputDate = ({
     disabled,
     style = 'default',
     minDate,
+    needErrorLabel = true,
+    maxDate,
 }: InputDateProps) => {
     const fieldClass = clsx({
-        [scss.field]: !label,
-        [scss.field_with_label]: label,
+        [scss.field_without_error_label]: !needErrorLabel,
+        [scss.field_without_label]: !label,
+        [scss.field_without_label_and_error]: !label && !needErrorLabel,
+        [scss.field_with_label]: label && needErrorLabel,
     });
 
     const labelClass = clsx({
@@ -37,7 +41,6 @@ export const InputDate = ({
     const inputClass = clsx({
         [scss.input]: style === 'default',
         [scss.input_hollow]: style === 'hollow',
-        [scss.input_big]: style === 'default',
         [scss.input_error]: handleError,
         [scss.input_search]: name === 'search',
     });
@@ -47,6 +50,8 @@ export const InputDate = ({
             <label className={labelClass}>{label}</label>
             <div onBlur={onBlur} className={scss.input_wrapper}>
                 <DatePicker
+                    autoComplete="off"
+                    maxDate={maxDate}
                     disabled={disabled}
                     locale={ru}
                     dateFormat="dd.MM.yyyy"
@@ -56,9 +61,12 @@ export const InputDate = ({
                     }}
                     placeholderText={placeholder}
                     minDate={minDate}
+                    name={name}
+                    id={name}
                     calendarClassName={scss.calendar}
                     customInput={
                         <Input
+                            autoComplete="off"
                             disabled={disabled}
                             className={inputClass}
                             mask={mask}

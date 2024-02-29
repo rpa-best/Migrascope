@@ -1,4 +1,5 @@
 import { Response } from 'http/types';
+import { WorkerDocumentType } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
 
 export interface Worker {
     id: number;
@@ -20,8 +21,6 @@ export interface Worker {
     dateDismissal: string;
     organization: number;
 }
-
-export type GetWorkers = (org: string) => Promise<Response<Worker>>;
 
 export interface CreateWorkerBody {
     avatar: File;
@@ -55,6 +54,30 @@ export interface UpdateWorkerBody {
     organization: number;
 }
 
+export interface WorkerWithDocuments extends Worker {
+    documents: WorkerDocuments[];
+}
+
+export interface OrganizationUser {
+    id: number;
+    role: string;
+    user: string;
+    organization: number;
+}
+
+export interface WorkerDocuments {
+    id: number;
+    fileDocument: string;
+    typeDocument: string;
+    series: string;
+    number: string;
+    dateIssue: string;
+    issuedWhom: string;
+    territoryAction: string;
+    dateEnd: string;
+    archive: true;
+}
+
 export type CreateWorker = (body: CreateWorkerBody) => Promise<void>;
 
 export type UpdateWorker = (
@@ -67,3 +90,32 @@ export type GetWorker = (
     workerId: number,
     access: string
 ) => Promise<Worker>;
+
+export type GetUsers = (orgId: number) => Promise<Response<OrganizationUser>>;
+
+export type GetWorkers = (orgId: number) => Promise<Response<Worker>>;
+
+export type GetWorkerDocuments = (
+    workerId: number
+) => Promise<Response<WorkerDocuments>>;
+
+export interface CreateWorkerDocumentBody {
+    file_documents: (File | undefined)[];
+    type_document: WorkerDocumentType;
+    series: string;
+    number: string;
+    date_issue: string;
+    issued_whom: string;
+    territory_action: string;
+    date_end: string;
+}
+
+export type CreateWorkerDocument = (
+    workerId: number,
+    body: CreateWorkerDocumentBody
+) => Promise<void>;
+
+export type DeleteWorkerDocument = (
+    workerId: number,
+    documentId: number
+) => Promise<void>;

@@ -1,28 +1,17 @@
 import { isEmailValid } from 'utils/isEmailValid';
-import { createWorker, updateWorker } from 'http/workerService/workerService';
+import { createWorker } from 'http/workerService/workerService';
 import { removePhoneMask } from 'utils/removePhoneMask';
 import { setPhoneMask } from 'utils/setPhoneMask';
 import { identificationCardData } from 'app/(Main)/workers/components/WorkerForm/data';
 
-import {
-    CreateWorkerBody,
-    UpdateWorkerBody,
-    Worker,
-} from 'http/workerService/types';
+import { CreateWorkerBody, Worker } from 'http/workerService/types';
 import { FormikErrors } from 'formik';
 import { AxiosError } from 'axios';
-import { ImageType } from 'components/DropImage/types';
-import { WorkerFormValues } from 'app/(Main)/workers/components/WorkerForm/WorkerForm.types';
-
-interface WorkerErrorTypes
-    extends Omit<WorkerFormValues, 'avatar' | 'organization'> {
-    avatar: string;
-    organization: string;
-}
-
-export interface WorkerSubmitValues extends Omit<WorkerFormValues, 'avatar'> {
-    avatar: ImageType;
-}
+import {
+    WorkerErrorTypes,
+    WorkerFormValues,
+    WorkerSubmitValues,
+} from 'app/(Main)/workers/components/WorkerForm/WorkerForm.types';
 
 export const WorkerSubmit = async (
     {

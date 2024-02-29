@@ -51,7 +51,7 @@ export const ProfileAvatarWrapper = ({
                     style={{ backgroundColor: color }}
                     className={scss.profile_avatar}
                 >
-                    {`${userData.name[0]}${userData.surname[0]}`}
+                    {`${userData?.name[0]}${userData?.surname[0]}`}
                 </div>
             )}
             <button
