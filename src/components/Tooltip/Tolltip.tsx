@@ -11,14 +11,14 @@ import { TooltipProps } from 'components/Tooltip/types';
 
 import scss from './Tooltip.module.scss';
 
-export const Tooltip: React.FC<TooltipProps> = ({
+export const Tooltip = <T extends React.FC>({
     RenderedComponent,
     children,
     needResize,
     customXOffset,
     propsToComponent,
     customYOffset,
-}) => {
+}: TooltipProps<T extends React.FC<infer R> ? R : never>) => {
     const { phoneBreak } = useResizeWidth();
 
     const opacity = useSpring(0);

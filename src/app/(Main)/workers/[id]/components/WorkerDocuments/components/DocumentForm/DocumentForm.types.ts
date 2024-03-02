@@ -18,6 +18,11 @@ export type DocumentFormTouchedType = {
 
 export type DocumentInputType = 'date' | 'input';
 
+export type SetDocumentFormInitialValues = (
+    type: WorkerDocumentType,
+    document?: WorkerDocuments
+) => DocumentFormValues;
+
 export interface DocumentFormValues
     extends Partial<
         Omit<

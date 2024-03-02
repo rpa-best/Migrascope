@@ -67,7 +67,7 @@ export interface OrganizationUser {
 
 export interface WorkerDocuments {
     id: number;
-    fileDocument: string;
+    fileDocument: string[];
     typeDocument: string;
     series: string;
     number: string;
@@ -115,7 +115,23 @@ export type CreateWorkerDocument = (
     body: CreateWorkerDocumentBody
 ) => Promise<void>;
 
+export type EditWorkerDocument = (
+    workerId: number,
+    documentId: number,
+    body: CreateWorkerDocumentBody
+) => Promise<void>;
+
 export type DeleteWorkerDocument = (
     workerId: number,
     documentId: number
 ) => Promise<void>;
+
+export interface WorkerDocumentFile {
+    id: number;
+    fileDocument: string;
+    documentId: number;
+}
+
+export type GetWorkerDocumentFiles = (
+    documentId: number
+) => Promise<Response<WorkerDocumentFile>>;

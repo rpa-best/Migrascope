@@ -105,11 +105,12 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
-    height: 100%;
+    height: 42px;
     padding: 13px 0;
     border-bottom: 1px solid $border-color;
   }
   & > div {
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: space-between;

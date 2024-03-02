@@ -1,13 +1,17 @@
 'use client';
 
 import { FC, useMemo } from 'react';
-import { camelCase } from 'change-case';
 import { usePathname } from 'next/navigation';
+import revalidate from 'utils/revalidate';
 
 import { Button } from 'components/UI/Buttons/Button';
 import { DocumentForm } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm';
 import { Tooltip } from 'components/Tooltip';
-import { deleteWorkerDocument } from 'http/workerService/workerService';
+
+import {
+    deleteWorkerDocument,
+    getWorkerDocumentFiles,
+} from 'http/workerService/workerService';
 import { getIds } from 'app/(Main)/workers/utils';
 import { useResizeWidth } from 'hooks/useResizeWidth';
 import {
@@ -25,11 +29,11 @@ import {
 } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
 
 import scss from 'app/(Main)/workers/[id]/components/WorkerDocuments/WorkerDocuments.module.scss';
-import revalidate from 'utils/revalidate';
+import { saveAs } from 'file-saver';
 
 interface DocumentCard {
     index: number;
-    document: Partial<WorkerDocuments>;
+    document: WorkerDocuments;
 }
 
 const keysToExclude = ['archive', 'id', 'typeDocument'];
@@ -57,14 +61,19 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
         }
 
         return -220;
-    }, [bigTabletBreak, fullHdBreak, tabletBreak, thousandTwoBreak]);
+    }, [bigTabletBreak, fullHdBreak, index, tabletBreak, thousandTwoBreak]);
+
+    const handleDownloadFiles = async () => {
+        const files = await getWorkerDocumentFiles(document.id);
+        saveAs(files.results[0].fileDocument, 'image.jpg');
+    };
 
     return (
         <div className={scss.document_card_wrapper}>
             <div className={scss.document_card_header}>
                 <h5>
                     {getDocumentName(
-                        camelCase(document.typeDocument!) as WorkerDocumentType
+                        document.typeDocument as WorkerDocumentType
                     )}
                 </h5>
                 <div className={scss.document_card_actions}>
@@ -79,7 +88,7 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
                     <XSvg
                         onClick={async () => {
                             const { id } = getIds(path);
-                            await deleteWorkerDocument(+id, +document.id!);
+                            await deleteWorkerDocument(+id, +document.id);
                             revalidate(path);
                         }}
                     />
@@ -101,11 +110,10 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
                         )
                     );
                 })}
-
-                <div className={scss.content_buttons}>
-                    <Button>Скачать</Button>
-                    <Button style="hollowActive">Загрузить новый</Button>
-                </div>
+            </div>
+            <div className={scss.content_buttons}>
+                <Button onClick={handleDownloadFiles}>Скачать</Button>
+                <Button style="hollowActive">Загрузить новый</Button>
             </div>
         </div>
     );

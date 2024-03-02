@@ -1,5 +1,8 @@
-import { snakeCase } from 'change-case';
-import { createWorkerDocument } from 'http/workerService/workerService';
+import { camelCase, snakeCase } from 'change-case';
+import {
+    createWorkerDocument,
+    editWorkerDocument,
+} from 'http/workerService/workerService';
 import { camelToSnakeCaseDeep } from 'utils/camelToSnakeCaseDeep';
 import { formatDate } from 'utils/formatDate';
 
@@ -8,16 +11,23 @@ import {
     TranslatedLabels,
 } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/data';
 
-import { CreateWorkerDocumentBody } from 'http/workerService/types';
+import {
+    CreateWorkerDocumentBody,
+    WorkerDocuments,
+} from 'http/workerService/types';
 import {
     DocumentFormValues,
     DocumentFormErrorType,
     WorkerDocumentType,
-    TranslatedLabelsType,
     DocumentInputType,
     RequiredDocumentFormValues,
     SelectDocumentType,
+    SetDocumentFormInitialValues,
 } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
+import { FileRejection } from 'react-dropzone';
+import { toast } from 'react-toastify';
+import { errorToastOptions } from 'config/toastConfig';
+import { ImageType } from 'components/DropImage/types';
 
 export const DocumentFormValidate = (values: DocumentFormValues) => {
     const errors: Partial<DocumentFormErrorType> = {};
@@ -35,10 +45,31 @@ export const DocumentFormValidate = (values: DocumentFormValues) => {
     return errors;
 };
 
-export const createFormSubmit = async (
+export const onDropDocumentImage = (
+    acceptedFiles: File[],
+    setFieldValue: (name: string, value: (string | ImageType)[]) => void,
+    values: DocumentFormValues
+) => {
+    const newImages = acceptedFiles.map((image) => {
+        return {
+            img: image,
+            preview: URL.createObjectURL(image),
+        };
+    });
+    setFieldValue('images', [...(values.images ?? []), ...newImages]);
+};
+
+export const onDropDocumentImageRejected = (e: FileRejection[]) => {
+    e.map((error) => {
+        if (error.errors[0].code === 'file-too-large') {
+            toast(`Файл ${error.file.name} слишком большой`, errorToastOptions);
+        }
+    });
+};
+
+export const getDocumentBody = (
     values: DocumentFormValues,
-    documentType: SelectDocumentType,
-    workerId: number
+    documentType: SelectDocumentType
 ) => {
     const snakeClone = structuredClone(values);
     camelToSnakeCaseDeep(snakeClone);
@@ -63,68 +94,101 @@ export const createFormSubmit = async (
         type_document: snakeDocumentType as WorkerDocumentType,
     };
 
+    return createDocumentBody;
+};
+
+export const createFormSubmit = async (
+    values: DocumentFormValues,
+    documentType: SelectDocumentType,
+    workerId: number
+) => {
+    const createDocumentBody = getDocumentBody(values, documentType);
+
     await createWorkerDocument(workerId, createDocumentBody);
 };
 
+export const editFormSubmit = async (
+    values: DocumentFormValues,
+    documentType: SelectDocumentType,
+    workerId: number,
+    documentId: number
+) => {
+    const editDocumentBody = getDocumentBody(values, documentType);
+
+    await editWorkerDocument(workerId, documentId, editDocumentBody);
+};
+
 export const setDocumentFormValues = (
-    type: WorkerDocumentType
+    type: WorkerDocumentType,
+    document?: WorkerDocuments
 ): DocumentFormValues => {
-    return documentFormInitialValues[type] as DocumentFormValues;
+    return setDocumentFormInitialValues(type, document);
 };
 
-const defaultValues = {
-    series: '',
-    number: '',
-    issuedWhom: '',
-    dateIssue: null,
-    dateEnd: null,
-    images: [],
+const defaultValues = (document?: WorkerDocuments) => {
+    return {
+        series: document?.series ?? '',
+        number: document?.number ?? '',
+        issuedWhom: document?.issuedWhom ?? '',
+        dateIssue: document?.dateIssue ? new Date(document.dateIssue) : null,
+        dateEnd: document?.dateEnd ? new Date(document.dateEnd) : null,
+        images: document?.fileDocument ?? [],
+    };
 };
 
-export const documentFormInitialValues: Record<
-    WorkerDocumentType,
-    Partial<DocumentFormValues>
-> = {
-    initial: {
-        ...defaultValues,
-        territoryAction: '',
-    },
-    passport: {
-        ...defaultValues,
-    },
-    migrationCard: {
-        images: [],
-        number: '',
-        dateIssue: null,
-        dateEnd: null,
-    },
-    registration: {
-        images: [],
-        dateIssue: null,
-        dateEnd: null,
-    },
-    patent: {
-        ...defaultValues,
-        territoryAction: '',
-    },
-    paycheck: {
-        images: [],
-        dateEnd: null,
-    },
-    temporaryResidence: {
-        ...defaultValues,
-    },
-    residencePermit: {
-        ...defaultValues,
-    },
-    certificateAsylum: {
-        ...defaultValues,
-    },
-    SNILS: {
-        images: [],
-        number: '',
-    },
-    INN: { images: [], number: '' },
+export const setDocumentFormInitialValues: SetDocumentFormInitialValues = (
+    type,
+    document
+) => {
+    switch (type) {
+        case 'initial':
+            return { ...defaultValues(document), territoryAction: '' };
+        case 'passport':
+            return { ...defaultValues(document) };
+        case 'migrationCard':
+            return {
+                images: document?.fileDocument ?? [],
+                number: document?.number ?? '',
+                dateIssue: document?.dateIssue
+                    ? new Date(document.dateIssue)
+                    : null,
+                dateEnd: document?.dateEnd ? new Date(document.dateEnd) : null,
+            };
+        case 'registration':
+            return {
+                images: document?.fileDocument ?? [],
+                dateEnd: document?.dateEnd ? new Date(document.dateEnd) : null,
+                dateIssue: document?.dateIssue
+                    ? new Date(document.dateIssue)
+                    : null,
+            };
+        case 'patent':
+            return {
+                ...defaultValues(document),
+                territoryAction: document?.territoryAction ?? '',
+            };
+        case 'paycheck':
+            return {
+                images: document?.fileDocument ?? [],
+                dateEnd: document?.dateEnd ? new Date(document.dateEnd) : null,
+            };
+        case 'temporaryResidence':
+            return { ...defaultValues(document) };
+        case 'residencePermit':
+            return { ...defaultValues(document) };
+        case 'certificateAsylum':
+            return { ...defaultValues(document) };
+        case 'SNILS':
+            return {
+                images: document?.fileDocument ?? [],
+                number: document?.number ?? '',
+            };
+        case 'INN':
+            return {
+                images: document?.fileDocument ?? [],
+                number: document?.number ?? '',
+            };
+    }
 };
 
 export const getDocumentLabel = (name: RequiredDocumentFormValues) => {
@@ -132,7 +196,8 @@ export const getDocumentLabel = (name: RequiredDocumentFormValues) => {
 };
 
 export const getDocumentName = (name: WorkerDocumentType) => {
-    return SelectDocumentList.find((el) => el.slug === name)!.name;
+    const camelDocumentName = /^[A-Z]+$/.test(name) ? name : camelCase(name);
+    return SelectDocumentList.find((el) => el.slug === camelDocumentName)?.name;
 };
 
 export const getDocumentPlaceholder = (name: RequiredDocumentFormValues) => {

@@ -8,6 +8,8 @@ import { Button } from 'components/UI/Buttons/Button';
 import { WorkersDocsRowProps } from 'app/(Main)/workers/components/WorkersDocsTable/types';
 
 import scss from 'app/(Main)/workers/components/WorkersDocsTable/WorkersDocsTable.module.scss';
+import { getDocumentName } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.utils';
+import { WorkerDocumentType } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
 
 export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo, id }) => {
     const [visible, setVisible] = useState(false);
@@ -41,8 +43,12 @@ export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo, id }) => {
                         <div className={scss.column}>
                             <p className={scss.column_header}>Тип документа</p>
                             <div className={scss.worker_docs_td_docs}>
-                                {docs.map((el, index) => (
-                                    <span key={index}>{el.typeDocument}</span>
+                                {docs.map((doc, index) => (
+                                    <span key={index}>
+                                        {getDocumentName(
+                                            doc.typeDocument as WorkerDocumentType
+                                        )}
+                                    </span>
                                 ))}
                             </div>
                         </div>
@@ -51,10 +57,10 @@ export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo, id }) => {
                         <div className={scss.column}>
                             <p className={scss.column_header}>Дата окончания</p>
                             <div className={scss.worker_docs_td_docs}>
-                                {docs.map((el, index) => (
+                                {docs.map((doc, index) => (
                                     <div key={index}>
                                         <span style={{ borderBottom: 'none' }}>
-                                            {el.dateEnd}
+                                            {doc.dateEnd}
                                         </span>
                                         <Button style="hollow" size="small">
                                             Загрузить новый

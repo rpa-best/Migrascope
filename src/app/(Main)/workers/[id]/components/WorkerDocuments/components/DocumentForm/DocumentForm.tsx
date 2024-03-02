@@ -1,18 +1,24 @@
 'use client';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
+import { usePathname } from 'next/navigation';
 
 import { DropImage } from 'components/DropImage/DropImage';
 import { Button } from 'components/UI/Buttons/Button';
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
 import { DocumentFormInput } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/components/DocumentFormInput';
 
+import { getIds } from 'app/(Main)/workers/utils';
+import revalidate from 'utils/revalidate';
 import {
     createFormSubmit,
     DocumentFormValidate,
+    editFormSubmit,
+    onDropDocumentImage,
+    onDropDocumentImageRejected,
     setDocumentFormValues,
 } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.utils';
 import { errorToastOptions } from 'config/toastConfig';
@@ -29,9 +35,7 @@ import {
 import { ImageType } from 'components/DropImage/types';
 
 import scss from './DocumentForm.module.scss';
-import { getIds } from 'app/(Main)/workers/utils';
-import { usePathname } from 'next/navigation';
-import revalidate from 'utils/revalidate';
+import { getWorkerDocumentFiles } from 'http/workerService/workerService';
 
 export const DocumentForm: FC<DocumentFormProps> = ({
     document,
@@ -70,6 +74,13 @@ export const DocumentForm: FC<DocumentFormProps> = ({
                         selectedType as SelectDocumentType,
                         +id
                     );
+                } else {
+                    await editFormSubmit(
+                        values,
+                        selectedType as SelectDocumentType,
+                        +id,
+                        document?.id as number
+                    );
                 }
                 revalidate(path);
                 setVisible(false);
@@ -82,44 +93,18 @@ export const DocumentForm: FC<DocumentFormProps> = ({
         validate: DocumentFormValidate,
     });
 
-    useEffect(() => {
-        if (!visible) {
-            setSelectedType(null);
+    const handleChangeDocumentType = useCallback(
+        (documentType: SelectDocumentType) => {
+            setSelectedType(documentType);
+            const newFormValues = setDocumentFormValues(
+                documentType.slug,
+                document
+            ) as DocumentFormValues;
             resetForm();
-        }
-    }, [resetForm, visible]);
-
-    const onDrop = async (acceptedFiles: File[]) => {
-        const newImages = acceptedFiles.map((image) => {
-            return {
-                img: image,
-                preview: URL.createObjectURL(image),
-            };
-        });
-        await setFieldValue('images', [...(values.images ?? []), ...newImages]);
-    };
-
-    const onDropRejected = (e: FileRejection[]) => {
-        e.map((error) => {
-            if (error.errors[0].code === 'file-too-large') {
-                toast(
-                    `Файл ${error.file.name} слишком большой`,
-                    errorToastOptions
-                );
-            }
-        });
-    };
-
-    const { getRootProps, isDragActive } = useDropzone({
-        maxFiles: 3,
-        maxSize: 2097152,
-        multiple: true,
-        accept: {
-            'image/*': ['.png', '.jpeg', '.jpg'],
+            setValues(newFormValues);
         },
-        onDrop,
-        onDropRejected,
-    });
+        [document, resetForm, setValues]
+    );
 
     const handleDeleteImage = (index: number) => {
         const newArr = values?.images?.filter((img, imgIndex) => {
@@ -127,6 +112,47 @@ export const DocumentForm: FC<DocumentFormProps> = ({
         });
         setFieldValue('images', newArr);
     };
+
+    useEffect(() => {
+        if (type === 'edit' && visible) {
+            const currentDocumentType = SelectDocumentList.find(
+                (doc) => doc.slug === document?.typeDocument
+            );
+            handleChangeDocumentType(currentDocumentType!);
+            getWorkerDocumentFiles(document?.id as number).then((files) => {
+                const imageUrls = files.results.map(
+                    (file) => file.fileDocument
+                );
+                setFieldValue('images', imageUrls);
+            });
+        }
+    }, [
+        document?.id,
+        document?.typeDocument,
+        handleChangeDocumentType,
+        setFieldValue,
+        type,
+        visible,
+    ]);
+
+    useEffect(() => {
+        if (!visible) {
+            setSelectedType(null);
+            resetForm();
+        }
+    }, [resetForm, visible]);
+
+    const { getRootProps, isDragActive } = useDropzone({
+        maxFiles: 3,
+        maxSize: 2097152,
+        multiple: true,
+        accept: {
+            'image/*': ['.png', '.jpeg', '.jpg', '.pdf', '.doc', '.docx'],
+        },
+        onDrop: (acceptedFiles) =>
+            onDropDocumentImage(acceptedFiles, setFieldValue, values),
+        onDropRejected: onDropDocumentImageRejected,
+    });
 
     return (
         <motion.div
@@ -148,7 +174,7 @@ export const DocumentForm: FC<DocumentFormProps> = ({
                 <DropImage
                     deleteImage={handleDeleteImage}
                     isDragActive={isDragActive}
-                    image={values.images as ImageType[]}
+                    image={values.images}
                     rootProps={getRootProps}
                 />
                 <div className={scss.photo_label}>
@@ -168,14 +194,7 @@ export const DocumentForm: FC<DocumentFormProps> = ({
                     <InputSelect
                         autoComplete="off"
                         listValues={SelectDocumentList}
-                        onChange={(documentType: SelectDocumentType) => {
-                            setSelectedType(documentType);
-                            const newFormValues = setDocumentFormValues(
-                                documentType.slug
-                            ) as DocumentFormValues;
-                            resetForm();
-                            setValues(newFormValues);
-                        }}
+                        onChange={handleChangeDocumentType}
                         value={selectedType?.name ?? ''}
                         name="documentType"
                         placeholder="Выберите документ"
