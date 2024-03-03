@@ -1,5 +1,5 @@
 import { Response } from 'http/types';
-import { WorkerDocumentType } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
+import { WorkerDocumentType } from 'components/DocumentForm/DocumentForm.types';
 
 export interface Worker {
     id: number;
@@ -110,6 +110,11 @@ export interface CreateWorkerDocumentBody {
     date_end: string;
 }
 
+export interface EditWorkerDocumentBody
+    extends Partial<CreateWorkerDocumentBody> {
+    archive?: boolean;
+}
+
 export type CreateWorkerDocument = (
     workerId: number,
     body: CreateWorkerDocumentBody
@@ -118,7 +123,7 @@ export type CreateWorkerDocument = (
 export type EditWorkerDocument = (
     workerId: number,
     documentId: number,
-    body: CreateWorkerDocumentBody
+    body: EditWorkerDocumentBody
 ) => Promise<void>;
 
 export type DeleteWorkerDocument = (

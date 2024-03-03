@@ -2,53 +2,49 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
-import { FileRejection, useDropzone } from 'react-dropzone';
-import { toast } from 'react-toastify';
+import { useDropzone } from 'react-dropzone';
 import { usePathname } from 'next/navigation';
+import { camelCase } from 'change-case';
 
 import { DropImage } from 'components/DropImage/DropImage';
 import { Button } from 'components/UI/Buttons/Button';
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
-import { DocumentFormInput } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/components/DocumentFormInput';
+import { DocumentFormInput } from 'components/DocumentForm/components/DocumentFormInput';
 
-import { getIds } from 'app/(Main)/workers/utils';
-import revalidate from 'utils/revalidate';
 import {
     createFormSubmit,
+    createNewFormSubmit,
     DocumentFormValidate,
     editFormSubmit,
     onDropDocumentImage,
     onDropDocumentImageRejected,
     setDocumentFormValues,
-} from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.utils';
-import { errorToastOptions } from 'config/toastConfig';
-import { SelectDocumentList } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/data';
-
-import {
-    DocumentFormProps,
-    DocumentFormValues,
-    DocumentFormErrorType,
-    SelectDocumentType,
-    DocumentFormTouchedType,
-    RequiredDocumentFormValues,
-} from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
-import { ImageType } from 'components/DropImage/types';
-
-import scss from './DocumentForm.module.scss';
+} from 'components/DocumentForm/DocumentForm.utils';
+import { getIds } from 'app/(Main)/workers/utils';
+import revalidate from 'utils/revalidate';
 import { getWorkerDocumentFiles } from 'http/workerService/workerService';
 
-export const DocumentForm: FC<DocumentFormProps> = ({
+import { SelectDocumentList } from 'components/DocumentForm/data';
+
+import * as T from 'components/DocumentForm/DocumentForm.types';
+
+import scss from './DocumentForm.module.scss';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
+import { errorToastOptions } from 'config/toastConfig';
+
+export const DocumentForm: FC<T.DocumentFormProps> = ({
     document,
     type,
     opacity,
     setVisible,
     visible,
+    workerId,
 }) => {
     const path = usePathname();
 
-    const [selectedType, setSelectedType] = useState<SelectDocumentType | null>(
-        null
-    );
+    const [selectedType, setSelectedType] =
+        useState<T.SelectDocumentType | null>(null);
     const [loading, setLoading] = useState(false);
 
     const {
@@ -59,33 +55,45 @@ export const DocumentForm: FC<DocumentFormProps> = ({
         touched,
         handleBlur,
         handleSubmit,
+        isValid,
         setValues,
         resetForm,
-    } = useFormik<DocumentFormValues>({
+    } = useFormik<T.DocumentFormValues>({
         initialValues: setDocumentFormValues('initial'),
         onSubmit: async (values) => {
             setLoading(true);
 
             const { id } = getIds(path);
             try {
-                if (type === 'create') {
+                if (type === 'create')
                     await createFormSubmit(
                         values,
-                        selectedType as SelectDocumentType,
+                        selectedType as T.SelectDocumentType,
                         +id
                     );
-                } else {
+
+                if (type === 'edit')
                     await editFormSubmit(
                         values,
-                        selectedType as SelectDocumentType,
+                        selectedType as T.SelectDocumentType,
                         +id,
                         document?.id as number
                     );
-                }
+
+                if (type === 'createNew')
+                    await createNewFormSubmit(
+                        values,
+                        selectedType as T.SelectDocumentType,
+                        workerId ?? +id,
+                        document?.id as number
+                    );
+
                 revalidate(path);
                 setVisible(false);
             } catch (e) {
-                console.log(e);
+                if (e instanceof AxiosError) {
+                    toast(e.response?.data.error, errorToastOptions);
+                }
             } finally {
                 setLoading(false);
             }
@@ -94,16 +102,16 @@ export const DocumentForm: FC<DocumentFormProps> = ({
     });
 
     const handleChangeDocumentType = useCallback(
-        (documentType: SelectDocumentType) => {
+        (documentType: T.SelectDocumentType) => {
             setSelectedType(documentType);
             const newFormValues = setDocumentFormValues(
                 documentType.slug,
-                document
-            ) as DocumentFormValues;
+                type !== 'createNew' ? document : undefined
+            ) as T.DocumentFormValues;
             resetForm();
             setValues(newFormValues);
         },
-        [document, resetForm, setValues]
+        [document, resetForm, setValues, type]
     );
 
     const handleDeleteImage = (index: number) => {
@@ -114,10 +122,16 @@ export const DocumentForm: FC<DocumentFormProps> = ({
     };
 
     useEffect(() => {
+        const docType = document?.typeDocument || '';
+        const documentType = docType.includes('_')
+            ? camelCase(docType)
+            : docType;
+
+        const currentDocumentType = SelectDocumentList.find(
+            (doc) => doc.slug.toLowerCase() === documentType.toLowerCase()
+        );
+
         if (type === 'edit' && visible) {
-            const currentDocumentType = SelectDocumentList.find(
-                (doc) => doc.slug === document?.typeDocument
-            );
             handleChangeDocumentType(currentDocumentType!);
             getWorkerDocumentFiles(document?.id as number).then((files) => {
                 const imageUrls = files.results.map(
@@ -125,6 +139,10 @@ export const DocumentForm: FC<DocumentFormProps> = ({
                 );
                 setFieldValue('images', imageUrls);
             });
+        }
+
+        if (type === 'createNew' && visible) {
+            handleChangeDocumentType(currentDocumentType!);
         }
     }, [
         document?.id,
@@ -156,12 +174,10 @@ export const DocumentForm: FC<DocumentFormProps> = ({
 
     return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            onClick={(e) => e.stopPropagation()}
             style={{
                 opacity,
             }}
-            onTransitionEnd={() => {}}
             transition={{ duration: 1 }}
             className={scss.document_form_wrapper}
         >
@@ -192,6 +208,7 @@ export const DocumentForm: FC<DocumentFormProps> = ({
                         Выберите тип документа<span>*</span>
                     </label>
                     <InputSelect
+                        disabled={type === 'createNew'}
                         autoComplete="off"
                         listValues={SelectDocumentList}
                         onChange={handleChangeDocumentType}
@@ -204,13 +221,13 @@ export const DocumentForm: FC<DocumentFormProps> = ({
                     <>
                         {Object.entries(values).map(([key, value], index) => (
                             <DocumentFormInput
-                                name={key as RequiredDocumentFormValues}
+                                name={key as T.RequiredDocumentFormValues}
                                 value={value}
                                 handleBlur={handleBlur}
                                 handleChange={handleChange}
                                 setFieldValue={setFieldValue}
-                                touched={touched as DocumentFormTouchedType}
-                                errors={errors as DocumentFormErrorType}
+                                touched={touched as T.DocumentFormTouchedType}
+                                errors={errors as T.DocumentFormErrorType}
                                 key={index}
                             />
                         ))}

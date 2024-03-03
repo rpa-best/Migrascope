@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import { AnimatePresence, motion, MotionValue, useSpring } from 'framer-motion';
 
@@ -11,14 +11,14 @@ import { TooltipProps } from 'components/Tooltip/types';
 
 import scss from './Tooltip.module.scss';
 
-export const Tooltip = <T extends React.FC>({
+export const Tooltip: FC<TooltipProps> = ({
     RenderedComponent,
     children,
     needResize,
     customXOffset,
     propsToComponent,
     customYOffset,
-}: TooltipProps<T extends React.FC<infer R> ? R : never>) => {
+}) => {
     const { phoneBreak } = useResizeWidth();
 
     const opacity = useSpring(0);

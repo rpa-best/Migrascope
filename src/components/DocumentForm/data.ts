@@ -1,7 +1,7 @@
 import {
     SelectDocumentType,
     TranslatedLabelsType,
-} from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
+} from 'components/DocumentForm/DocumentForm.types';
 
 export const SelectDocumentList: SelectDocumentType[] = [
     { id: 1, name: 'Паспорт', slug: 'passport' },

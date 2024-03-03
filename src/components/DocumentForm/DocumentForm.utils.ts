@@ -1,4 +1,5 @@
 import { camelCase, snakeCase } from 'change-case';
+import { toast } from 'react-toastify';
 import {
     createWorkerDocument,
     editWorkerDocument,
@@ -7,34 +8,25 @@ import { camelToSnakeCaseDeep } from 'utils/camelToSnakeCaseDeep';
 import { formatDate } from 'utils/formatDate';
 
 import {
-    SelectDocumentList,
-    TranslatedLabels,
-} from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/data';
-
-import {
     CreateWorkerDocumentBody,
     WorkerDocuments,
 } from 'http/workerService/types';
-import {
-    DocumentFormValues,
-    DocumentFormErrorType,
-    WorkerDocumentType,
-    DocumentInputType,
-    RequiredDocumentFormValues,
-    SelectDocumentType,
-    SetDocumentFormInitialValues,
-} from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
 import { FileRejection } from 'react-dropzone';
-import { toast } from 'react-toastify';
-import { errorToastOptions } from 'config/toastConfig';
 import { ImageType } from 'components/DropImage/types';
+import * as T from 'components/DocumentForm/DocumentForm.types';
 
-export const DocumentFormValidate = (values: DocumentFormValues) => {
-    const errors: Partial<DocumentFormErrorType> = {};
+import { errorToastOptions } from 'config/toastConfig';
+import {
+    SelectDocumentList,
+    TranslatedLabels,
+} from 'components/DocumentForm/data';
+
+export const DocumentFormValidate = (values: T.DocumentFormValues) => {
+    const errors: Partial<T.DocumentFormErrorType> = {};
 
     for (const elem in values) {
-        if (!values[elem as keyof DocumentFormValues]) {
-            errors[elem as keyof DocumentFormErrorType] = 'Обязательное поле';
+        if (!values[elem as keyof T.DocumentFormValues]) {
+            errors[elem as keyof T.DocumentFormErrorType] = 'Обязательное поле';
         }
     }
 
@@ -48,7 +40,7 @@ export const DocumentFormValidate = (values: DocumentFormValues) => {
 export const onDropDocumentImage = (
     acceptedFiles: File[],
     setFieldValue: (name: string, value: (string | ImageType)[]) => void,
-    values: DocumentFormValues
+    values: T.DocumentFormValues
 ) => {
     const newImages = acceptedFiles.map((image) => {
         return {
@@ -68,8 +60,8 @@ export const onDropDocumentImageRejected = (e: FileRejection[]) => {
 };
 
 export const getDocumentBody = (
-    values: DocumentFormValues,
-    documentType: SelectDocumentType
+    values: T.DocumentFormValues,
+    documentType: T.SelectDocumentType
 ) => {
     const snakeClone = structuredClone(values);
     camelToSnakeCaseDeep(snakeClone);
@@ -91,15 +83,15 @@ export const getDocumentBody = (
             ? formatDate(new Date(values.dateIssue))
             : '',
         date_end: values.dateEnd ? formatDate(new Date(values.dateEnd)) : '',
-        type_document: snakeDocumentType as WorkerDocumentType,
+        type_document: snakeDocumentType as T.WorkerDocumentType,
     };
 
     return createDocumentBody;
 };
 
 export const createFormSubmit = async (
-    values: DocumentFormValues,
-    documentType: SelectDocumentType,
+    values: T.DocumentFormValues,
+    documentType: T.SelectDocumentType,
     workerId: number
 ) => {
     const createDocumentBody = getDocumentBody(values, documentType);
@@ -108,8 +100,8 @@ export const createFormSubmit = async (
 };
 
 export const editFormSubmit = async (
-    values: DocumentFormValues,
-    documentType: SelectDocumentType,
+    values: T.DocumentFormValues,
+    documentType: T.SelectDocumentType,
     workerId: number,
     documentId: number
 ) => {
@@ -118,10 +110,23 @@ export const editFormSubmit = async (
     await editWorkerDocument(workerId, documentId, editDocumentBody);
 };
 
+export const createNewFormSubmit = async (
+    values: T.DocumentFormValues,
+    documentType: T.SelectDocumentType,
+    workerId: number,
+    documentId: number
+) => {
+    const createDocumentBody = getDocumentBody(values, documentType);
+
+    await editWorkerDocument(workerId, documentId, { archive: true });
+
+    await createWorkerDocument(workerId, createDocumentBody);
+};
+
 export const setDocumentFormValues = (
-    type: WorkerDocumentType,
+    type: T.WorkerDocumentType,
     document?: WorkerDocuments
-): DocumentFormValues => {
+): T.DocumentFormValues => {
     return setDocumentFormInitialValues(type, document);
 };
 
@@ -136,7 +141,7 @@ const defaultValues = (document?: WorkerDocuments) => {
     };
 };
 
-export const setDocumentFormInitialValues: SetDocumentFormInitialValues = (
+export const setDocumentFormInitialValues: T.SetDocumentFormInitialValues = (
     type,
     document
 ) => {
@@ -191,22 +196,22 @@ export const setDocumentFormInitialValues: SetDocumentFormInitialValues = (
     }
 };
 
-export const getDocumentLabel = (name: RequiredDocumentFormValues) => {
+export const getDocumentLabel = (name: T.RequiredDocumentFormValues) => {
     return TranslatedLabels.find((el) => el.slug === name)!.name;
 };
 
-export const getDocumentName = (name: WorkerDocumentType) => {
+export const getDocumentName = (name: T.WorkerDocumentType) => {
     const camelDocumentName = /^[A-Z]+$/.test(name) ? name : camelCase(name);
     return SelectDocumentList.find((el) => el.slug === camelDocumentName)?.name;
 };
 
-export const getDocumentPlaceholder = (name: RequiredDocumentFormValues) => {
+export const getDocumentPlaceholder = (name: T.RequiredDocumentFormValues) => {
     return TranslatedLabels.find((el) => el.slug === name)!.placeholder;
 };
 
 export const getDocumentInputType = (
-    name: RequiredDocumentFormValues
-): DocumentInputType => {
+    name: T.RequiredDocumentFormValues
+): T.DocumentInputType => {
     if (CasesWithDate.includes(name)) {
         return 'date';
     }

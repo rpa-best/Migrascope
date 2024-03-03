@@ -125,6 +125,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
         [scss.field_without_label]: !label,
         [scss.field_without_label_and_error]: !label && !needErrorLabel,
         [scss.field_search]: name === 'search',
+        [scss.field_disabled]: disabled,
     });
     const labelErrorClass = clsx({
         [scss.input_error_label]: handleError,

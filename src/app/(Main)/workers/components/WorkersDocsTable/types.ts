@@ -1,6 +1,7 @@
 import { TableProps } from 'app/(Main)/components/Table/types';
 
 interface DocsType {
+    documentId: number;
     typeDocument: string;
     dateEnd: string;
 }
@@ -21,3 +22,7 @@ export interface WorkersTableProps extends Pick<TableProps, 'paginationData'> {
 }
 
 export interface WorkersDocsRowProps extends TemporaryDataType {}
+
+export interface DocumentRowProps extends DocsType {
+    workerId: number;
+}

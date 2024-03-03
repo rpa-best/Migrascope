@@ -62,6 +62,10 @@
   height: 89.4px;
 }
 
+.field_disabled {
+  pointer-events: none;
+}
+
 .input {
   width: 100%;
   min-height: 40px;

@@ -7,9 +7,9 @@ export interface RenderedComponentProps {
     setVisible: (b: boolean) => void;
 }
 
-export interface TooltipProps<T> {
+export interface TooltipProps {
     RenderedComponent: React.FC<RenderedComponentProps>;
-    propsToComponent?: T;
+    propsToComponent?: { [key: string]: any };
     needResize?: true;
     customXOffset?: number;
     customYOffset?: number;

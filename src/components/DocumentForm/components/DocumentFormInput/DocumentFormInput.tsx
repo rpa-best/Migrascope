@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
 
 import { Input } from 'components/UI/Inputs/Input';
+import { InputDate } from 'components/UI/Inputs/InputDate';
+
 import {
     getDocumentInputType,
     getDocumentLabel,
     getDocumentPlaceholder,
-} from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.utils';
+} from 'components/DocumentForm/DocumentForm.utils';
 
-import { DocumentFormInputProps } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
+import { DocumentFormInputProps } from 'components/DocumentForm/DocumentForm.types';
 
-import scss from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.module.scss';
-import { translateToRussian } from 'app/(Main)/workers/[id]/components/WorkerProfile/utils';
-import { InputDate } from 'components/UI/Inputs/InputDate';
+import scss from 'components/DocumentForm/DocumentForm.module.scss';
 
 export const DocumentFormInput: FC<DocumentFormInputProps> = ({
     handleBlur,

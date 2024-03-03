@@ -12,6 +12,7 @@ export const formatToTableData = (obj: WorkerWithDocuments[]) => {
             },
             docs: worker.documents.map((doc) => {
                 return {
+                    documentId: doc.id,
                     dateEnd: doc.dateEnd,
                     typeDocument: doc.typeDocument,
                 };
