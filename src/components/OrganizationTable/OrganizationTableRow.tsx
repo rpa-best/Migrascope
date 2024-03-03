@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import {
@@ -42,22 +42,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
         }
     }, [clickedId, id]);
 
-    useEffect(() => {
-        setOrgUsers(null);
-    }, [refresh]);
-
-    const handleOrgClick = async () => {
-        if (visible) {
-            setVisible(false);
-            setClickedId(null);
-            return;
-        }
-
-        if (orgUsers) {
-            setVisible(true);
-            setClickedId(id);
-            return;
-        }
+    const fetchData = useCallback(async () => {
         try {
             setLoading(true);
             let data: (TemporaryDataType | OrganizationUser)[];
@@ -80,7 +65,28 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
         } finally {
             setLoading(false);
         }
-    };
+    }, [id, setClickedId, which]);
+
+    const handleOrgClick = useCallback(async () => {
+        if (visible) {
+            setVisible(false);
+            setClickedId(null);
+            return;
+        }
+
+        if (orgUsers) {
+            setVisible(true);
+            setClickedId(id);
+            return;
+        }
+        fetchData();
+    }, [fetchData, id, orgUsers, setClickedId, visible]);
+
+    useEffect(() => {
+        if (visible) {
+            fetchData();
+        }
+    }, [fetchData, refresh, visible]);
 
     return (
         <div className={scss.organization_row}>

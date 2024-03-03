@@ -1,35 +1,40 @@
 'use client';
 
 import { FC, useMemo } from 'react';
-import { camelCase } from 'change-case';
 import { usePathname } from 'next/navigation';
+import { saveAs } from 'file-saver';
 
 import { Button } from 'components/UI/Buttons/Button';
-import { DocumentForm } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm';
+
 import { Tooltip } from 'components/Tooltip';
-import { deleteWorkerDocument } from 'http/workerService/workerService';
+
+import revalidate from 'utils/revalidate';
+import {
+    deleteWorkerDocument,
+    getWorkerDocumentFiles,
+} from 'http/workerService/workerService';
 import { getIds } from 'app/(Main)/workers/utils';
 import { useResizeWidth } from 'hooks/useResizeWidth';
 import {
     getDocumentLabel,
     getDocumentName,
-} from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.utils';
+} from 'components/DocumentForm/DocumentForm.utils';
+import { DocumentForm } from 'components/DocumentForm';
 
 import WorkerEditSvg from 'app/(Main)/workers/[id]/svg/edit-2.svg';
 import XSvg from '/public/svg/x.svg';
 
-import { WorkerDocuments } from 'http/workerService/types';
 import {
     RequiredDocumentFormValues,
     WorkerDocumentType,
-} from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
+} from 'components/DocumentForm/DocumentForm.types';
+import { WorkerDocuments } from 'http/workerService/types';
 
 import scss from 'app/(Main)/workers/[id]/components/WorkerDocuments/WorkerDocuments.module.scss';
-import revalidate from 'utils/revalidate';
 
 interface DocumentCard {
     index: number;
-    document: Partial<WorkerDocuments>;
+    document: WorkerDocuments;
 }
 
 const keysToExclude = ['archive', 'id', 'typeDocument'];
@@ -57,14 +62,19 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
         }
 
         return -220;
-    }, [bigTabletBreak, fullHdBreak, tabletBreak, thousandTwoBreak]);
+    }, [bigTabletBreak, fullHdBreak, index, tabletBreak, thousandTwoBreak]);
+
+    const handleDownloadFiles = async () => {
+        const files = await getWorkerDocumentFiles(document.id);
+        saveAs(files.results[0].fileDocument, 'image.jpg');
+    };
 
     return (
         <div className={scss.document_card_wrapper}>
             <div className={scss.document_card_header}>
                 <h5>
                     {getDocumentName(
-                        camelCase(document.typeDocument!) as WorkerDocumentType
+                        document.typeDocument as WorkerDocumentType
                     )}
                 </h5>
                 <div className={scss.document_card_actions}>
@@ -79,7 +89,7 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
                     <XSvg
                         onClick={async () => {
                             const { id } = getIds(path);
-                            await deleteWorkerDocument(+id, +document.id!);
+                            await deleteWorkerDocument(+id, +document.id);
                             revalidate(path);
                         }}
                     />
@@ -101,11 +111,20 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
                         )
                     );
                 })}
-
-                <div className={scss.content_buttons}>
-                    <Button>Скачать</Button>
+            </div>
+            <div className={scss.content_buttons}>
+                <Button onClick={handleDownloadFiles}>Скачать</Button>
+                <Tooltip
+                    customXOffset={customXOffset}
+                    needResize={true}
+                    propsToComponent={{
+                        type: 'createNew',
+                        document: document,
+                    }}
+                    RenderedComponent={DocumentForm as any}
+                >
                     <Button style="hollowActive">Загрузить новый</Button>
-                </div>
+                </Tooltip>
             </div>
         </div>
     );

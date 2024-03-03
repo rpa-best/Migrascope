@@ -4,7 +4,7 @@ import { useResizeWidth } from 'hooks/useResizeWidth';
 import { useMemo } from 'react';
 
 import { Tooltip } from 'components/Tooltip';
-import { DocumentForm } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm';
+import { DocumentForm } from 'components/DocumentForm';
 
 import scss from 'app/(Main)/workers/[id]/components/WorkerDocuments/WorkerDocuments.module.scss';
 

@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 
-import { Button } from 'components/UI/Buttons/Button';
+import { RowDocument } from 'app/(Main)/workers/components/WorkersDocsTable/Row/RowDocument';
+import { getDocumentName } from 'components/DocumentForm/DocumentForm.utils';
 
+import { WorkerDocumentType } from 'components/DocumentForm/DocumentForm.types';
 import { WorkersDocsRowProps } from 'app/(Main)/workers/components/WorkersDocsTable/types';
 
 import scss from 'app/(Main)/workers/components/WorkersDocsTable/WorkersDocsTable.module.scss';
@@ -41,8 +43,15 @@ export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo, id }) => {
                         <div className={scss.column}>
                             <p className={scss.column_header}>Тип документа</p>
                             <div className={scss.worker_docs_td_docs}>
-                                {docs.map((el, index) => (
-                                    <span key={index}>{el.typeDocument}</span>
+                                {docs.map((doc, index) => (
+                                    <span
+                                        className={scss.docs_row_text}
+                                        key={index}
+                                    >
+                                        {getDocumentName(
+                                            doc.typeDocument as WorkerDocumentType
+                                        )}
+                                    </span>
                                 ))}
                             </div>
                         </div>
@@ -51,15 +60,12 @@ export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo, id }) => {
                         <div className={scss.column}>
                             <p className={scss.column_header}>Дата окончания</p>
                             <div className={scss.worker_docs_td_docs}>
-                                {docs.map((el, index) => (
-                                    <div key={index}>
-                                        <span style={{ borderBottom: 'none' }}>
-                                            {el.dateEnd}
-                                        </span>
-                                        <Button style="hollow" size="small">
-                                            Загрузить новый
-                                        </Button>
-                                    </div>
+                                {docs.map((doc, index) => (
+                                    <RowDocument
+                                        workerId={id}
+                                        key={index}
+                                        {...doc}
+                                    />
                                 ))}
                             </div>
                         </div>

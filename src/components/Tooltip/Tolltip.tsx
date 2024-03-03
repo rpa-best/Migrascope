@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import { AnimatePresence, motion, MotionValue, useSpring } from 'framer-motion';
 
@@ -11,7 +11,7 @@ import { TooltipProps } from 'components/Tooltip/types';
 
 import scss from './Tooltip.module.scss';
 
-export const Tooltip: React.FC<TooltipProps> = ({
+export const Tooltip: FC<TooltipProps> = ({
     RenderedComponent,
     children,
     needResize,

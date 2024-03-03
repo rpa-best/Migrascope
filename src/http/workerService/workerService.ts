@@ -103,9 +103,46 @@ export const createWorkerDocument: T.CreateWorkerDocument = async (
     return await $clientWorker.post(`${workerId}/document/`, formDataBody);
 };
 
+export const editWorkerDocument: T.EditWorkerDocument = async (
+    workerId,
+    documentId,
+    body
+) => {
+    const formDataBody = new FormData();
+    for (const [key, value] of Object.entries(body)) {
+        if (key === 'file_documents') {
+            value.map((img: File) => {
+                if (img) {
+                    formDataBody.append(key, img);
+                }
+            });
+
+            continue;
+        }
+        if (!value) {
+            continue;
+        }
+
+        formDataBody.append(key, value);
+    }
+    return await $clientWorker.patch(
+        `${workerId}/document/${documentId}/`,
+        formDataBody
+    );
+};
+
 export const deleteWorkerDocument: T.DeleteWorkerDocument = async (
     workerId,
     documentId
 ) => {
     return await $clientWorker.delete(`${workerId}/document/${documentId}`);
+};
+
+export const getWorkerDocumentFiles: T.GetWorkerDocumentFiles = async (
+    documentId
+) => {
+    const res: AxiosResponse<ReturnType<typeof getWorkerDocumentFiles>> =
+        await $clientWorker.get(`${documentId}/file-document`);
+
+    return res.data;
 };

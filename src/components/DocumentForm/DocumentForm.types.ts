@@ -4,7 +4,10 @@ import { RenderedComponentProps } from 'components/Tooltip/types';
 import { FormikHandlers } from 'formik';
 
 export interface DocumentFormProps extends RenderedComponentProps {
-    type: 'create' | 'edit';
+    type: 'create' | 'edit' | 'createNew';
+    documentType?: WorkerDocumentType;
+    documentId?: number;
+    workerId?: number;
     document?: WorkerDocuments;
 }
 
@@ -17,6 +20,11 @@ export type DocumentFormTouchedType = {
 };
 
 export type DocumentInputType = 'date' | 'input';
+
+export type SetDocumentFormInitialValues = (
+    type: WorkerDocumentType,
+    document?: WorkerDocuments
+) => DocumentFormValues;
 
 export interface DocumentFormValues
     extends Partial<

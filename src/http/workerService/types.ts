@@ -1,5 +1,5 @@
 import { Response } from 'http/types';
-import { WorkerDocumentType } from 'app/(Main)/workers/[id]/components/WorkerDocuments/components/DocumentForm/DocumentForm.types';
+import { WorkerDocumentType } from 'components/DocumentForm/DocumentForm.types';
 
 export interface Worker {
     id: number;
@@ -67,7 +67,7 @@ export interface OrganizationUser {
 
 export interface WorkerDocuments {
     id: number;
-    fileDocument: string;
+    fileDocument: string[];
     typeDocument: string;
     series: string;
     number: string;
@@ -110,12 +110,33 @@ export interface CreateWorkerDocumentBody {
     date_end: string;
 }
 
+export interface EditWorkerDocumentBody
+    extends Partial<CreateWorkerDocumentBody> {
+    archive?: boolean;
+}
+
 export type CreateWorkerDocument = (
     workerId: number,
     body: CreateWorkerDocumentBody
+) => Promise<void>;
+
+export type EditWorkerDocument = (
+    workerId: number,
+    documentId: number,
+    body: EditWorkerDocumentBody
 ) => Promise<void>;
 
 export type DeleteWorkerDocument = (
     workerId: number,
     documentId: number
 ) => Promise<void>;
+
+export interface WorkerDocumentFile {
+    id: number;
+    fileDocument: string;
+    documentId: number;
+}
+
+export type GetWorkerDocumentFiles = (
+    documentId: number
+) => Promise<Response<WorkerDocumentFile>>;
