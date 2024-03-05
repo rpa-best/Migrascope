@@ -138,5 +138,6 @@ export interface WorkerDocumentFile {
 }
 
 export type GetWorkerDocumentFiles = (
-    documentId: number
-) => Promise<Response<WorkerDocumentFile>>;
+    documentId: number,
+    format?: 'json' | 'zip'
+) => Promise<Response<WorkerDocumentFile> | Blob>;

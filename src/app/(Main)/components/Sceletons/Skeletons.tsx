@@ -24,3 +24,22 @@ export const TableSkeleton = () => {
         </div>
     );
 };
+
+export const WorkerProfileSkeleton = () => {
+    return (
+        <section className={scss.worker_page_section}>
+            <h2>Профиль сотрудника</h2>
+            <div className={scss.worker_page_section_content}>
+                <div className={scss.worker_layout}>
+                    <div className={scss.worker_header}>
+                        <h3 />
+                    </div>
+                    <div className={scss.worker_content}>
+                        <div />
+                        <div />
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};

@@ -65,8 +65,8 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
     }, [bigTabletBreak, fullHdBreak, index, tabletBreak, thousandTwoBreak]);
 
     const handleDownloadFiles = async () => {
-        const files = await getWorkerDocumentFiles(document.id);
-        saveAs(files.results[0].fileDocument, 'image.jpg');
+        const files = await getWorkerDocumentFiles(document.id, 'zip');
+        saveAs(files as Blob, 'Документы работника');
     };
 
     return (
@@ -97,18 +97,16 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
             </div>
             <div className={scss.document_card_content}>
                 {Object.entries(document).map(([key, value], index) => {
-                    if (keysToExclude.includes(key)) {
+                    if (keysToExclude.includes(key) || !value) {
                         return;
                     }
                     return (
-                        value && (
-                            <p key={index} style={{ marginBottom: '3px' }}>
-                                {getDocumentLabel(
-                                    key as RequiredDocumentFormValues
-                                )}
-                                : <span>{value}</span>
-                            </p>
-                        )
+                        <p key={index} style={{ marginBottom: '3px' }}>
+                            {getDocumentLabel(
+                                key as RequiredDocumentFormValues
+                            )}
+                            : <span>{value}</span>
+                        </p>
                     );
                 })}
             </div>

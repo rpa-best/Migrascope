@@ -9,6 +9,7 @@ import { DocumentRowProps } from 'app/(Main)/workers/components/WorkersDocsTable
 import { WorkerDocuments } from 'http/workerService/types';
 
 import scss from 'app/(Main)/workers/components/WorkersDocsTable/WorkersDocsTable.module.scss';
+import { getRemainingTime } from 'utils/getRemainingTime';
 
 export const RowDocument: FC<DocumentRowProps> = ({
     documentId,
@@ -40,6 +41,7 @@ export const RowDocument: FC<DocumentRowProps> = ({
                 style={{ borderBottom: 'none' }}
             >
                 {dateEnd}
+                {getRemainingTime(dateEnd)}
             </span>
             <Button
                 onClick={() => {
