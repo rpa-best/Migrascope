@@ -21,18 +21,23 @@ export const WorkerProfile = async ({
     const worker = await getWorkerSsr(orgId, workerId, access!);
 
     return (
-        <div className={scss.worker_layout}>
-            <div className={scss.worker_header}>
-                <h3>
-                    {worker.surname + ' '}
-                    {worker.name}
-                </h3>
-                <ProfileActions />
+        <section className={scss.worker_page_section}>
+            <h2>Профиль сотрудника</h2>
+            <div className={scss.worker_page_section_content}>
+                <div className={scss.worker_layout}>
+                    <div className={scss.worker_header}>
+                        <h3>
+                            {worker.surname + ' '}
+                            {worker.name}
+                        </h3>
+                        <ProfileActions />
+                    </div>
+                    <div className={scss.worker_content}>
+                        <WorkerPhoto id={worker.id} photo={worker.avatar} />
+                        <WorkerEditForm worker={worker} />
+                    </div>
+                </div>
             </div>
-            <div className={scss.worker_content}>
-                <WorkerPhoto id={worker.id} photo={worker.avatar} />
-                <WorkerEditForm worker={worker} />
-            </div>
-        </div>
+        </section>
     );
 };

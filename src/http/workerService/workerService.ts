@@ -139,10 +139,18 @@ export const deleteWorkerDocument: T.DeleteWorkerDocument = async (
 };
 
 export const getWorkerDocumentFiles: T.GetWorkerDocumentFiles = async (
-    documentId
+    documentId,
+    format = 'json'
 ) => {
+    const params = new URLSearchParams();
+
+    params.append('format', format);
+
     const res: AxiosResponse<ReturnType<typeof getWorkerDocumentFiles>> =
-        await $clientWorker.get(`${documentId}/file-document`);
+        await $clientWorker.get(`${documentId}/file-document`, {
+            params,
+            responseType: format === 'zip' ? 'blob' : 'json',
+        });
 
     return res.data;
 };

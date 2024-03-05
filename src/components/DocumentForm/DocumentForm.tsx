@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
 import { usePathname } from 'next/navigation';
 import { camelCase } from 'change-case';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 import { DropImage } from 'components/DropImage/DropImage';
 import { Button } from 'components/UI/Buttons/Button';
@@ -25,13 +27,13 @@ import revalidate from 'utils/revalidate';
 import { getWorkerDocumentFiles } from 'http/workerService/workerService';
 
 import { SelectDocumentList } from 'components/DocumentForm/data';
+import { errorToastOptions } from 'config/toastConfig';
 
+import { WorkerDocumentFile } from 'http/workerService/types';
+import { Response } from 'http/types';
 import * as T from 'components/DocumentForm/DocumentForm.types';
 
 import scss from './DocumentForm.module.scss';
-import { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
-import { errorToastOptions } from 'config/toastConfig';
 
 export const DocumentForm: FC<T.DocumentFormProps> = ({
     document,
@@ -55,7 +57,6 @@ export const DocumentForm: FC<T.DocumentFormProps> = ({
         touched,
         handleBlur,
         handleSubmit,
-        isValid,
         setValues,
         resetForm,
     } = useFormik<T.DocumentFormValues>({
@@ -134,9 +135,9 @@ export const DocumentForm: FC<T.DocumentFormProps> = ({
         if (type === 'edit' && visible) {
             handleChangeDocumentType(currentDocumentType!);
             getWorkerDocumentFiles(document?.id as number).then((files) => {
-                const imageUrls = files.results.map(
-                    (file) => file.fileDocument
-                );
+                const imageUrls = (
+                    files as Response<WorkerDocumentFile>
+                ).results.map((file) => file.fileDocument);
                 setFieldValue('images', imageUrls);
             });
         }
