@@ -1,0 +1,56 @@
+@import "scss/utils";
+@import "app/(Main)/workers/components/WorkerForm/WorkerForm.module.scss";
+
+.blank_form_wrapper {
+  @extend .addWorker_wrapper;
+  margin: 0;
+}
+
+.blank_form_title {
+  @extend .worker_form_title;
+  margin-bottom: 20px;
+}
+
+.services_input_wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  column-gap: 30px;
+
+  & > svg {
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    cursor: pointer;
+    transition: .2s all ease-in-out;
+    &:hover {
+      color: $error-color;
+    }
+  }
+  @include phoneOrTablet {
+    column-gap: 15px;
+  }
+  @include phone {
+    column-gap: 10px;
+  }
+}
+
+
+.input_title {
+  display: block;
+  @include InterSemiBold(12px);
+  letter-spacing: initial;
+  color: black;
+  margin-bottom: 5px;
+  @include bigtablet {
+    margin-bottom: 5px;
+    margin-top: 0;
+  }
+}
+
+.add_service_button {
+  width: max-content;
+  margin-left: auto;
+}

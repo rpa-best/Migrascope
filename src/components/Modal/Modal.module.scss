@@ -1,31 +1,28 @@
 @import "scss/utils";
 
 .modal_background {
-  position: fixed;
-  width: 100vw;
   height: 100vh;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  width: 100vw;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: transparentize(black, .6);
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(20px);
-  z-index: 1000;
 }
 
 .modal {
   width: max-content;
   position: relative;
-  background: white;
-  margin: 10px 0;
-  border-radius: 40px;
-  border: 1px solid transparentize(#414141, .9);
-  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.10);
-  @include phone {
-    width: calc(100%);
-    margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  & > div {
+    @extend .custom_scroll;
+    max-height: 100vh;
+    overflow-y: auto;
+    height: max-content;
+    margin: 0;
   }
 }
 

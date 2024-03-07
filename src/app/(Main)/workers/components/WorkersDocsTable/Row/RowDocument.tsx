@@ -10,6 +10,7 @@ import { WorkerDocuments } from 'http/workerService/types';
 
 import scss from 'app/(Main)/workers/components/WorkersDocsTable/WorkersDocsTable.module.scss';
 import { getRemainingTime } from 'utils/getRemainingTime';
+import { Modal } from 'components/Modal';
 
 export const RowDocument: FC<DocumentRowProps> = ({
     documentId,
@@ -19,20 +20,6 @@ export const RowDocument: FC<DocumentRowProps> = ({
 }) => {
     const [visible, setVisible] = useState(false);
     const opacity = useSpring(0);
-
-    useEffect(() => {
-        if (visible) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-    }, [visible]);
-
-    useEffect(() => {
-        if (!visible) {
-            opacity.set(0);
-        }
-    }, [opacity, visible]);
 
     return (
         <div>
@@ -53,31 +40,33 @@ export const RowDocument: FC<DocumentRowProps> = ({
             >
                 Загрузить новый
             </Button>
-            {visible &&
-                createPortal(
-                    <motion.div
-                        onClick={() => setVisible(false)}
-                        style={{
-                            opacity,
-                        }}
-                        className={scss.form_bg}
-                    >
-                        <DocumentForm
-                            document={
-                                {
-                                    id: documentId,
-                                    typeDocument: typeDocument,
-                                } as WorkerDocuments
-                            }
-                            workerId={workerId}
-                            type="createNew"
-                            opacity={opacity}
-                            visible={true}
-                            setVisible={setVisible}
-                        />
-                    </motion.div>,
-                    document.body
-                )}
+
+            <Modal visible={visible} setVisible={setVisible}>
+                <DocumentForm
+                    document={
+                        {
+                            id: documentId,
+                            typeDocument: typeDocument,
+                        } as WorkerDocuments
+                    }
+                    workerId={workerId}
+                    type="createNew"
+                    opacity={opacity}
+                    visible={true}
+                    setVisible={setVisible}
+                />
+            </Modal>
         </div>
     );
 };
+
+/*createPortal(
+    <motion.div
+        onClick={() => setVisible(false)}
+        style={{
+            opacity,
+        }}
+        className={scss.form_bg}
+    ></motion.div>,
+    document.body
+);*/

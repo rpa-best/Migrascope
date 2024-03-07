@@ -2,11 +2,12 @@
 
 import Image from 'next/image';
 
+import { BlanksItem } from 'app/(Main)/forms/components/Blanks/components/BlanksItem';
+
 import {
     blanksData,
     BlanksDescription,
 } from 'app/(Main)/forms/components/Blanks/consts';
-import { BlanksItem } from 'app/(Main)/forms/components/Blanks/BlanksItem';
 import { useBlankWorkerStore } from 'app/(Main)/forms/components/store/useBlankWorkerStore';
 
 import BlanksImage from '/public/images/blanks/Checklist.png';

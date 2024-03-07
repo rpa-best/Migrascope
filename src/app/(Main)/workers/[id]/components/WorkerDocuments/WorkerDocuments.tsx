@@ -8,8 +8,6 @@ import scss from './WorkerDocuments.module.scss';
 export const WorkerDocuments = async ({ workerId }: { workerId: number }) => {
     const documents = await getWorkerDocumentsSsr(workerId);
 
-    console.log(documents);
-
     return (
         <section className={scss.worker_page_section}>
             <h2>Документы сотрудника</h2>

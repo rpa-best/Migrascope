@@ -64,6 +64,11 @@
   padding: 21px 14px;
   border: 1px solid $border-color;
   border-radius: 12px;
+  transition: .2s all ease-in-out;
+  &:hover {
+    background-color: transparentize($neutral-light, .5);
+    cursor: pointer;
+  }
   @include bigtablet {
     padding: 16px 13px;
   }

@@ -12,9 +12,10 @@ import { useEditStore } from 'app/(Main)/workers/[id]/components/WorkerProfile/s
 import EditSvg from '/public/svg/edit.svg';
 
 import scss from 'app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss';
+import { useState } from 'react';
 
 export const WorkerPhoto = ({ id, photo }: { id: number; photo: string }) => {
-    const [setVisible] = useModalStore((state) => [state.setVisible]);
+    const [visible, setVisible] = useState(false);
     const [isEdit] = useEditStore((state) => [state.isEdit]);
 
     const handleChangeImg = async (avatar: File) => {
@@ -38,7 +39,7 @@ export const WorkerPhoto = ({ id, photo }: { id: number; photo: string }) => {
                     <EditSvg />
                 </div>
             )}
-            <Modal>
+            <Modal visible={visible} setVisible={setVisible}>
                 <ChangeImg
                     revalidateTag="server-worker"
                     callback={handleChangeImg}

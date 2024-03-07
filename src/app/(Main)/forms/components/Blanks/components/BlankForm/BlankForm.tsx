@@ -1,0 +1,108 @@
+import { BlankFormProps } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
+import React, { FC, useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+
+import { Button } from 'components/UI/Buttons/Button';
+import { BlankFormInput } from 'app/(Main)/forms/components/Blanks/components/BlankForm/components/BlankFormInput';
+import { ServicesInput } from 'app/(Main)/forms/components/Blanks/components/BlankForm/components/ServicesInput';
+
+import {
+    BlankFormValidate,
+    setBlankFormInitialValues,
+} from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.utils';
+import { useBlankWorkerStore } from 'app/(Main)/forms/components/store/useBlankWorkerStore';
+
+import * as T from './BlankForm.types';
+
+import scss from './BlankForm.module.scss';
+
+export const BlankForm: FC<BlankFormProps> = ({
+    blankType,
+    visible,
+    setVisible,
+}) => {
+    const [servicesCount, setServicesCount] = useState(1);
+    const [worker] = useBlankWorkerStore((state) => [state.worker]);
+
+    const [loading, setLoading] = useState(false);
+
+    const {
+        values,
+        setFieldValue,
+        handleChange,
+        errors,
+        touched,
+        handleBlur,
+        handleSubmit,
+        setValues,
+    } = useFormik<T.BlankFormValues>({
+        initialValues: setBlankFormInitialValues(blankType, {
+            workerId: worker.workerId as number,
+        }),
+        onSubmit: async (values) => {
+            console.log('test');
+        },
+        validate: BlankFormValidate,
+    });
+
+    useEffect(() => {
+        if (values.person?.slug === 'personProxy') {
+            setValues((prevState) => ({
+                ...prevState,
+                fullName: '',
+                series: '',
+                number: '',
+                issuedBy: '',
+                dateIssue: null,
+            }));
+        }
+        if (values.person?.slug === 'director') {
+            setValues((prevState) =>
+                setBlankFormInitialValues(blankType, prevState)
+            );
+        }
+    }, [blankType, setValues, values.person, worker.workerId]);
+
+    return (
+        <div
+            onClick={(e) => e.stopPropagation()}
+            className={scss.blank_form_wrapper}
+        >
+            <form onSubmit={handleSubmit}>
+                <h3 className={scss.blank_form_title}>
+                    Создание документа {`"${blankType}"`}
+                </h3>
+
+                {Object.entries(values).map(([key, value], index) => (
+                    <BlankFormInput
+                        values={values}
+                        name={key as T.RequiredBlankFormValues}
+                        value={value}
+                        handleBlur={handleBlur}
+                        handleChange={handleChange}
+                        setFieldValue={setFieldValue}
+                        touched={touched as T.BlankFormTouchedType}
+                        errors={errors as T.BlankFormErrorsType}
+                        key={index}
+                    />
+                ))}
+                {blankType === 'Договор возмездного оказания услуг (ГПХ)' && (
+                    <ServicesInput
+                        values={values}
+                        servicesCount={servicesCount}
+                        setServicesCount={setServicesCount}
+                        touched={touched}
+                        errors={errors}
+                        handleBlur={handleBlur}
+                        setFieldValue={setFieldValue}
+                    />
+                )}
+                <div className={scss.worker_form_button}>
+                    <Button loading={loading} type="submit">
+                        Сохранить
+                    </Button>
+                </div>
+            </form>
+        </div>
+    );
+};

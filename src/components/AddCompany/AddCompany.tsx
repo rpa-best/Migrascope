@@ -36,7 +36,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
     visible,
     setVisible,
 }) => {
-    const [adressesCount, setAdressesCount] = useState(1);
+    const [addressesCount, setAddressesCount] = useState(1);
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (values: AddCompanyValues) => {
@@ -115,7 +115,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
     useEffect(() => {
         if (!visible) {
             resetForm();
-            setAdressesCount(1);
+            setAddressesCount(1);
             values.actualAddress = [''];
         }
     }, [resetForm, visible]);
@@ -218,7 +218,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                     Фактический адрес<span>*</span>
                 </label>
                 <div className={scss.addresses_wrapper}>
-                    {Array.from({ length: adressesCount }).map((el, index) => (
+                    {Array.from({ length: addressesCount }).map((el, index) => (
                         <div className={scss.address_input_wrapper} key={index}>
                             <Input
                                 handleError={
@@ -253,7 +253,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                                                     0,
                                                     index
                                                 );
-                                            setAdressesCount((c) => c - 1);
+                                            setAddressesCount((c) => c - 1);
                                         }}
                                     />
                                 )}
@@ -262,8 +262,8 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                     <Button
                         style="hollowActive"
                         onClick={() => {
-                            values.actualAddress[adressesCount] = '';
-                            setAdressesCount((c) => c + 1);
+                            values.actualAddress[addressesCount] = '';
+                            setAddressesCount((c) => c + 1);
                         }}
                     >
                         Добавить фактический адресс
