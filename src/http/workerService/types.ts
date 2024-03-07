@@ -75,7 +75,7 @@ export interface WorkerDocuments {
     issuedWhom: string;
     territoryAction: string;
     dateEnd: string;
-    archive: true;
+    archive: boolean;
 }
 
 export type CreateWorker = (body: CreateWorkerBody) => Promise<void>;
@@ -96,7 +96,8 @@ export type GetUsers = (orgId: number) => Promise<Response<OrganizationUser>>;
 export type GetWorkers = (orgId: number) => Promise<Response<Worker>>;
 
 export type GetWorkerDocuments = (
-    workerId: number
+    workerId: number,
+    archive?: boolean
 ) => Promise<Response<WorkerDocuments>>;
 
 export interface CreateWorkerDocumentBody {

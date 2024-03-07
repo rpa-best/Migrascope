@@ -25,6 +25,9 @@ export const DocumentFormInput: FC<DocumentFormInputProps> = ({
     if (name === 'images') {
         return null;
     }
+    if (name === 'archive') {
+        return null;
+    }
     switch (getDocumentInputType(name)) {
         case 'input': {
             return (

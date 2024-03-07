@@ -1,23 +1,22 @@
+'use client';
+
 import Image from 'next/image';
 
-import { BlanksDescription } from 'app/(Main)/forms/components/Blanks/consts';
+import {
+    blanksData,
+    BlanksDescription,
+} from 'app/(Main)/forms/components/Blanks/consts';
+import { BlanksItem } from 'app/(Main)/forms/components/Blanks/BlanksItem';
+import { useBlankWorkerStore } from 'app/(Main)/forms/components/store/useBlankWorkerStore';
 
 import BlanksImage from '/public/images/blanks/Checklist.png';
 
 import scss from './Blanks.module.scss';
-import { BlanksItem } from 'app/(Main)/forms/components/Blanks/BlanksItem';
 
-const temporaryData = [
-    'Уведомление о заключении ТД',
-    'Уведомление о заключении ТД',
-    'Уведомление о заключении ТД',
-    'Уведомление о заключении ТД',
-];
+export const Blanks = () => {
+    const [worker] = useBlankWorkerStore((state) => [state.worker]);
 
-export const Blanks = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
-    return temporaryData.length === 0 ? (
+    return !worker.worker ? (
         <section className={scss.empty_blanks}>
             <div>
                 <h2 className={scss.blanks_title}>
@@ -43,7 +42,7 @@ export const Blanks = async () => {
         </section>
     ) : (
         <ul className={scss.blanks_list}>
-            {temporaryData.map((el, index) => (
+            {blanksData.map((el, index) => (
                 <BlanksItem name={el} key={index} />
             ))}
         </ul>

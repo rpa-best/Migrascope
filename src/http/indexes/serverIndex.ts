@@ -17,7 +17,12 @@ export const $serverWorker = axios.create({
     baseURL: process.env.NEXT_PUBLIC_WORKER_API_URL,
 });
 
-[$serverAccount, $serverOrganization, $serverWorker].forEach((instance) => {
-    instance.interceptors.request.use(async (req) => setServerBearer(req));
-    instance.interceptors.response.use((res) => toCamelCase(res));
+export const $serverBlank = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_BLANK_API_URL,
 });
+[$serverAccount, $serverOrganization, $serverWorker, $serverBlank].forEach(
+    (instance) => {
+        instance.interceptors.request.use(async (req) => setServerBearer(req));
+        instance.interceptors.response.use((res) => toCamelCase(res));
+    }
+);

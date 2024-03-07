@@ -24,6 +24,9 @@
 .blanks_title {
   @include InterBold(24px);
   margin-bottom: 14px;
+  @include laptopWidth {
+    font-size: 22px;
+  }
   @include bigtablet {
     font-size: 20px;
   }
@@ -39,8 +42,8 @@
 .blanks_description_item {
   @include InterRegular(16px);
   list-style-type: initial;
-  line-height: 27px; /* 168.75% */
-  @include bigtablet {
+  line-height: 27px;
+  @include laptopWidth {
     font-size: 15px;
   }
   @include phoneOrTablet {
