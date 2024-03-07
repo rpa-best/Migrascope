@@ -12,6 +12,7 @@ import { DropImage } from 'components/DropImage/DropImage';
 import { Button } from 'components/UI/Buttons/Button';
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
 import { DocumentFormInput } from 'components/DocumentForm/components/DocumentFormInput';
+import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';
 
 import {
     createFormSubmit,
@@ -110,7 +111,11 @@ export const DocumentForm: FC<T.DocumentFormProps> = ({
                 type !== 'createNew' ? document : undefined
             ) as T.DocumentFormValues;
             resetForm();
-            setValues(newFormValues);
+            if (type === 'edit') {
+                setValues({ ...newFormValues, archive: document?.archive });
+            } else {
+                setValues(newFormValues);
+            }
         },
         [document, resetForm, setValues, type]
     );
@@ -209,7 +214,7 @@ export const DocumentForm: FC<T.DocumentFormProps> = ({
                         Выберите тип документа<span>*</span>
                     </label>
                     <InputSelect
-                        disabled={type === 'createNew'}
+                        disabled={type !== 'create'}
                         autoComplete="off"
                         listValues={SelectDocumentList}
                         onChange={handleChangeDocumentType}
@@ -232,6 +237,21 @@ export const DocumentForm: FC<T.DocumentFormProps> = ({
                                 key={index}
                             />
                         ))}
+                        {type === 'edit' && (
+                            <div className={scss.document_form_archive}>
+                                <InputCheckbox
+                                    name="archive"
+                                    label="Архив"
+                                    value={values.archive as boolean}
+                                    onChange={() =>
+                                        setFieldValue(
+                                            'archive',
+                                            !values.archive
+                                        )
+                                    }
+                                />
+                            </div>
+                        )}
                         <div className={scss.worker_form_button}>
                             <Button loading={loading} type="submit">
                                 Сохранить

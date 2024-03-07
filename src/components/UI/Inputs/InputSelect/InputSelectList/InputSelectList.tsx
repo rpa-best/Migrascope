@@ -1,17 +1,12 @@
 import React from 'react';
 
-import { motion, MotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
+
+import { ListProps } from 'components/UI/Inputs/InputSelect/types';
 
 import Spinner from '/public/svg/spinner.svg';
 
 import scss from '../InputSelect.module.scss';
-
-interface ListProps {
-    list: { id: number; name: string }[];
-    handleSetData: (id: number) => void;
-    opacity: MotionValue<string>;
-    loading?: boolean;
-}
 
 export const InputSelectList: React.FC<ListProps> = ({
     list,
@@ -27,7 +22,11 @@ export const InputSelectList: React.FC<ListProps> = ({
             transition={{ duration: 1 }}
             className={scss.list_wrapper}
         >
-            {list.length !== 0 ? (
+            {loading ? (
+                <div className={scss.spinner_wrapper}>
+                    <Spinner className={scss.loading_spinner} />
+                </div>
+            ) : list.length !== 0 ? (
                 list?.map((item) => (
                     <li
                         className={scss.list_item}
@@ -37,10 +36,6 @@ export const InputSelectList: React.FC<ListProps> = ({
                         {item.name}
                     </li>
                 ))
-            ) : loading ? (
-                <div className={scss.spinner_wrapper}>
-                    <Spinner className={scss.loading_spinner} />
-                </div>
             ) : (
                 <li className={scss.list_empty}>Не найдено</li>
             )}

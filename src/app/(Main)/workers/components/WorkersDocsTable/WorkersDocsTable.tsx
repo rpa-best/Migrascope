@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 
 import { ColumnHeader } from 'app/(Main)/components/Table/ColumnHeader';
 import { Row } from 'app/(Main)/workers/components/WorkersDocsTable/Row';
@@ -14,6 +14,7 @@ export const WorkersDocsTable = memo(function MemoTable({
     paginationData,
     headers,
 }: WorkersTableProps) {
+    const [clickedId, setClickedId] = useState<number | null>(null);
     return (
         <>
             <div className={scss.worker_docs_table_wrapper}>
@@ -27,7 +28,14 @@ export const WorkersDocsTable = memo(function MemoTable({
                     </thead>
                     <tbody className={scss.table_body}>
                         {tableData?.map((item, index) => {
-                            return <Row key={index} {...item} />;
+                            return (
+                                <Row
+                                    clickedId={clickedId}
+                                    setClickedId={setClickedId}
+                                    key={index}
+                                    {...item}
+                                />
+                            );
                         })}
                     </tbody>
                 </table>

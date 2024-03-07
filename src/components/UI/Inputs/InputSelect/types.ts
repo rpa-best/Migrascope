@@ -1,14 +1,20 @@
 import { MotionValue } from 'framer-motion';
 import { IInputProps } from 'components/UI/Inputs/Input/types';
 
+export interface InputSelectListType {
+    id: number;
+    name: string;
+}
+
 export interface ListProps {
     list: { id: number; name: string }[];
-    handleSetData: (id: number, name: string) => void;
+    handleSetData: (id: number) => void;
     opacity: MotionValue<string>;
+    loading?: boolean;
 }
 
 export interface IInputSelectProps extends Omit<IInputProps, 'onChange'> {
-    listValues: { id: number; name: string }[];
+    listValues: InputSelectListType[];
     onChange: (item: any) => void;
     loading?: boolean;
     fetchable?: boolean;

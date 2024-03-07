@@ -11,14 +11,20 @@ import { WorkersDocsRowProps } from 'app/(Main)/workers/components/WorkersDocsTa
 
 import scss from 'app/(Main)/workers/components/WorkersDocsTable/WorkersDocsTable.module.scss';
 
-export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo, id }) => {
-    const [visible, setVisible] = useState(false);
+export const Row: React.FC<WorkersDocsRowProps> = ({
+    setClickedId,
+    clickedId,
+    docs,
+    userInfo,
+    id,
+}) => {
+    const isOpen = clickedId === id;
 
     return (
         <>
             <tr
-                data-isopen={visible}
-                onClick={() => setVisible(!visible)}
+                data-isopen={isOpen}
+                onClick={() => setClickedId(isOpen ? null : id)}
                 className={scss.worker_docs_table_row}
             >
                 <td>
@@ -37,7 +43,7 @@ export const Row: React.FC<WorkersDocsRowProps> = ({ docs, userInfo, id }) => {
                     </p>
                 </td>
             </tr>
-            {visible && (
+            {isOpen && (
                 <tr className={scss.docs_wrapper}>
                     <td>
                         <div className={scss.column}>

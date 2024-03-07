@@ -68,16 +68,30 @@ export const getWorkers: T.GetWorkers = async (orgId) => {
     return res.data;
 };
 
-export const getWorkerDocuments: T.GetWorkerDocuments = async (workerId) => {
+export const getWorkerDocuments: T.GetWorkerDocuments = async (
+    workerId,
+    archive = false
+) => {
+    const params = new URLSearchParams();
+
+    params.append('archive', String(archive));
+
     const res: AxiosResponse<ReturnType<typeof getWorkerDocuments>> =
-        await $clientWorker.get(`${workerId}/document/`);
+        await $clientWorker.get(`${workerId}/document/`, { params });
 
     return res.data;
 };
 
-export const getWorkerDocumentsSsr: T.GetWorkerDocuments = async (workerId) => {
+export const getWorkerDocumentsSsr: T.GetWorkerDocuments = async (
+    workerId,
+    archive = false
+) => {
+    const params = new URLSearchParams();
+
+    params.append('archive', String(archive));
+
     const res: AxiosResponse<ReturnType<typeof getWorkerDocuments>> =
-        await $serverWorker.get(`${workerId}/document/`);
+        await $serverWorker.get(`${workerId}/document/`, { params });
 
     return res.data;
 };

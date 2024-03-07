@@ -21,7 +21,10 @@ export interface WorkersTableProps extends Pick<TableProps, 'paginationData'> {
     headers: string[];
 }
 
-export interface WorkersDocsRowProps extends TemporaryDataType {}
+export interface WorkersDocsRowProps extends TemporaryDataType {
+    clickedId: number | null;
+    setClickedId: (v: number | null) => void;
+}
 
 export interface DocumentRowProps extends DocsType {
     workerId: number;

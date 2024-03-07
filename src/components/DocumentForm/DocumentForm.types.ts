@@ -56,7 +56,7 @@ export type WorkerDocumentType =
 
 export type RequiredDocumentFormValues = keyof Omit<
     DocumentFormValues,
-    'typeDocument' | 'archive'
+    'typeDocument'
 >;
 
 export interface SelectDocumentType {
