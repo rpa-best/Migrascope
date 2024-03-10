@@ -27,7 +27,7 @@ export const RowDocument: FC<DocumentRowProps> = ({
                 className={scss.docs_row_text}
                 style={{ borderBottom: 'none' }}
             >
-                {dateEnd}
+                {dateEnd ? new Date(dateEnd).toLocaleDateString() : ''}
                 {getRemainingTime(dateEnd)}
             </span>
             <Button
