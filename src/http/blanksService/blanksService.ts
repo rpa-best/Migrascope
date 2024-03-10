@@ -13,3 +13,22 @@ export const findWorker: T.FindWorker = async (name) => {
 
     return res.data;
 };
+
+export const sendCPPS: T.SendCPPS = async (body) => {
+    return await $clientBlank.post('contract-provision-paid-services/', body);
+};
+export const sendEmploymentContract: T.SendEmploymentContract = async (
+    body
+) => {
+    return await $clientBlank.post('employment-contract/', body);
+};
+export const sendNoticeConclusion: T.SendNoticeConclusion = async (body) => {
+    return await $clientBlank.post('notice-conclusion/', body);
+};
+export const sendPaymentOrder: T.SendPaymentOrder = async (body) => {
+    return await $clientBlank.post('payment-order/', body);
+};
+
+export const sendSuspensionOrder: T.SendSuspensionOrder = async (body) => {
+    return await $clientBlank.post('suspension-order/', body);
+};

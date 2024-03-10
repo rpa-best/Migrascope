@@ -29,6 +29,7 @@ export const InputSelectList: React.FC<ListProps> = ({
             ) : list.length !== 0 ? (
                 list?.map((item) => (
                     <li
+                        title={item.name}
                         className={scss.list_item}
                         onClick={() => handleSetData(item.id)}
                         key={item.id}

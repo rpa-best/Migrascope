@@ -1,12 +1,12 @@
 @import "scss/utils";
 
 .search_worker_wrapper {
-  width: 50%;
+  width: 60%;
   margin-bottom: 16px;
   @include thousandThreeWidth {
-    width: 70%;
+    width: 80%;
   }
-  @include phone {
+  @include phoneOrTablet {
     width: 100%;
   }
 }

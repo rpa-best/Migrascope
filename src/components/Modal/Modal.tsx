@@ -1,75 +1,66 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { ChangeEvent, MouseEventHandler, useEffect } from 'react';
+import { AnimatePresence, motion, useSpring } from 'framer-motion';
 import { toast } from 'react-toastify';
-
-import { useModalStore } from 'store/modalStore/modalVisibleStore';
 
 import ExitSvg from '/public/svg/x.svg';
 
 import scss from './Modal.module.scss';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
-    customVisible?: boolean;
-    setCustomVisible?: (v: boolean) => void;
+    visible: boolean;
+    setVisible: (v: boolean) => void;
     needOverflow?: boolean;
     children: React.ReactElement;
 }
 
 export const Modal: React.FC<ModalProps> = ({
-    customVisible,
-    setCustomVisible,
+    visible,
+    setVisible,
     children,
-    needOverflow = false,
 }) => {
-    const [visible] = useModalStore((state) => [state.visible]);
-    const [setVisible] = useModalStore((state) => [state.setVisible]);
-
-    const actualVisible = customVisible || visible;
-    const actualSetVisible = setCustomVisible ? setCustomVisible : setVisible;
+    const opacity = useSpring(0);
 
     useEffect(() => {
-        if (!needOverflow) {
-            if (actualVisible) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
+        if (visible) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
         }
-    }, [actualVisible, needOverflow]);
+    }, [visible]);
+
+    useEffect(() => {
+        if (!visible) {
+            opacity.set(0);
+        } else {
+            opacity.set(1);
+        }
+    }, [opacity, visible]);
+
+    const handleClose: MouseEventHandler<HTMLDivElement> = (e) => {
+        e.stopPropagation();
+        setVisible(false);
+        toast.dismiss();
+    };
 
     return (
-        <AnimatePresence>
-            {actualVisible && (
+        visible &&
+        createPortal(
+            <div onClick={handleClose} className={scss.modal_background}>
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onClick={() => {
-                        actualSetVisible(false);
-                        toast.dismiss();
-                    }}
-                    className={scss.modal_background}
+                    style={{ opacity }}
+                    initial={{ y: 100 }}
+                    animate={{ y: 0, transition: { bounce: 0 } }}
+                    className={scss.modal}
                 >
-                    <motion.div
-                        onClick={(e) => e.stopPropagation()}
-                        initial={{ opacity: 0, transform: 'translateY(25%)' }}
-                        animate={{ opacity: 1, transform: 'translateY(0)' }}
-                        exit={{ opacity: 0, transform: 'translateY(25%)' }}
-                        className={scss.modal}
-                    >
-                        <ExitSvg
-                            onClick={() => {
-                                actualSetVisible(false);
-                                toast.dismiss();
-                            }}
-                            className={scss.exit_svg}
-                        />
-                        {children}
-                    </motion.div>
+                    <ExitSvg onClick={handleClose} className={scss.exit_svg} />
+                    {children}
                 </motion.div>
-            )}
-        </AnimatePresence>
+                {/*<div className={scss.overlay} /> - проверить, навесить стили от модал_бекграунд*/}
+            </div>,
+            document.body
+        )
     );
 };

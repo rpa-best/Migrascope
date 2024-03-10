@@ -7,6 +7,9 @@
   padding: 16px 23px;
   border-radius: 12px;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
   @include phone {
     width: 325px;
   }

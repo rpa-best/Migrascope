@@ -1,9 +1,8 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { useUserStore } from 'store/userStore/userStore';
-import { useModalStore } from 'store/modalStore/modalVisibleStore';
 
 import { Modal } from 'components/Modal';
 import { ChangeImg } from 'components/ChangeImg';
@@ -22,7 +21,7 @@ export const ProfileAvatarWrapper = ({
     color: string;
     userData: UserType;
 }) => {
-    const [setVisible] = useModalStore((state) => [state.setVisible]);
+    const [visible, setVisible] = useState(false);
     const [user] = useUserStore((state) => [state.user]);
     const [setUser] = useUserStore((state) => [state.setUser]);
 
@@ -60,7 +59,7 @@ export const ProfileAvatarWrapper = ({
             >
                 <EditSvg className={scss.profile_edit_svg} />
             </button>
-            <Modal>
+            <Modal visible={visible} setVisible={setVisible}>
                 <ChangeImg
                     revalidateTag="server-user"
                     setUserImg={(avatar) =>

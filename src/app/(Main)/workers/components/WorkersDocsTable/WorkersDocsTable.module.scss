@@ -155,7 +155,7 @@
 
   & > div {
     margin: 0;
-    /*background-color: transparent;
+    background-color: transparent;
     & > form {
       background-color: white;
       margin-top: 120px;
@@ -164,6 +164,6 @@
       @include phoneOrTablet {
         margin-top: 200px;
       }
-    }*/
+    }
   }
 }
