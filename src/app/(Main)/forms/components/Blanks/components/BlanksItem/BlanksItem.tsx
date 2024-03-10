@@ -6,7 +6,6 @@ import { BlankForm } from 'app/(Main)/forms/components/Blanks/components/BlankFo
 import { Modal } from 'components/Modal';
 
 import { BlankItemProps } from 'app/(Main)/forms/components/Blanks/types';
-import { BlankType } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 
 import NotificationSvg from '/public/svg/notifications.svg';
 

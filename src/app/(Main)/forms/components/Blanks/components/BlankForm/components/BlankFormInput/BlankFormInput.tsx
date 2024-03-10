@@ -14,9 +14,11 @@ import {
 import { BlankFormInputProps } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 
 import scss from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.module.scss';
+import { InputMask } from 'components/UI/Inputs/InputMask';
+
+const namesToExclude = ['services', 'workerId', 'checked'];
 
 export const BlankFormInput: FC<BlankFormInputProps> = ({
-    values,
     handleBlur,
     handleChange,
     errors,
@@ -25,11 +27,7 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
     touched,
     name,
 }) => {
-    if (name === 'workerId') {
-        return;
-    }
-
-    if (name === 'services') {
+    if (namesToExclude.includes(name)) {
         return;
     }
 
@@ -74,6 +72,20 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
                             (value as unknown as { name: string })?.name ?? ''
                         }
                         name={name}
+                    />
+                );
+            case 'mask':
+                return (
+                    <InputMask
+                        name={name}
+                        required
+                        placeholder={getBlankPlaceholder(name)}
+                        handleError={touched[name] && errors[name]}
+                        value={value as string}
+                        alwaysShowMask={true}
+                        mask="99:99:99"
+                        onBlur={handleBlur}
+                        onChange={(value: string) => setFieldValue(name, value)}
                     />
                 );
         }

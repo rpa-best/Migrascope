@@ -101,7 +101,7 @@ export const TranslatedBlankFormLabels: BlankTranslatedLabelsType[] = [
         placeholder: 'номер',
     },
     {
-        slug: 'numberMonth',
+        slug: 'numberMonths',
         name: 'Кол-во месяцев',
         placeholder: 'кол-во месяцев',
     },

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, MouseEventHandler, useEffect } from 'react';
 import { AnimatePresence, motion, useSpring } from 'framer-motion';
 import { toast } from 'react-toastify';
 
@@ -39,7 +39,8 @@ export const Modal: React.FC<ModalProps> = ({
         }
     }, [opacity, visible]);
 
-    const handleClose = () => {
+    const handleClose: MouseEventHandler<HTMLDivElement> = (e) => {
+        e.stopPropagation();
         setVisible(false);
         toast.dismiss();
     };
@@ -47,9 +48,8 @@ export const Modal: React.FC<ModalProps> = ({
     return (
         visible &&
         createPortal(
-            <motion.div onClick={handleClose} className={scss.modal_background}>
+            <div onClick={handleClose} className={scss.modal_background}>
                 <motion.div
-                    onClick={(e) => e.stopPropagation()}
                     style={{ opacity }}
                     initial={{ y: 100 }}
                     animate={{ y: 0, transition: { bounce: 0 } }}
@@ -58,8 +58,9 @@ export const Modal: React.FC<ModalProps> = ({
                     <ExitSvg onClick={handleClose} className={scss.exit_svg} />
                     {children}
                 </motion.div>
-            </motion.div>,
-            window.document.body
+                {/*<div className={scss.overlay} /> - проверить, навесить стили от модал_бекграунд*/}
+            </div>,
+            document.body
         )
     );
 };

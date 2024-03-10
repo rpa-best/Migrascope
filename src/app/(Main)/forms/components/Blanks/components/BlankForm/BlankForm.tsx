@@ -5,10 +5,12 @@ import { useFormik } from 'formik';
 import { Button } from 'components/UI/Buttons/Button';
 import { BlankFormInput } from 'app/(Main)/forms/components/Blanks/components/BlankForm/components/BlankFormInput';
 import { ServicesInput } from 'app/(Main)/forms/components/Blanks/components/BlankForm/components/ServicesInput';
+import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';
 
 import {
     BlankFormValidate,
     setBlankFormInitialValues,
+    submitFormByType,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.utils';
 import { useBlankWorkerStore } from 'app/(Main)/forms/components/store/useBlankWorkerStore';
 
@@ -34,13 +36,21 @@ export const BlankForm: FC<BlankFormProps> = ({
         touched,
         handleBlur,
         handleSubmit,
+        setFieldTouched,
         setValues,
     } = useFormik<T.BlankFormValues>({
         initialValues: setBlankFormInitialValues(blankType, {
             workerId: worker.workerId as number,
         }),
         onSubmit: async (values) => {
-            console.log('test');
+            try {
+                setLoading(true);
+                await submitFormByType(blankType, values);
+            } catch (e) {
+                console.log(e);
+            } finally {
+                setLoading(false);
+            }
         },
         validate: BlankFormValidate,
     });
@@ -56,12 +66,33 @@ export const BlankForm: FC<BlankFormProps> = ({
                 dateIssue: null,
             }));
         }
+
         if (values.person?.slug === 'director') {
             setValues((prevState) =>
                 setBlankFormInitialValues(blankType, prevState)
             );
         }
-    }, [blankType, setValues, values.person, worker.workerId]);
+
+        if (values.contractType?.slug === 'perpetual') {
+            setValues((prevState) => ({
+                ...prevState,
+                endDateUrgent: null,
+                cause: '',
+            }));
+        }
+
+        if (values.contractType?.slug === 'urgent') {
+            setValues((prevState) =>
+                setBlankFormInitialValues(blankType, prevState)
+            );
+        }
+    }, [
+        blankType,
+        setValues,
+        values.contractType?.slug,
+        values.person,
+        worker.workerId,
+    ]);
 
     return (
         <div
@@ -69,13 +100,12 @@ export const BlankForm: FC<BlankFormProps> = ({
             className={scss.blank_form_wrapper}
         >
             <form onSubmit={handleSubmit}>
-                <h3 className={scss.blank_form_title}>
-                    Создание документа {`"${blankType}"`}
-                </h3>
-
+                <h3 className={scss.blank_form_title}>{blankType}</h3>
+                <h4 className={scss.blank_form_subtitle}>
+                    Заполните недостающие поля, чтобы они отобразились в бланке
+                </h4>
                 {Object.entries(values).map(([key, value], index) => (
                     <BlankFormInput
-                        values={values}
                         name={key as T.RequiredBlankFormValues}
                         value={value}
                         handleBlur={handleBlur}
@@ -97,6 +127,28 @@ export const BlankForm: FC<BlankFormProps> = ({
                         setFieldValue={setFieldValue}
                     />
                 )}
+                <div className={scss.check_consent}>
+                    <h5>
+                        Пожалуйста, перепроверьте все данные перед подачей в
+                        гос. органы.
+                    </h5>
+                    <p>
+                        Система не проверяет корректность данных, а только
+                        переносит их в бланк из заполненных полей.
+                    </p>
+                </div>
+                <div className={scss.blank_form_checked}>
+                    <InputCheckbox
+                        name="checked"
+                        label="Я всё проверил и даю согласие на обработку персональных данных"
+                        value={values.checked as boolean}
+                        onChange={() => {
+                            setFieldTouched('checked', true);
+                            setFieldValue('checked', !values.checked);
+                        }}
+                    />
+                    <span>{touched.checked && errors.checked}</span>
+                </div>
                 <div className={scss.worker_form_button}>
                     <Button loading={loading} type="submit">
                         Сохранить

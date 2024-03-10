@@ -11,6 +11,11 @@
   margin-bottom: 20px;
 }
 
+.blank_form_subtitle {
+  @include InterRegular(12px);
+  margin-bottom: 20px;
+}
+
 .services_input_wrapper {
   position: relative;
   width: 100%;
@@ -53,4 +58,27 @@
 .add_service_button {
   width: max-content;
   margin-left: auto;
+}
+
+.check_consent {
+  padding: 15px 20px;
+  background-color: $neutral-light;
+  border-radius: 10px;
+  line-height: 21px;
+  margin: 5px 0;
+  & h5 {
+    @include InterSemiBold(13px);
+    color: black;
+  }
+  & p {
+    @include InterRegular(13px);
+  }
+}
+
+.blank_form_checked {
+  height: 50px;
+  & > span {
+    @include InterRegular(12px);
+    color: $error-color;
+  }
 }

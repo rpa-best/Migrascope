@@ -1,3 +1,15 @@
+import { camelToSnakeCaseDeep } from 'utils/camelToSnakeCaseDeep';
+import { isObject } from 'utils/isObject';
+import { formatDate } from 'utils/formatDate';
+import {
+    sendCPPS,
+    sendEmploymentContract,
+    sendNoticeConclusion,
+    sendPaymentOrder,
+    sendSuspensionOrder,
+} from 'http/blanksService/blanksService';
+import { snakeCase } from 'change-case';
+
 import {
     BaseListValues,
     ContractTypeListValues,
@@ -6,7 +18,10 @@ import {
     TranslatedBlankFormLabels,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/Blanks.consts';
 
-import { BlankFormValues } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
+import {
+    BlankFormValues,
+    BlankType,
+} from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 import * as T from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 
 export const BlankFormValidate = (values: T.BlankFormValues) => {
@@ -24,6 +39,59 @@ export const BlankFormValidate = (values: T.BlankFormValues) => {
     return errors;
 };
 
+export const submitFormByType = async (
+    type: BlankType,
+    values: BlankFormValues
+) => {
+    const modifiedValues = Object.fromEntries(
+        Object.entries(values)
+            .map(([key, value]) => {
+                if (isObject(value)) {
+                    return [
+                        key,
+                        /^[A-Z]+$/.test(value.slug)
+                            ? value.slug
+                            : snakeCase(value.slug),
+                    ];
+                }
+                if (value instanceof Date) {
+                    return [key, formatDate(value)];
+                }
+                return [key, value];
+            })
+            .filter((entry) => entry[0] !== 'checked')
+    );
+    camelToSnakeCaseDeep(modifiedValues);
+
+    switch (type) {
+        case 'Договор возмездного оказания услуг (ГПХ)':
+            return sendCPPS(modifiedValues as Parameters<typeof sendCPPS>[0]);
+        case 'Трудовой договор':
+            return sendEmploymentContract(
+                modifiedValues as Parameters<typeof sendEmploymentContract>[0]
+            );
+        case 'Уведомление о заключении':
+            return sendNoticeConclusion(
+                modifiedValues as Parameters<typeof sendNoticeConclusion>[0]
+            );
+        case 'Платежное поручение':
+            return sendPaymentOrder(
+                modifiedValues as Parameters<typeof sendPaymentOrder>[0]
+            );
+        case 'Приказ об отстранении':
+            return sendSuspensionOrder(
+                modifiedValues as Parameters<typeof sendSuspensionOrder>[0]
+            );
+    }
+};
+
+export const setBlankFormDefaultValues = (
+    values: BlankFormValues
+): BlankFormValues => ({
+    workerId: values.workerId,
+    checked: values.checked,
+});
+
 export const setBlankFormInitialValues: T.SetBlankFormInitialValues = (
     type,
     initialValues
@@ -31,7 +99,7 @@ export const setBlankFormInitialValues: T.SetBlankFormInitialValues = (
     switch (type) {
         case 'Договор возмездного оказания услуг (ГПХ)':
             return {
-                workerId: initialValues.workerId,
+                ...setBlankFormDefaultValues(initialValues),
                 number: '',
                 startDate: null,
                 endDate: null,
@@ -40,19 +108,18 @@ export const setBlankFormInitialValues: T.SetBlankFormInitialValues = (
             };
         case 'Трудовой договор':
             return {
-                workerId: initialValues.workerId,
-                position: '',
-                salary: '',
-                contractType: null,
-                startDate: null,
-                endDateUrgent: null,
-                startTime: null,
-                endTime: null,
-                cause: '',
+                ...setBlankFormDefaultValues(initialValues),
+                number: initialValues.number,
+                position: initialValues.position,
+                salary: initialValues.salary,
+                contractType: initialValues.contractType,
+                startDate: initialValues.startDate,
+                startTime: initialValues.startTime,
+                endTime: initialValues.endTime,
             };
         case 'Уведомление о заключении':
             return {
-                workerId: initialValues.workerId,
+                ...setBlankFormDefaultValues(initialValues),
                 nameTerritorialBody: initialValues.nameTerritorialBody,
                 position: initialValues.position,
                 base: initialValues.base,
@@ -62,12 +129,12 @@ export const setBlankFormInitialValues: T.SetBlankFormInitialValues = (
             };
         case 'Платежное поручение':
             return {
-                workerId: initialValues.workerId,
-                numberMonth: '',
+                ...setBlankFormDefaultValues(initialValues),
+                numberMonths: '',
             };
         case 'Приказ об отстранении':
             return {
-                workerId: initialValues.workerId,
+                ...setBlankFormDefaultValues(initialValues),
                 number: '',
                 startDate: null,
                 reasonSuspension: null,
@@ -76,7 +143,7 @@ export const setBlankFormInitialValues: T.SetBlankFormInitialValues = (
             };
         case 'Уведомление о прекращении':
             return {
-                workerId: initialValues.workerId,
+                ...setBlankFormDefaultValues(initialValues),
             };
     }
 };
@@ -90,17 +157,13 @@ export const getBlankInputType = (
     if (CasesWithSelect.includes(name)) {
         return 'select';
     }
+    if (name === 'startTime' || name === 'endTime') {
+        return 'mask';
+    }
     return 'input';
 };
 
-const CasesWithDate = [
-    'startDate',
-    'endDate',
-    'startTime',
-    'endTime',
-    'dateIssue',
-    'endDateUrgent',
-];
+const CasesWithDate = ['startDate', 'endDate', 'dateIssue', 'endDateUrgent'];
 
 const CasesWithSelect = ['person', 'contractType', 'base', 'reasonSuspension'];
 

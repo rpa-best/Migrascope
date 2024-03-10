@@ -72,9 +72,10 @@ export interface BlankFormValues {
     base?: BaseType | null;
     fullName?: string;
     series?: string;
+    checked?: boolean;
     person?: PersonType | null;
     issuedBy?: string;
-    numberMonth?: '';
+    numberMonths?: '';
     reasonSuspension?: ReasonSuspensionType | null;
     firstManagerId?: '';
     secondManagerId?: '';
@@ -90,7 +91,7 @@ export type BlankFormTouchedType = {
 
 export type RequiredBlankFormValues = keyof BlankFormValues;
 
-export type BlankInputType = 'date' | 'input' | 'select';
+export type BlankInputType = 'date' | 'input' | 'select' | 'mask';
 
 export interface BlankTranslatedLabelsType {
     placeholder: string;
@@ -109,7 +110,6 @@ export interface ServicesInputProps {
 }
 
 export interface BlankFormInputProps {
-    values: BlankFormValues;
     name: RequiredBlankFormValues;
     value: string | Date;
     setFieldValue: (field: string, value: any) => void;
