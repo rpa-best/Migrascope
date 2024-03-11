@@ -21,6 +21,7 @@ import { AxiosError } from 'axios';
 import * as T from './BlankForm.types';
 
 import scss from './BlankForm.module.scss';
+import { readBlobAsJson } from 'utils/readBlobAsJson';
 
 export const BlankForm: FC<BlankFormProps> = ({
     blankType,
@@ -51,8 +52,9 @@ export const BlankForm: FC<BlankFormProps> = ({
                 setLoading(true);
                 const document = await submitFormByType(blankType, values);
                 saveAs(document as Blob, blankType);
+                setVisible(false);
             } catch (e) {
-                handleBlankFormErrors(e, errors);
+                await handleBlankFormErrors(e, errors);
             } finally {
                 setLoading(false);
             }
