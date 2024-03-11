@@ -48,6 +48,7 @@ export const handleBlankFormErrors = (
 ) => {
     if (e instanceof AxiosError) {
         const response = e.response?.data;
+        console.log(response);
         toast(response.error, {
             theme: 'colored',
             autoClose: 8000,
