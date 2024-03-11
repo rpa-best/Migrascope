@@ -17,7 +17,7 @@ export const findWorker: T.FindWorker = async (name) => {
 export const sendCPPS: T.SendCPPS = async (body) => {
     const res: AxiosResponse<ReturnType<typeof sendCPPS>> =
         await $clientBlank.post('contract-provision-paid-services/', body, {
-            responseType: 'json',
+            responseType: 'blob',
         });
 
     return res.data;
@@ -27,7 +27,7 @@ export const sendEmploymentContract: T.SendEmploymentContract = async (
 ) => {
     const res: AxiosResponse<ReturnType<typeof sendEmploymentContract>> =
         await $clientBlank.post('employment-contract/', body, {
-            responseType: 'json',
+            responseType: 'blob',
         });
 
     return res.data;
@@ -35,7 +35,7 @@ export const sendEmploymentContract: T.SendEmploymentContract = async (
 export const sendNoticeConclusion: T.SendNoticeConclusion = async (body) => {
     const res: AxiosResponse<ReturnType<typeof sendNoticeConclusion>> =
         await $clientBlank.post('notice-conclusion/', body, {
-            responseType: 'json',
+            responseType: 'blob',
         });
 
     return res.data;
@@ -43,7 +43,7 @@ export const sendNoticeConclusion: T.SendNoticeConclusion = async (body) => {
 export const sendPaymentOrder: T.SendPaymentOrder = async (body) => {
     const res: AxiosResponse<ReturnType<typeof sendPaymentOrder>> =
         await $clientBlank.post('payment-order/', body, {
-            responseType: 'json',
+            responseType: 'blob',
         });
 
     return res.data;
@@ -52,7 +52,7 @@ export const sendPaymentOrder: T.SendPaymentOrder = async (body) => {
 export const sendSuspensionOrder: T.SendSuspensionOrder = async (body) => {
     const res: AxiosResponse<ReturnType<typeof sendSuspensionOrder>> =
         await $clientBlank.post('suspension-order/', body, {
-            responseType: 'json',
+            responseType: 'blob',
         });
     return res.data;
 };

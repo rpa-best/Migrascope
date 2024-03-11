@@ -2,7 +2,6 @@ import { BlankFormProps } from 'app/(Main)/forms/components/Blanks/components/Bl
 import React, { FC, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { saveAs } from 'file-saver';
-import { toast } from 'react-toastify';
 
 import { Button } from 'components/UI/Buttons/Button';
 import { BlankFormInput } from 'app/(Main)/forms/components/Blanks/components/BlankForm/components/BlankFormInput';
@@ -17,7 +16,6 @@ import {
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.utils';
 import { useBlankWorkerStore } from 'app/(Main)/forms/components/store/useBlankWorkerStore';
 
-import { AxiosError } from 'axios';
 import * as T from './BlankForm.types';
 
 import scss from './BlankForm.module.scss';
@@ -51,8 +49,9 @@ export const BlankForm: FC<BlankFormProps> = ({
                 setLoading(true);
                 const document = await submitFormByType(blankType, values);
                 saveAs(document as Blob, blankType);
+                setVisible(false);
             } catch (e) {
-                handleBlankFormErrors(e, errors);
+                await handleBlankFormErrors(e, errors);
             } finally {
                 setLoading(false);
             }

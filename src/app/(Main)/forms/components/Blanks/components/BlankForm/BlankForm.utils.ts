@@ -18,14 +18,15 @@ import {
     TranslatedBlankFormLabels,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/Blanks.consts';
 
+import * as T from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 import {
     BlankFormErrorsType,
     BlankFormValues,
     BlankType,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
-import * as T from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
+import { readBlobAsJson } from 'utils/readBlobAsJson';
 
 export const BlankFormValidate = (values: T.BlankFormValues) => {
     const errors: T.BlankFormErrorsType = {};
@@ -42,13 +43,13 @@ export const BlankFormValidate = (values: T.BlankFormValues) => {
     return errors;
 };
 
-export const handleBlankFormErrors = (
+export const handleBlankFormErrors = async (
     e: unknown,
     errors: BlankFormErrorsType
 ) => {
     if (e instanceof AxiosError) {
-        const response = e.response?.data;
-        console.log(response);
+        const response = await readBlobAsJson(e.response?.data);
+
         toast(response.error, {
             theme: 'colored',
             autoClose: 8000,
@@ -59,7 +60,13 @@ export const handleBlankFormErrors = (
             errors.firstManagerId = response.first_manager_id;
         }
         if (response.second_manager_id) {
-            errors.secondManagerId = response.secondManagerId;
+            errors.secondManagerId = response.second_manager_id;
+        }
+        if (response.start_time) {
+            errors.startTime = 'Неправильный формат времени';
+        }
+        if (response.end_time) {
+            errors.endTime = 'Неправильный формат времени';
         }
     }
 };
