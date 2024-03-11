@@ -1,18 +1,19 @@
 'use client';
 
 import Image from 'next/image';
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import { ChangeImg } from 'components/ChangeImg';
-import { Modal } from 'components/Modal';
 
 import { updateWorker } from 'http/workerService/workerService';
-import { useModalStore } from 'store/modalStore/modalVisibleStore';
 import { useEditStore } from 'app/(Main)/workers/[id]/components/WorkerProfile/store/isEditStore';
 
 import EditSvg from '/public/svg/edit.svg';
 
 import scss from 'app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss';
-import { useState } from 'react';
+
+const Modal = dynamic(() => import('components/Modal'));
 
 export const WorkerPhoto = ({ id, photo }: { id: number; photo: string }) => {
     const [visible, setVisible] = useState(false);

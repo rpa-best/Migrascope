@@ -1,16 +1,18 @@
-import React, { FC, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { FC, useState } from 'react';
+import dynamic from 'next/dynamic';
+
 import { useSpring } from 'framer-motion';
 
 import { Button } from 'components/UI/Buttons/Button';
 import { DocumentForm } from 'components/DocumentForm';
-import { createPortal } from 'react-dom';
+import { getRemainingTime } from 'utils/getRemainingTime';
+
 import { DocumentRowProps } from 'app/(Main)/workers/components/WorkersDocsTable/types';
 import { WorkerDocuments } from 'http/workerService/types';
 
 import scss from 'app/(Main)/workers/components/WorkersDocsTable/WorkersDocsTable.module.scss';
-import { getRemainingTime } from 'utils/getRemainingTime';
-import { Modal } from 'components/Modal';
+
+const Modal = dynamic(() => import('components/Modal'));
 
 export const RowDocument: FC<DocumentRowProps> = ({
     documentId,

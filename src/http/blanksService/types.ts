@@ -20,7 +20,7 @@ export interface SendCPPSBody {
     ];
 }
 
-export type SendCPPS = (body: SendCPPSBody) => Promise<void>;
+export type SendCPPS = (body: SendCPPSBody) => Promise<Blob>;
 
 export interface SendEmploymentContractBody {
     worker_id: string;
@@ -37,7 +37,7 @@ export interface SendEmploymentContractBody {
 
 export type SendEmploymentContract = (
     body: SendEmploymentContractBody
-) => Promise<void>;
+) => Promise<Blob>;
 
 export interface SendNoticeConclusionBody {
     worker_id: string;
@@ -56,14 +56,14 @@ export interface SendNoticeConclusionBody {
 
 export type SendNoticeConclusion = (
     body: SendNoticeConclusionBody
-) => Promise<void>;
+) => Promise<Blob>;
 
 export interface SendPaymentOrderBody {
     worker_id: string;
     number_months: string;
 }
 
-export type SendPaymentOrder = (body: SendPaymentOrderBody) => Promise<void>;
+export type SendPaymentOrder = (body: SendPaymentOrderBody) => Promise<Blob>;
 
 export interface SendSuspensionOrderBody {
     worker_id: string;
@@ -76,4 +76,4 @@ export interface SendSuspensionOrderBody {
 
 export type SendSuspensionOrder = (
     body: SendSuspensionOrderBody
-) => Promise<void>;
+) => Promise<Blob>;

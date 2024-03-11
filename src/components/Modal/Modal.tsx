@@ -1,13 +1,13 @@
 'use client';
 
-import React, { ChangeEvent, MouseEventHandler, useEffect } from 'react';
-import { AnimatePresence, motion, useSpring } from 'framer-motion';
+import React, { MouseEventHandler, useEffect } from 'react';
+import { motion, useSpring } from 'framer-motion';
 import { toast } from 'react-toastify';
+import { createPortal } from 'react-dom';
 
 import ExitSvg from '/public/svg/x.svg';
 
 import scss from './Modal.module.scss';
-import { createPortal } from 'react-dom';
 
 interface ModalProps {
     visible: boolean;
