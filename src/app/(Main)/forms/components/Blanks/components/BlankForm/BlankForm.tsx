@@ -71,14 +71,7 @@ export const BlankForm: FC<BlankFormProps> = ({
                 dateIssue: null,
             }));
         }
-
-        if (values.person?.slug === 'director') {
-            setValues((prevState) =>
-                setBlankFormInitialValues(blankType, prevState)
-            );
-        }
-
-        if (values.contractType?.slug === 'perpetual') {
+        if (values.contractType?.slug === 'urgent') {
             setValues((prevState) => ({
                 ...prevState,
                 endDateUrgent: null,
@@ -86,7 +79,10 @@ export const BlankForm: FC<BlankFormProps> = ({
             }));
         }
 
-        if (values.contractType?.slug === 'urgent') {
+        if (
+            values.person?.slug === 'director' ||
+            values.contractType?.slug === 'perpetual'
+        ) {
             setValues((prevState) =>
                 setBlankFormInitialValues(blankType, prevState)
             );
