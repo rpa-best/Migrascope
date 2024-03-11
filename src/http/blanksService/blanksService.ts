@@ -15,20 +15,44 @@ export const findWorker: T.FindWorker = async (name) => {
 };
 
 export const sendCPPS: T.SendCPPS = async (body) => {
-    return await $clientBlank.post('contract-provision-paid-services/', body);
+    const res: AxiosResponse<ReturnType<typeof sendCPPS>> =
+        await $clientBlank.post('contract-provision-paid-services/', body, {
+            responseType: 'blob',
+        });
+
+    return res.data;
 };
 export const sendEmploymentContract: T.SendEmploymentContract = async (
     body
 ) => {
-    return await $clientBlank.post('employment-contract/', body);
+    const res: AxiosResponse<ReturnType<typeof sendEmploymentContract>> =
+        await $clientBlank.post('employment-contract/', body, {
+            responseType: 'blob',
+        });
+
+    return res.data;
 };
 export const sendNoticeConclusion: T.SendNoticeConclusion = async (body) => {
-    return await $clientBlank.post('notice-conclusion/', body);
+    const res: AxiosResponse<ReturnType<typeof sendNoticeConclusion>> =
+        await $clientBlank.post('notice-conclusion/', body, {
+            responseType: 'blob',
+        });
+
+    return res.data;
 };
 export const sendPaymentOrder: T.SendPaymentOrder = async (body) => {
-    return await $clientBlank.post('payment-order/', body);
+    const res: AxiosResponse<ReturnType<typeof sendPaymentOrder>> =
+        await $clientBlank.post('payment-order/', body, {
+            responseType: 'blob',
+        });
+
+    return res.data;
 };
 
 export const sendSuspensionOrder: T.SendSuspensionOrder = async (body) => {
-    return await $clientBlank.post('suspension-order/', body);
+    const res: AxiosResponse<ReturnType<typeof sendSuspensionOrder>> =
+        await $clientBlank.post('suspension-order/', body, {
+            responseType: 'blob',
+        });
+    return res.data;
 };

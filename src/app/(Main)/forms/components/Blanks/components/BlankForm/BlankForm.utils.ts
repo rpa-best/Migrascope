@@ -19,10 +19,13 @@ import {
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/Blanks.consts';
 
 import {
+    BlankFormErrorsType,
     BlankFormValues,
     BlankType,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 import * as T from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 export const BlankFormValidate = (values: T.BlankFormValues) => {
     const errors: T.BlankFormErrorsType = {};
@@ -37,6 +40,27 @@ export const BlankFormValidate = (values: T.BlankFormValues) => {
         errors.services = 'Обязательное поле';
     }
     return errors;
+};
+
+export const handleBlankFormErrors = (
+    e: unknown,
+    errors: BlankFormErrorsType
+) => {
+    if (e instanceof AxiosError) {
+        const response = e.response?.data;
+        toast(response.error, {
+            theme: 'colored',
+            autoClose: 8000,
+            position: 'bottom-right',
+            type: 'error',
+        });
+        if (response.first_manager_id) {
+            errors.firstManagerId = response.first_manager_id;
+        }
+        if (response.second_manager_id) {
+            errors.secondManagerId = response.secondManagerId;
+        }
+    }
 };
 
 export const submitFormByType = async (
@@ -65,21 +89,23 @@ export const submitFormByType = async (
 
     switch (type) {
         case 'Договор возмездного оказания услуг (ГПХ)':
-            return sendCPPS(modifiedValues as Parameters<typeof sendCPPS>[0]);
+            return await sendCPPS(
+                modifiedValues as Parameters<typeof sendCPPS>[0]
+            );
         case 'Трудовой договор':
-            return sendEmploymentContract(
+            return await sendEmploymentContract(
                 modifiedValues as Parameters<typeof sendEmploymentContract>[0]
             );
         case 'Уведомление о заключении':
-            return sendNoticeConclusion(
+            return await sendNoticeConclusion(
                 modifiedValues as Parameters<typeof sendNoticeConclusion>[0]
             );
         case 'Платежное поручение':
-            return sendPaymentOrder(
+            return await sendPaymentOrder(
                 modifiedValues as Parameters<typeof sendPaymentOrder>[0]
             );
         case 'Приказ об отстранении':
-            return sendSuspensionOrder(
+            return await sendSuspensionOrder(
                 modifiedValues as Parameters<typeof sendSuspensionOrder>[0]
             );
     }

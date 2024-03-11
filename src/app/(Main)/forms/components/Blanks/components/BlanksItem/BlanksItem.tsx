@@ -1,15 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import { BlankForm } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm';
-import { Modal } from 'components/Modal';
-
 import { BlankItemProps } from 'app/(Main)/forms/components/Blanks/types';
 
 import NotificationSvg from '/public/svg/notifications.svg';
 
 import scss from 'app/(Main)/forms/components/Blanks/Blanks.module.scss';
+
+const Modal = dynamic(() => import('components/Modal'));
 
 export const BlanksItem: React.FC<BlankItemProps> = ({ name }) => {
     const [visible, setVisible] = useState(false);

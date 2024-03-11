@@ -17,6 +17,13 @@ import scss from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankF
 import { InputMask } from 'components/UI/Inputs/InputMask';
 
 const namesToExclude = ['services', 'workerId', 'checked'];
+const casesWithInt = [
+    'number',
+    'salary',
+    'numberMonths',
+    'firstManagerId',
+    'secondManagerId',
+];
 
 export const BlankFormInput: FC<BlankFormInputProps> = ({
     handleBlur,
@@ -36,6 +43,7 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
             case 'input': {
                 return (
                     <Input
+                        type={casesWithInt.includes(name) ? 'number' : 'text'}
                         handleError={touched[name] && errors[name]}
                         onBlur={handleBlur}
                         onChange={handleChange}

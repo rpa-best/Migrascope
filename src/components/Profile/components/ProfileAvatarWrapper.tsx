@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 import { useUserStore } from 'store/userStore/userStore';
 
-import { Modal } from 'components/Modal';
 import { ChangeImg } from 'components/ChangeImg';
 import { updateAvatar } from 'http/accountService/accountService';
 
@@ -13,6 +13,8 @@ import { UserType } from 'http/accountService/types';
 import EditSvg from '/public/svg/edit.svg';
 
 import scss from 'components/Profile/Profile.module.scss';
+
+const Modal = dynamic(() => import('components/Modal'));
 
 export const ProfileAvatarWrapper = ({
     userData,
