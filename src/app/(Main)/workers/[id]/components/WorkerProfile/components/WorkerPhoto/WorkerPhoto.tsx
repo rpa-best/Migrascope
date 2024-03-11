@@ -9,13 +9,14 @@ import { ChangeImg } from 'components/ChangeImg';
 import { updateWorker } from 'http/workerService/workerService';
 import { useEditStore } from 'app/(Main)/workers/[id]/components/WorkerProfile/store/isEditStore';
 
+import ProfileSvg from '/public/svg/profile.svg';
 import EditSvg from '/public/svg/edit.svg';
 
 import scss from 'app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss';
 
 const Modal = dynamic(() => import('components/Modal'));
 
-export const WorkerPhoto = ({ id, photo }: { id: number; photo: string }) => {
+export const WorkerPhoto = ({ id, photo }: { id: number; photo?: string }) => {
     const [visible, setVisible] = useState(false);
     const [isEdit] = useEditStore((state) => [state.isEdit]);
 
@@ -27,14 +28,19 @@ export const WorkerPhoto = ({ id, photo }: { id: number; photo: string }) => {
 
     return (
         <div className={scss.worker_content_image}>
-            <Image
-                style={{
-                    borderRadius: '15px',
-                }}
-                fill
-                src={photo}
-                alt="worker-image"
-            />
+            {photo ? (
+                <Image
+                    style={{
+                        borderRadius: '15px',
+                    }}
+                    fill
+                    src={photo}
+                    alt="worker-image"
+                />
+            ) : (
+                <ProfileSvg />
+            )}
+
             {isEdit && (
                 <div onClick={() => setVisible(true)} className={scss.edit_svg}>
                     <EditSvg />
