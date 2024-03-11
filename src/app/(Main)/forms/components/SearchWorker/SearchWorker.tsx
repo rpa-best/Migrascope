@@ -86,6 +86,7 @@ export const SearchWorker = () => {
                 Для поиска введите ФИО сотрудника
             </h3>
             <InputSelect
+                disablePlaceholder={true}
                 autoComplete="off"
                 loading={loading}
                 listValues={workersList}

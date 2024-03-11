@@ -40,6 +40,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     showPrevValue = true,
     style = 'default',
     loading,
+    disablePlaceholder = false,
     fetchable = false,
 }) => {
     const opacity = useSpring(0);
@@ -177,6 +178,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
                         <input
                             onFocus={() => {
                                 setVisible(true);
+                                if (disablePlaceholder) return;
                                 setInputValue('');
                             }}
                             tabIndex={tabIndex}

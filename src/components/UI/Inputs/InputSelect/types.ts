@@ -16,6 +16,7 @@ export interface ListProps {
 export interface IInputSelectProps extends Omit<IInputProps, 'onChange'> {
     listValues: InputSelectListType[];
     onChange: (item: any) => void;
+    disablePlaceholder?: boolean;
     loading?: boolean;
     fetchable?: boolean;
     setFieldTouched?: (field: string, value: boolean) => void;
