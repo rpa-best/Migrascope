@@ -63,6 +63,7 @@ export interface BlankFormValues {
     position?: string;
     salary?: '';
     contractType?: ContractType | null;
+    initiator?: boolean;
     endDateUrgent?: Date | null;
     startTime?: Date | null;
     endTime?: Date | null;
@@ -91,7 +92,7 @@ export type BlankFormTouchedType = {
 
 export type RequiredBlankFormValues = keyof BlankFormValues;
 
-export type BlankInputType = 'date' | 'input' | 'select' | 'mask';
+export type BlankInputType = 'date' | 'input' | 'select' | 'mask' | 'checkbox';
 
 export interface BlankTranslatedLabelsType {
     placeholder: string;
@@ -111,7 +112,7 @@ export interface ServicesInputProps {
 
 export interface BlankFormInputProps {
     name: RequiredBlankFormValues;
-    value: string | Date;
+    value: string | Date | boolean;
     setFieldValue: (field: string, value: any) => void;
     handleBlur: FormikHandlers['handleBlur'];
     handleChange: FormikHandlers['handleChange'];

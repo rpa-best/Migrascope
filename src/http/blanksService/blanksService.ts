@@ -56,3 +56,11 @@ export const sendSuspensionOrder: T.SendSuspensionOrder = async (body) => {
         });
     return res.data;
 };
+
+export const sendNoticeTermination: T.SendNoticeTermination = async (body) => {
+    const res: AxiosResponse<ReturnType<typeof sendNoticeTermination>> =
+        await $clientBlank.post('notice-termination/', body, {
+            responseType: 'blob',
+        });
+    return res.data;
+};

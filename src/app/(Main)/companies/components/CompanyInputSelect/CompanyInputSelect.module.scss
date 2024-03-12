@@ -1,0 +1,8 @@
+@import "scss/utils";
+
+.org_input_select {
+  width: 250px;
+  @include phone {
+    width: 100%;
+  }
+}

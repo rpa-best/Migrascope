@@ -116,6 +116,19 @@ export const BlankForm: FC<BlankFormProps> = ({
                         key={index}
                     />
                 ))}
+                <div className={scss.input_label_checkbox}>
+                    <label>
+                        Документ расторгнут по инициативе иностранного
+                        гражданина
+                    </label>
+                    <InputCheckbox
+                        name="initiator"
+                        value={values.initiator ?? false}
+                        onChange={() => {
+                            setFieldValue('initiator', !values.initiator);
+                        }}
+                    />
+                </div>
                 {blankType === 'Договор возмездного оказания услуг (ГПХ)' && (
                     <ServicesInput
                         values={values}

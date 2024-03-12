@@ -3,6 +3,8 @@ import React, { FC } from 'react';
 import { Input } from 'components/UI/Inputs/Input';
 import { InputDate } from 'components/UI/Inputs/InputDate';
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
+import { InputMask } from 'components/UI/Inputs/InputMask';
+import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';
 
 import {
     getBlankInputType,
@@ -14,9 +16,8 @@ import {
 import { BlankFormInputProps } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 
 import scss from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.module.scss';
-import { InputMask } from 'components/UI/Inputs/InputMask';
 
-const namesToExclude = ['services', 'workerId', 'checked'];
+const namesToExclude = ['services', 'workerId', 'checked', 'initiator'];
 const casesWithInt = [
     'number',
     'salary',
@@ -58,7 +59,7 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
                     <InputDate
                         maxDate={name === 'dateIssue' ? new Date() : undefined}
                         placeholder={`Укажите ${getBlankPlaceholder(name)}`}
-                        value={value ? new Date(value) : null}
+                        value={value ? new Date(value as string) : null}
                         onChange={(Data: Date) => setFieldValue(name, Data)}
                         mask="99.99.9999"
                         onBlur={handleBlur}
@@ -100,7 +101,7 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
     }
 
     return (
-        <div className={scss.input_wrapper}>
+        <div className={scss.blank_form_input_wrapper}>
             <label>
                 {getBlankLabel(name)}
                 <span>*</span>
