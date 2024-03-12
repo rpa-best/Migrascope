@@ -3,13 +3,13 @@ import { Suspense } from 'react';
 import { ProfileSkeleton } from 'components/Profile/Skeleton';
 import { Profile } from 'components/Profile';
 import { CompanyProfile } from 'app/(Main)/companies/components/CompanyProfile/CompanyProfile';
+import { AddCompanyWrapper } from 'app/(Main)/companies/components/AddCompanyWrapper';
 
 import { getServerOrganization } from 'http/organizationService/organizationService';
 import { CompanyInputSelect } from 'app/(Main)/companies/components/CompanyInputSelect';
 import { cookies } from 'next/headers';
 
 import scss from './Companies.module.scss';
-import { AddCompanyWrapper } from 'app/(Main)/companies/components/AddCompanyWrapper';
 
 export default async function CompaniesPage({
     searchParams,
@@ -42,7 +42,7 @@ export default async function CompaniesPage({
                         <h2>Профиль компании</h2>
                         <AddCompanyWrapper />
                     </div>
-                    <CompanyProfile org={selectedOrg} />
+                    <CompanyProfile selectedOrg={selectedOrg} />
                 </div>
             </div>
         </main>

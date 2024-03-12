@@ -52,3 +52,10 @@ export const createOrganization: T.CreateOrganization = async (body) => {
 
     return res.data;
 };
+
+export const editOrganization: T.EditOrganization = async (orgId, body) => {
+    const res: AxiosResponse<ReturnType<typeof editOrganization>> =
+        await $clientOrganization.patch(`organization/${orgId}/`, body);
+
+    return res.data;
+};

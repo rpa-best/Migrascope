@@ -9,6 +9,8 @@ import {
     sendPaymentOrder,
     sendSuspensionOrder,
 } from 'http/blanksService/blanksService';
+import { toast } from 'react-toastify';
+import { readBlobAsJson } from 'utils/readBlobAsJson';
 import { snakeCase } from 'change-case';
 
 import {
@@ -26,8 +28,6 @@ import {
     BlankType,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 import { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
-import { readBlobAsJson } from 'utils/readBlobAsJson';
 
 export const BlankFormValidate = (values: T.BlankFormValues) => {
     const errors: T.BlankFormErrorsType = {};

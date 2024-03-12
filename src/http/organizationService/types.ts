@@ -1,6 +1,7 @@
 import { Response } from 'http/types';
 
 export interface OrganizationType {
+    phone: string;
     id: 0;
     organizationalForm: string;
     name: string;
@@ -15,7 +16,7 @@ export interface OrganizationType {
     createAt: string;
     balance: number;
     owner: number;
-    bankInfoId: number;
+    okved: string;
 }
 
 export type GetOrganizations = (
@@ -39,6 +40,21 @@ export interface CreateOrgBody {
 
 export type CreateOrganization = (
     body: CreateOrgBody
+) => Promise<Response<OrganizationType>>;
+
+export interface EditOrganizationBody {
+    organizational_form: number;
+    name: string;
+    inn: string;
+    kpp: string;
+    ogrn: string;
+    phone: string;
+    legal_address: string;
+}
+
+export type EditOrganization = (
+    orgId: number,
+    body: Partial<EditOrganizationBody>
 ) => Promise<Response<OrganizationType>>;
 
 interface OrganizationInfo extends Omit<OrganizationType, 'name'> {

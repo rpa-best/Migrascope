@@ -2,7 +2,7 @@ import { OrganizationType } from 'http/organizationService/types';
 import { OrgFormType } from 'components/AddCompany/types';
 
 export interface EditCompanyFormProps {
-    org: OrganizationType;
+    selectedOrg: OrganizationType;
 }
 
 export type DefaultCompanyValues = {

@@ -1,1 +1,55 @@
 @import "scss/utils";
+@import "app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss";
+
+
+.company_edit_form_section {
+  width: 100%;
+  margin-bottom: 14px;
+  & h3 {
+    @include InterSemiBold(18px);
+    margin-bottom: 3px;
+  }
+}
+
+.company_edit_form_inputs {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 45px;
+  @include thousandTwoWidth {
+    column-gap: 20px;
+  }
+  @include bigtablet {
+    flex-direction: column;
+  }
+
+}
+
+.company_edit_form_input {
+  width: calc(50% - 27.5px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #D4D4D4;
+  & > label {
+    white-space: nowrap;
+    @include InterRegular(12px);
+    color: #A0A0A0;
+  }
+  @include thousandTwoWidth {
+    width: calc(50% - 10px);
+  }
+  @include bigtablet {
+    width: 100%;
+  }
+}
+
+.company_edit_form_button_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  & > button {
+    width: max-content;
+  }
+}
+
+

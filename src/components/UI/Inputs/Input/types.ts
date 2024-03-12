@@ -4,7 +4,7 @@ export interface IInputProps {
     value: string;
     name: string | 'search';
     size?: 'default' | 'big';
-    style?: 'default' | 'hollow';
+    style?: 'default' | 'hollow' | 'empty';
     onChange:
         | ChangeEventHandler<HTMLInputElement>
         | ChangeEventHandler<HTMLTextAreaElement>;

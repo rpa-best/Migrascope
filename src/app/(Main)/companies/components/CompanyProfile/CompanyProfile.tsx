@@ -7,21 +7,19 @@ import { CompanyProfileProps } from 'app/(Main)/companies/components/CompanyProf
 
 import scss from './CompanyProfile.module.scss';
 
-export const CompanyProfile: FC<CompanyProfileProps> = ({ org }) => {
+export const CompanyProfile: FC<CompanyProfileProps> = ({ selectedOrg }) => {
     return (
         <section className={scss.company_profile_section}>
             <div className={scss.worker_page_section_content}>
                 <div className={scss.worker_layout}>
                     <div className={scss.worker_header}>
                         <div className={scss.worker_header_title}>
-                            <h3>{org.name}</h3>
-                            <h4>{org.legalAddress}</h4>
+                            <h3>{selectedOrg.name}</h3>
+                            <h4>{selectedOrg.legalAddress}</h4>
                         </div>
                         <CompanyProfileActions />
                     </div>
-                    <div className={scss.worker_content}>
-                        <CompanyEditForm />
-                    </div>
+                    <CompanyEditForm selectedOrg={selectedOrg} />
                 </div>
             </div>
         </section>
