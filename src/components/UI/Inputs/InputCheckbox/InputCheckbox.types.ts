@@ -1,6 +1,6 @@
 export interface InputCheckboxProps {
     name: string;
-    label: string;
+    label?: string;
     value: boolean;
     onChange: (v: boolean) => void;
 }

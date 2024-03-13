@@ -5,11 +5,19 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 24px;
+
+}
+
+.worker_header_title {
   & h3 {
     @include InterSemiBold(20px);
     @include phoneOrTablet {
       font-size: 16px;
     }
+  }
+  & h4 {
+    @include InterRegular(14px);
+    margin-top: 6px;
   }
 }
 

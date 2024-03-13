@@ -10,12 +10,12 @@ import { Button } from 'components/UI/Buttons/Button';
 import { useEditStore } from 'app/(Main)/workers/[id]/components/WorkerProfile/store/isEditStore';
 import revalidate from 'utils/revalidate';
 import {
+    filterFields,
     getWorkerInputType,
     setWorkerEditFormInitialValues,
     WorkerEditFormValidate,
     WorkerEditSubmit,
 } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/WorkerEditForm/WorkerEditForm.utils';
-import { setPhoneMask } from 'utils/setPhoneMask';
 
 import {
     WorkerEditFormProps,
@@ -23,16 +23,6 @@ import {
 } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/WorkerEditForm/WorkerEditForm.types';
 
 import scss from 'app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss';
-
-const fieldsToExclude = [
-    'id',
-    'avatar',
-    'organization',
-    'name',
-    'surname',
-    'patronymic',
-    'status',
-];
 
 export const WorkerEditForm: FC<WorkerEditFormProps> = ({ worker }) => {
     const path = usePathname();
@@ -43,17 +33,7 @@ export const WorkerEditForm: FC<WorkerEditFormProps> = ({ worker }) => {
     ]);
 
     const filteredFields = useMemo(() => {
-        return Object.entries(worker)
-            .filter((el) => {
-                return !fieldsToExclude.includes(el[0]);
-            })
-            .map((el) => {
-                if (el[0] === 'phone') {
-                    el[1] = setPhoneMask(el[1]);
-                    return el;
-                }
-                return el;
-            });
+        return filterFields(worker);
     }, [worker]);
 
     const {

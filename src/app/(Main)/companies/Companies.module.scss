@@ -1,0 +1,29 @@
+@import "scss/utils";
+@import "app/(Main)/workers/[id]/WorkerPage.module.scss";
+
+
+.company_page_wrapper {
+  width: 100%;
+}
+
+.company_content_layout {
+  width: 100%;
+  margin-top: 30px;
+  @include main_offset;
+}
+
+.company_content {
+  @extend .worker_page;
+}
+
+.company_profile_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  & >  h2 {
+    @include InterSemiBold(20px);
+    @include phoneOrTablet {
+      font-size: 16px;
+    }
+  }
+}

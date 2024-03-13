@@ -1,8 +1,7 @@
 import { AxiosResponse } from 'axios';
 import * as T from 'http/organizationService/types';
-import { $clientOrganization, $clientWorker } from 'http/indexes/clientIndex';
+import { $clientOrganization } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
-import { $serverWorker } from 'http/indexes/serverIndex';
 
 export const getServerOrganization: T.GetOrganizations = async (access) => {
     try {
@@ -50,6 +49,13 @@ export const getClientOrganizationByInfo: T.GetOrganizationByInfo = async (
 export const createOrganization: T.CreateOrganization = async (body) => {
     const res: AxiosResponse<ReturnType<typeof createOrganization>> =
         await $clientOrganization.post('organization/', body);
+
+    return res.data;
+};
+
+export const editOrganization: T.EditOrganization = async (orgId, body) => {
+    const res: AxiosResponse<ReturnType<typeof editOrganization>> =
+        await $clientOrganization.patch(`organization/${orgId}/`, body);
 
     return res.data;
 };

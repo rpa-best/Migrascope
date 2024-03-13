@@ -5,9 +5,12 @@ import {
     sendCPPS,
     sendEmploymentContract,
     sendNoticeConclusion,
+    sendNoticeTermination,
     sendPaymentOrder,
     sendSuspensionOrder,
 } from 'http/blanksService/blanksService';
+import { toast } from 'react-toastify';
+import { readBlobAsJson } from 'utils/readBlobAsJson';
 import { snakeCase } from 'change-case';
 
 import {
@@ -25,13 +28,14 @@ import {
     BlankType,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 import { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
-import { readBlobAsJson } from 'utils/readBlobAsJson';
 
 export const BlankFormValidate = (values: T.BlankFormValues) => {
     const errors: T.BlankFormErrorsType = {};
 
     for (const elem in values) {
+        if (elem === 'initiator') {
+            continue;
+        }
         if (!values[elem as keyof typeof values]) {
             errors[elem as keyof typeof errors] = 'Обязательное поле';
         }
@@ -40,6 +44,7 @@ export const BlankFormValidate = (values: T.BlankFormValues) => {
     if (values.services?.some((el) => !el.name || !el.price)) {
         errors.services = 'Обязательное поле';
     }
+
     return errors;
 };
 
@@ -93,6 +98,7 @@ export const submitFormByType = async (
             })
             .filter((entry) => entry[0] !== 'checked')
     );
+    console.log(values);
     camelToSnakeCaseDeep(modifiedValues);
 
     switch (type) {
@@ -115,6 +121,10 @@ export const submitFormByType = async (
         case 'Приказ об отстранении':
             return await sendSuspensionOrder(
                 modifiedValues as Parameters<typeof sendSuspensionOrder>[0]
+            );
+        case 'Уведомление о прекращении':
+            return await sendNoticeTermination(
+                modifiedValues as Parameters<typeof sendNoticeTermination>[0]
             );
     }
 };
@@ -178,6 +188,12 @@ export const setBlankFormInitialValues: T.SetBlankFormInitialValues = (
         case 'Уведомление о прекращении':
             return {
                 ...setBlankFormDefaultValues(initialValues),
+                nameTerritorialBody: initialValues.nameTerritorialBody,
+                position: initialValues.position,
+                base: initialValues.base,
+                endDate: initialValues.startDate,
+                initiator: initialValues.initiator ?? false,
+                person: initialValues.person,
             };
     }
 };
@@ -193,6 +209,9 @@ export const getBlankInputType = (
     }
     if (name === 'startTime' || name === 'endTime') {
         return 'mask';
+    }
+    if (name === 'initiator') {
+        return 'checkbox';
     }
     return 'input';
 };

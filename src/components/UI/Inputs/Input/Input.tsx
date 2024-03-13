@@ -69,6 +69,7 @@ export const Input: React.FC<IInputProps> = ({
 
     const inputClass = clsx({
         [scss.input]: style === 'default',
+        [scss.input_empty]: style === 'empty',
         [scss.input_hollow]: style === 'hollow',
         [scss.input_big]: style === 'default' && size === 'big',
         [scss.input_error]: handleError,

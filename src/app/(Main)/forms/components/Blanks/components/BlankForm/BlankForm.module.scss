@@ -30,10 +30,12 @@
     right: 5px;
     cursor: pointer;
     transition: .2s all ease-in-out;
+
     &:hover {
       color: $error-color;
     }
   }
+
   @include phoneOrTablet {
     column-gap: 15px;
   }
@@ -66,19 +68,41 @@
   border-radius: 10px;
   line-height: 21px;
   margin: 5px 0;
+
   & h5 {
     @include InterSemiBold(13px);
     color: black;
   }
+
   & p {
     @include InterRegular(13px);
   }
 }
 
+.input_label_checkbox {
+  display: flex;
+  justify-content: space-between;
+  & > label {
+    @include InterSemiBold(12px);
+    letter-spacing: initial;
+    color: black;
+    @include bigtablet {
+      margin-bottom: 5px;
+      margin-top: 0;
+    }
+  }
+}
+
 .blank_form_checked {
   height: 50px;
+
   & > span {
     @include InterRegular(12px);
     color: $error-color;
   }
+}
+
+
+.blank_form_input_wrapper {
+  @extend .input_wrapper;
 }

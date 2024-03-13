@@ -77,3 +77,22 @@ export interface SendSuspensionOrderBody {
 export type SendSuspensionOrder = (
     body: SendSuspensionOrderBody
 ) => Promise<Blob>;
+
+export interface SendNoticeTerminationBody {
+    worker_id: string;
+    name_territorial_body: string;
+    position: string;
+    base: string;
+    end_date: string;
+    initiator: true;
+    person: string;
+    full_name: string;
+    series: string;
+    number: string;
+    date_issue: string;
+    issued_by: string;
+}
+
+export type SendNoticeTermination = (
+    body: SendNoticeTerminationBody
+) => Promise<Blob>;

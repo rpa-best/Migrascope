@@ -46,6 +46,7 @@ export const InputMask = ({
     const inputClass = clsx({
         [scss.input]: style === 'default',
         [scss.input_hollow]: style === 'hollow',
+        [scss.input_empty]: style === 'empty',
         [scss.input_big]: style === 'default' && size === 'big',
         [scss.input_error]: handleError,
         [scss.input_search]: name === 'search',

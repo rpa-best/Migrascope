@@ -13,6 +13,16 @@ import {
 } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/WorkerEditForm/WorkerEditForm.types';
 import { UpdateWorkerBody, Worker } from 'http/workerService/types';
 
+const fieldsToExclude = [
+    'id',
+    'avatar',
+    'organization',
+    'name',
+    'surname',
+    'patronymic',
+    'status',
+];
+
 export const WorkerEditFormDataGender = [
     {
         id: 1,
@@ -44,6 +54,20 @@ export const fieldsWithObjects = [
     'processingPersonalData',
     'gender',
 ];
+
+export const filterFields = (worker: Worker) => {
+    return Object.entries(worker)
+        .filter((el) => {
+            return !fieldsToExclude.includes(el[0]);
+        })
+        .map((el) => {
+            if (el[0] === 'phone') {
+                el[1] = setPhoneMask(el[1]);
+                return el;
+            }
+            return el;
+        });
+};
 
 export const WorkerEditFormValidate = (values: WorkerEditFormValues) => {
     const errors: Partial<WorkerEditFormValues> = {};
