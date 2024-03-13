@@ -23,6 +23,7 @@ import {
 } from 'app/(Main)/companies/components/CompanyProfile/components/CompanyEditForm/CompanyForm.types';
 
 import scss from './CompanyEditForm.module.scss';
+import revalidateTagOnClient from 'utils/revalidateTagOnClient';
 
 export const CompanyEditForm: FC<EditCompanyFormProps> = ({ selectedOrg }) => {
     const [loading, setLoading] = useState(false);
@@ -40,6 +41,7 @@ export const CompanyEditForm: FC<EditCompanyFormProps> = ({ selectedOrg }) => {
                         values,
                         selectedOrg
                     );
+                    revalidateTagOnClient('server-organization');
                 } catch (e) {
                     console.log(e);
                 } finally {
@@ -123,18 +125,6 @@ export const CompanyEditForm: FC<EditCompanyFormProps> = ({ selectedOrg }) => {
                             onChange={handleChange}
                         />
                         <label>Отчество директора</label>
-                    </div>
-                    <div className={scss.company_edit_form_input}>
-                        <Input
-                            disabled={!isEdit}
-                            placeholder="Не указано"
-                            needErrorLabel={false}
-                            style="empty"
-                            value={values.balance}
-                            name="balance"
-                            onChange={handleChange}
-                        />
-                        <label>Баланс организации</label>
                     </div>
                 </div>
             </section>

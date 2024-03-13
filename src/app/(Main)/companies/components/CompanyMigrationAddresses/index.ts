@@ -1,0 +1,1 @@
+export { CompanyMigrationAddresses } from './CompanyMigrationAddresses';

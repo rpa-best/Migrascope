@@ -51,7 +51,6 @@ export const setInitialEditCompanyValues = (
         nameDirector: values.nameDirector ?? '',
         patronymicDirector: values.patronymicDirector ?? '',
         surnameDirector: values.surnameDirector ?? '',
-        balance: values.balance?.toString() ?? '',
         name: values.name ?? '',
     };
 };

@@ -11,16 +11,14 @@ export const CompanyProfile: FC<CompanyProfileProps> = ({ selectedOrg }) => {
     return (
         <section className={scss.company_profile_section}>
             <div className={scss.worker_page_section_content}>
-                <div className={scss.worker_layout}>
-                    <div className={scss.worker_header}>
-                        <div className={scss.worker_header_title}>
-                            <h3>{selectedOrg.name}</h3>
-                            <h4>{selectedOrg.legalAddress}</h4>
-                        </div>
-                        <CompanyProfileActions />
+                <div className={scss.worker_header}>
+                    <div className={scss.worker_header_title}>
+                        <h3>{selectedOrg.name}</h3>
+                        <h4>{selectedOrg.legalAddress}</h4>
                     </div>
-                    <CompanyEditForm selectedOrg={selectedOrg} />
+                    <CompanyProfileActions />
                 </div>
+                <CompanyEditForm selectedOrg={selectedOrg} />
             </div>
         </section>
     );

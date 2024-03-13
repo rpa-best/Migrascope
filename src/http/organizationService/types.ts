@@ -14,7 +14,6 @@ export interface OrganizationType {
     legalAddress: string;
     actualAddress: string[];
     createAt: string;
-    balance: number;
     owner: number;
     okved: string;
 }
@@ -26,6 +25,29 @@ export type GetOrganizations = (
 export type GetOrganizationsOnClient = () => Promise<
     Response<OrganizationType>
 >;
+
+export interface OrgMigrationAddress {
+    id: number;
+    organization: OrganizationType;
+    name: string;
+}
+
+export type GetOrganizationAddressesSsr = () => Promise<
+    Response<OrgMigrationAddress>
+>;
+
+export type CreateOrganizationAddress = (
+    organization: number,
+    name: string
+) => Promise<void>;
+
+export type DeleteOrganizationAddress = (addressId: number) => Promise<void>;
+
+export type EditOrganizationAddress = (
+    addressId: number,
+    organization: number,
+    name: string
+) => Promise<void>;
 
 export interface CreateOrgBody {
     organizational_form: number;

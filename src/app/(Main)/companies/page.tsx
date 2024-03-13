@@ -5,11 +5,15 @@ import { Profile } from 'components/Profile';
 import { CompanyProfile } from 'app/(Main)/companies/components/CompanyProfile/CompanyProfile';
 import { AddCompanyWrapper } from 'app/(Main)/companies/components/AddCompanyWrapper';
 
-import { getServerOrganization } from 'http/organizationService/organizationService';
+import {
+    getOrganizationAddressesSsr,
+    getServerOrganization,
+} from 'http/organizationService/organizationService';
 import { CompanyInputSelect } from 'app/(Main)/companies/components/CompanyInputSelect';
 import { cookies } from 'next/headers';
 
 import scss from './Companies.module.scss';
+import { CompanyMigrationAddresses } from 'app/(Main)/companies/components/CompanyMigrationAddresses';
 
 export default async function CompaniesPage({
     searchParams,
@@ -27,6 +31,8 @@ export default async function CompaniesPage({
         (org) => org.id === +currentOrgId
     )!;
 
+    const migrationAddresses = await getOrganizationAddressesSsr();
+
     return (
         <main className={scss.company_page_wrapper}>
             <Suspense fallback={<ProfileSkeleton />}>
@@ -43,6 +49,10 @@ export default async function CompaniesPage({
                         <AddCompanyWrapper />
                     </div>
                     <CompanyProfile selectedOrg={selectedOrg} />
+                    <CompanyMigrationAddresses
+                        addresses={migrationAddresses.results}
+                        selectedOrgId={selectedOrg.id}
+                    />
                 </div>
             </div>
         </main>
