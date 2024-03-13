@@ -2,5 +2,6 @@
 @import "app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss";
 
 .company_profile_section {
-  @extend .worker_page_section
+  @extend .worker_page_section;
+  margin-bottom: 24px;
 }

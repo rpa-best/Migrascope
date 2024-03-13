@@ -1,0 +1,97 @@
+@import "scss/utils";
+@import "app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss";
+
+.company_migration_addresses_title {
+  @extend .worker_header_title;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > button {
+    width: max-content;
+  }
+}
+
+.addresses_wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: 15px;
+  row-gap: 15px;
+  margin-top: 20px;
+}
+
+.address_item_layout {
+  width: calc(33% - 15px);
+  position: relative;
+  @include bigtablet {
+    width: calc(50% - 15px);
+  }
+  @include smallTablet {
+    width: 100%;
+  }
+}
+
+.address_item {
+  width: 100%;
+  min-height: 70px;
+  resize: none;
+  padding: 8px 28px 8px 16px;
+  border: 1px solid #D4D4D4;
+  border-radius: 10px;
+  @include InterRegular(14px);
+  transition: .2s border ease-in-out;
+  &:active {
+    border-color: $active-color;
+  }
+  &:focus {
+    border-color: $active-color;
+  }
+  &:focus-visible {
+    outline:  $active-color;
+  }
+}
+
+.migration_actions_wrapper {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  display: flex;
+  align-items: center;
+  column-gap: 3px;
+}
+
+.svg_default {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  transition: .2s color ease-in-out;
+}
+
+.svg_delete {
+  @extend .svg_default;
+
+  &:hover {
+    color: $error-color;
+  }
+
+  &:active {
+    color: $error-color;
+  }
+}
+
+.svg_confirm {
+  @extend .svg_default;
+  color: #31D79B;
+}
+
+.svg_edit {
+  @extend .svg_default;
+
+  &:hover {
+    color: $active-color;
+  }
+
+  &:active {
+    color: $active-color;
+  }
+}
