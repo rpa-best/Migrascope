@@ -30,6 +30,9 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #D4D4D4;
+  &[data-iserror='true'] {
+    background-color: $neutral-light;
+  }
   & > label {
     white-space: nowrap;
     @include InterRegular(12px);

@@ -7,7 +7,8 @@ import {
     fetchWorkersDocuments,
     formatToTableData,
 } from 'components/OrganizationTable/OrganizationTable.utils';
-import { getUsers, getWorkers } from 'http/workerService/workerService';
+import { getWorkers } from 'http/workerService/workerService';
+import { getUsers } from 'http/organizationService/organizationService';
 
 import { OrganizationUser } from 'http/workerService/types';
 import { OrganizationTableRowProps } from 'components/OrganizationTable/types';

@@ -39,10 +39,10 @@ export const getOrganizationOnClient: T.GetOrganizationsOnClient = async () => {
 };
 
 export const getOrganizationAddressesSsr: T.GetOrganizationAddressesSsr =
-    async () => {
+    async (orgId) => {
         const res: AxiosResponse<
             ReturnType<typeof getOrganizationAddressesSsr>
-        > = await $serverOrganization.get('migration-address/');
+        > = await $serverOrganization.get(`${orgId}/migration-address/`);
 
         return res.data;
     };
@@ -102,6 +102,26 @@ export const createOrganization: T.CreateOrganization = async (body) => {
 export const editOrganization: T.EditOrganization = async (orgId, body) => {
     const res: AxiosResponse<ReturnType<typeof editOrganization>> =
         await $clientOrganization.patch(`organization/${orgId}/`, body);
+
+    return res.data;
+};
+
+export const getUsersSsr: T.GetUsers = async (orgId) => {
+    const res: AxiosResponse<ReturnType<typeof getUsersSsr>> =
+        await $serverOrganization.get(`${orgId}/users/`);
+
+    return res.data;
+};
+export const getUsers: T.GetUsers = async (orgId) => {
+    const res: AxiosResponse<ReturnType<typeof getUsersSsr>> =
+        await $clientOrganization.get(`${orgId}/users/`);
+
+    return res.data;
+};
+
+export const inviteUser: T.InviteUser = async (orgId, body) => {
+    const res: AxiosResponse<ReturnType<typeof inviteUser>> =
+        await $clientOrganization.post(`${orgId}/users/`, body);
 
     return res.data;
 };

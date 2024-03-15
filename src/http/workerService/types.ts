@@ -62,6 +62,7 @@ export interface OrganizationUser {
     id: number;
     role: string;
     user: string;
+    phone: string;
     organization: number;
 }
 
@@ -90,8 +91,6 @@ export type GetWorker = (
     workerId: number,
     access: string
 ) => Promise<Worker>;
-
-export type GetUsers = (orgId: number) => Promise<Response<OrganizationUser>>;
 
 export type GetWorkers = (orgId: number) => Promise<Response<Worker>>;
 

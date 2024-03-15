@@ -1,0 +1,1 @@
+export { CompanyUsersTable } from './CompanyUsersTable';

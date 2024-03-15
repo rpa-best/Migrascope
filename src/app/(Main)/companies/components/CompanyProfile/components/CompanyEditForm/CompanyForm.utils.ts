@@ -1,4 +1,7 @@
-import { EditCompanyFormValues } from 'app/(Main)/companies/components/CompanyProfile/components/CompanyEditForm/CompanyForm.types';
+import {
+    EditCompanyFormErrorType,
+    EditCompanyFormValues,
+} from 'app/(Main)/companies/components/CompanyProfile/components/CompanyEditForm/CompanyForm.types';
 import {
     EditOrganizationBody,
     OrganizationType,
@@ -8,9 +11,16 @@ import { setPhoneMask } from 'utils/setPhoneMask';
 import { camelToSnakeCaseDeep } from 'utils/camelToSnakeCaseDeep';
 import { editOrganization } from 'http/organizationService/organizationService';
 import { removePhoneMask } from 'utils/removePhoneMask';
+import { formatDate } from 'utils/formatDate';
 
 export const CompanyFormValidate = (values: EditCompanyFormValues) => {
-    const errors = {};
+    const errors: Partial<EditCompanyFormErrorType> = {};
+
+    for (const [key, value] of Object.entries(values)) {
+        if (!value) {
+            errors[key as keyof typeof errors] = 'Обязательное поле';
+        }
+    }
 
     return errors;
 };
@@ -23,11 +33,14 @@ export const companyFormSubmit = async (
     const newValues = structuredClone(values);
     camelToSnakeCaseDeep(newValues);
 
-    const body = {
-        ...newValues,
+    const body: EditOrganizationBody = {
+        ...(newValues as unknown as EditOrganizationBody),
         organizational_form: values.organizationalForm?.id as number,
         phone: removePhoneMask(values.phone),
-    } as unknown as EditOrganizationBody;
+        date_end_passport: formatDate(values.dateEndPassport as Date),
+        date_issue_passport: formatDate(values.dateIssuePassport as Date),
+        phone_host_party: removePhoneMask(values.phoneHostParty),
+    };
 
     return await editOrganization(orgId, body);
 };
@@ -40,9 +53,22 @@ export const setInitialEditCompanyValues = (
         inn: values.inn ?? '',
         kpp: values.kpp ?? '',
         ogrn: values.ogrn ?? '',
-        actualAddress: values.actualAddress ?? [],
-        legalAddress: values.legalAddress ?? '',
         okved: values.okved ?? '',
+        passportSeries: values.passportSeries ?? '',
+        dateEndPassport: values.dateEndPassport
+            ? new Date(values.dateEndPassport)
+            : null,
+        legalAddress: values.legalAddress ?? '',
+        dateIssuePassport: values.dateIssuePassport
+            ? new Date(values.dateIssuePassport)
+            : null,
+        fullNameBookkeeper: values.fullNameBookkeeper ?? '',
+        fullNameHostParty: values.fullNameHostParty ?? '',
+        issuedWhom: values.issuedWhom ?? '',
+        passportNumber: values.passportNumber ?? '',
+        phoneHostParty: values.phoneHostParty
+            ? setPhoneMask(values.phoneHostParty)
+            : '',
         phone: values.phone ? setPhoneMask(values.phone) : '',
         organizationalForm:
             OrgFormData.find(

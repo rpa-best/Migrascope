@@ -8,9 +8,9 @@ export const useSearchQuery = (replace?: boolean) => {
 
     const changePath = () => {
         if (replace) {
-            router.replace(`${path}?${searchQuery}`);
+            router.replace(`${path}?${searchQuery}`, { scroll: false });
         } else {
-            router.push(`${path}?${searchQuery}`);
+            router.push(`${path}?${searchQuery}`, { scroll: false });
         }
     };
 

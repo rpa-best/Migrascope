@@ -8,11 +8,21 @@ export interface EditCompanyFormProps {
 export type DefaultCompanyValues = {
     [key in keyof Omit<
         OrganizationType,
-        'organizationalForm' | 'id' | 'createAt' | 'actualAddress'
+        | 'organizationalForm'
+        | 'id'
+        | 'createAt'
+        | 'actualAddress'
+        | 'dateEndPassport'
+        | 'dateIssuePassport'
     >]: string;
 };
 
 export interface EditCompanyFormValues extends DefaultCompanyValues {
     organizationalForm: OrgFormType | null;
-    actualAddress: string[];
+    dateEndPassport: Date | null;
+    dateIssuePassport: Date | null;
 }
+
+export type EditCompanyFormErrorType = {
+    [key in keyof EditCompanyFormValues]: string;
+};

@@ -41,6 +41,7 @@ export const InputDate = ({
     const inputClass = clsx({
         [scss.input]: style === 'default',
         [scss.input_hollow]: style === 'hollow',
+        [scss.input_empty]: style === 'empty',
         [scss.input_error]: handleError,
         [scss.input_search]: name === 'search',
     });

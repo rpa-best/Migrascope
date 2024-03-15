@@ -1,0 +1,73 @@
+@import "scss/utils";
+@import "app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss";
+
+.company_users_title {
+  @extend .worker_header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > button {
+    width: max-content;
+  }
+}
+
+.company_users_table_layout {
+  overflow-x: auto;
+  max-width: 100%;
+  @include main_offset-smaller;
+}
+
+.company_users_table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  @include phoneOrTablet {
+    min-width: 450px;
+  }
+}
+
+.company_user_column_header {
+  @include InterMediumBold(12px);
+  color: #9DA2A7;
+  padding: 15px 0;
+  border-bottom: 1px solid $border-color;
+  &:not(&:first-child) {
+    text-align: center;
+  }
+  &:last-child {
+    text-align: right;
+  }
+  & p {
+    min-width: 300px;
+    @include smallTablet {
+      min-width: 250px;
+    }
+  }
+}
+
+.company_user_table_row {
+  height: 48px;
+  & td {
+    height: inherit;
+    align-content: center;
+    min-width: 300px;
+    border-bottom: 1px solid $border-color;
+    &:nth-child(2) {
+      color: #727880;
+    }
+    &:not(&:first-child) {
+      text-align: center;
+    }
+    @include smallTablet  {
+      font-size: 12px;
+    }
+    & p {
+      min-width: 300px;
+      @include smallTablet {
+        min-width: 250px;
+      }
+    }
+  }
+}
