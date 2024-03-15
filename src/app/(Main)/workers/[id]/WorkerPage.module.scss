@@ -27,6 +27,7 @@
 }
 
 .worker_page_section {
+  margin-bottom: 24px;
   & h2 {
     @include InterSemiBold(20px);
     margin-bottom: 18px;

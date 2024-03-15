@@ -18,7 +18,10 @@ export const CompanyProfile: FC<CompanyProfileProps> = ({ selectedOrg }) => {
                     </div>
                     <CompanyProfileActions />
                 </div>
-                <CompanyEditForm selectedOrg={selectedOrg} />
+                <CompanyEditForm
+                    key={selectedOrg.id}
+                    selectedOrg={selectedOrg}
+                />
             </div>
         </section>
     );

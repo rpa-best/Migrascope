@@ -1,14 +1,13 @@
 'use client';
 
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useSearchQuery } from 'hooks/useSearchQuery';
 
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
 import { InputCheckbox } from 'components/UI/Inputs/InputCheckbox';
 import { Button } from 'components/UI/Buttons/Button';
-
-import { SearchParamsHelper } from 'utils/searchParamsHelper';
 
 import {
     RolesType,
@@ -34,18 +33,16 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({
     visible,
     setVisible,
 }) => {
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
-    const queryHelper = new SearchParamsHelper(searchParams.entries);
+    const { has, setSearchParams, deleteSearchParams, getSearchParams } =
+        useSearchQuery();
 
-    const queryUser = searchParams.get('user')
-        ? testUsers.find((u) => u.name === searchParams.get('user'))
+    const queryUser = has('user')
+        ? testUsers.find((u) => u.name === getSearchParams('user'))
         : testUsers[0];
 
     const roles = useMemo(() => {
-        return searchParams.get('roles')?.split(',') ?? [];
-    }, [searchParams]);
+        return getSearchParams('roles')?.split(',') ?? [];
+    }, [getSearchParams]);
 
     const [selectedUser, setSelectedUser] = useState<SelectedUserType>(
         queryUser as SelectedUserType
@@ -88,17 +85,15 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({
             .filter((el) => el[1])
             .map((el) => el[0])
             .join(',');
-        queryHelper.set('roles', roles);
-        queryHelper.set('user', selectedUser.name);
-        router.replace(pathname + queryHelper.getParams, { scroll: false });
+        setSearchParams('roles', roles);
+        setSearchParams('user', selectedUser.name);
         setVisible(false);
     };
 
     const handleReset = () => {
         unsavedChanges.current = false;
-        queryHelper.delete('roles');
-        queryHelper.delete('user');
-        router.replace(pathname + queryHelper.getParams, { scroll: false });
+        deleteSearchParams('roles');
+        deleteSearchParams('user');
         setSelectedUser(testUsers[0]);
         setSelectedRoles({
             admin: false,

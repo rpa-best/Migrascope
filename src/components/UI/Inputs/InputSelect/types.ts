@@ -7,7 +7,7 @@ export interface InputSelectListType {
 }
 
 export interface ListProps {
-    list: { id: number; name: string }[];
+    list: InputSelectListType[];
     handleSetData: (id: number) => void;
     opacity: MotionValue<string>;
     loading?: boolean;

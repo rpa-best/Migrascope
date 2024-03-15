@@ -54,13 +54,6 @@ export const getWorkerSsr: T.GetWorker = async (orgId, workerId, access) => {
     return parsedRes;
 };
 
-export const getUsers: T.GetUsers = async (orgId) => {
-    const res: AxiosResponse<ReturnType<typeof getUsers>> =
-        await $clientOrganization.get(`${orgId}/users/`);
-
-    return res.data;
-};
-
 export const getWorkers: T.GetWorkers = async (orgId) => {
     const res: AxiosResponse<ReturnType<typeof getWorkers>> =
         await $clientWorker.get(`${orgId}/list/`);

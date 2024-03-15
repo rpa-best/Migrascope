@@ -7,6 +7,7 @@ import { OrganizationType } from 'http/organizationService/types';
 
 import scss from './CompanyInputSelect.module.scss';
 import { useSearchQuery } from 'hooks/useSearchQuery';
+import { useEditCompanyStore } from 'app/(Main)/companies/components/CompanyProfile/store/editCompanyStore';
 
 interface CompanyInputSelect {
     organizationsList: OrganizationType[];
@@ -17,6 +18,7 @@ export const CompanyInputSelect: FC<CompanyInputSelect> = ({
     organizationsList,
     selectedOrg,
 }) => {
+    const [setIsEdit] = useEditCompanyStore((state) => [state.setIsEdit]);
     const [selectedValue, setSelectedValue] =
         useState<OrganizationType>(selectedOrg);
     const { setSearchParams } = useSearchQuery();
@@ -24,6 +26,7 @@ export const CompanyInputSelect: FC<CompanyInputSelect> = ({
     const handleOrganizationChange = (org: OrganizationType) => {
         setSelectedValue(org);
         setSearchParams('org', String(org.id));
+        setIsEdit(false);
     };
 
     return (

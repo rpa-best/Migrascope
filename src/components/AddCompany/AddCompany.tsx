@@ -3,6 +3,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
 import { Button } from 'components/UI/Buttons/Button';
@@ -23,13 +24,12 @@ import {
     AddCompanyValues,
     OrgFormType,
 } from 'components/AddCompany/types';
+import { AxiosError } from 'axios';
 import { CreateOrgBody } from 'http/organizationService/types';
 
 import ExitSvg from '/public/svg/x.svg';
 
 import scss from './AddCompany.module.scss';
-import { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
 
 export const AddCompany: React.FC<AddCompanyProps> = ({
     opacity,

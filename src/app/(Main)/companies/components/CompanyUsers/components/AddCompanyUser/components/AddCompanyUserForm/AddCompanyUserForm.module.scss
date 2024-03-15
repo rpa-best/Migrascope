@@ -1,0 +1,7 @@
+@import "scss/utils";
+@import "components/AddCompany/AddCompany.module.scss";
+
+.add_company_form_subtitle {
+  @include InterRegular(14px);
+  margin: 10px 0 20px;
+}

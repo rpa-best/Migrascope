@@ -14,6 +14,7 @@ import { cookies } from 'next/headers';
 
 import scss from './Companies.module.scss';
 import { CompanyMigrationAddresses } from 'app/(Main)/companies/components/CompanyMigrationAddresses';
+import { CompanyUsers } from 'app/(Main)/companies/components/CompanyUsers';
 
 export default async function CompaniesPage({
     searchParams,
@@ -31,7 +32,9 @@ export default async function CompaniesPage({
         (org) => org.id === +currentOrgId
     )!;
 
-    const migrationAddresses = await getOrganizationAddressesSsr();
+    const migrationAddresses = await getOrganizationAddressesSsr(
+        selectedOrg.id
+    );
 
     return (
         <main className={scss.company_page_wrapper}>
@@ -53,6 +56,7 @@ export default async function CompaniesPage({
                         addresses={migrationAddresses.results}
                         selectedOrgId={selectedOrg.id}
                     />
+                    <CompanyUsers selectedOrgId={selectedOrg.id} />
                 </div>
             </div>
         </main>
