@@ -30,7 +30,11 @@ export const CompanyMigrationAddresses: FC<CompanyMigrationAddressesProps> = ({
             <div className={scss.worker_page_section_content}>
                 <div className={scss.company_migration_addresses_title}>
                     <h3>Адреса миграционного учета</h3>
-                    <Button onClick={handleButtonClick} style="hollowActive">
+                    <Button
+                        disabled={!currentAddresses.at(-1)?.id}
+                        onClick={handleButtonClick}
+                        style="hollowActive"
+                    >
                         Добавить новый адрес
                     </Button>
                 </div>

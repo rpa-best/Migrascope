@@ -40,6 +40,8 @@ export const companyFormSubmit = async (
         date_end_passport: formatDate(values.dateEndPassport as Date),
         date_issue_passport: formatDate(values.dateIssuePassport as Date),
         phone_host_party: removePhoneMask(values.phoneHostParty),
+        phone_contact_person: removePhoneMask(values.phoneContactPerson),
+        additional_phone: removePhoneMask(values.additionalPhone),
     };
 
     return await editOrganization(orgId, body);
@@ -55,6 +57,14 @@ export const setInitialEditCompanyValues = (
         ogrn: values.ogrn ?? '',
         okved: values.okved ?? '',
         passportSeries: values.passportSeries ?? '',
+        emailContactPerson: values.emailContactPerson ?? '',
+        additionalPhone: values.additionalPhone
+            ? setPhoneMask(values.additionalPhone)
+            : '',
+        fullNameContactPerson: values.fullNameContactPerson ?? '',
+        phoneContactPerson: values.phoneContactPerson
+            ? setPhoneMask(values.phoneContactPerson)
+            : '',
         dateEndPassport: values.dateEndPassport
             ? new Date(values.dateEndPassport)
             : null,

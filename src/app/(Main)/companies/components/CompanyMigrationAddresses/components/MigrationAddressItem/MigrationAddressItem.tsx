@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useEffect, useState } from 'react';
+import { ChangeEventHandler, FC, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import {
@@ -6,6 +6,7 @@ import {
     deleteOrganizationAddresses,
     editOrganizationAddresses,
 } from 'http/organizationService/organizationService';
+import revalidate from 'utils/revalidate';
 
 import { MigrationAddressItemProps } from 'app/(Main)/companies/components/CompanyMigrationAddresses/types';
 
@@ -14,7 +15,8 @@ import DeleteSvg from 'app/(Main)/workers/[id]/svg/trash.svg';
 import CheckSvg from '/public/svg/check.svg';
 
 import scss from 'app/(Main)/companies/components/CompanyMigrationAddresses/CompanyMigrationAddresses.module.scss';
-import revalidate from 'utils/revalidate';
+import { toast } from 'react-toastify';
+import { errorToastOptions } from 'config/toastConfig';
 
 export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
     name,
@@ -33,6 +35,10 @@ export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
 
     const handleConfirm = async () => {
         if (addressId) {
+            if (!currentValue) {
+                toast('Адрес не может быть пустым', errorToastOptions);
+                return;
+            }
             const newAddress = await editOrganizationAddresses(
                 addressId,
                 orgId,
@@ -45,6 +51,10 @@ export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
             );
             setCurrentValue(newAddress.name);
         } else {
+            if (!currentValue) {
+                toast('Адрес не может быть пустым', errorToastOptions);
+                return;
+            }
             const newAddress = await createOrganizationAddresses(
                 orgId,
                 currentValue as string

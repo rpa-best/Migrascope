@@ -19,6 +19,10 @@ export interface OrganizationType {
     dateEndPassport: string;
     fullNameBookkeeper: string;
     fullNameHostParty: string;
+    fullNameContactPerson: string;
+    phoneContactPerson: string;
+    additionalPhone: string;
+    emailContactPerson: string;
     phoneHostParty: string;
     legalAddress: string;
     actualAddress: string[];
@@ -92,6 +96,10 @@ export interface EditOrganizationBody {
     full_name_bookkeeper: string;
     full_name_host_party: string;
     phone_host_party: string;
+    full_name_contact_person: string;
+    phone_contact_person: string;
+    additional_phone: string;
+    email_contact_person: string;
 }
 
 export type EditOrganization = (

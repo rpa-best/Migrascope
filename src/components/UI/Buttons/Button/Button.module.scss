@@ -71,6 +71,9 @@
 .button_default_hollowActive {
   @extend .button_default_white;
   border: 1px solid $active-color;
+  &:disabled {
+    background-color: $border-color;
+  }
 }
 
 .button_big {

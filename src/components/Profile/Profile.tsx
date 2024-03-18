@@ -24,7 +24,7 @@ export const Profile = async () => {
                         userData={user}
                     />
                     <h2 className={scss.profile_username}>
-                        {user.name} {user.surname}
+                        {user?.first_name} {user?.surname}
                     </h2>
                     <p className={scss.profile_email}>{user.username}</p>
                 </div>
