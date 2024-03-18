@@ -291,7 +291,7 @@ export const CompanyEditForm: FC<EditCompanyFormProps> = ({ selectedOrg }) => {
                             }
                             type="tel"
                         />
-                        <label>Телефон директора</label>
+                        <label>Телефон компании</label>
                     </div>
                     <div
                         data-iserror={
@@ -443,6 +443,118 @@ export const CompanyEditForm: FC<EditCompanyFormProps> = ({ selectedOrg }) => {
                             type="tel"
                         />
                         <label>Телефон принимающей стороны</label>
+                    </div>
+                    <div
+                        data-iserror={
+                            isEdit &&
+                            touched.fullNameContactPerson &&
+                            !!errors.fullNameContactPerson
+                        }
+                        className={scss.company_edit_form_input}
+                    >
+                        <Input
+                            placeholder="Не указано"
+                            disabled={!isEdit}
+                            needErrorLabel={false}
+                            onBlur={handleBlur}
+                            handleError={
+                                isEdit &&
+                                touched.fullNameContactPerson &&
+                                errors.fullNameContactPerson
+                            }
+                            style="empty"
+                            value={values.fullNameContactPerson}
+                            name="fullNameContactPerson"
+                            onChange={handleChange}
+                        />
+                        <label>ФИО контактного лица</label>
+                    </div>
+                    <div
+                        data-iserror={
+                            isEdit &&
+                            touched.emailContactPerson &&
+                            !!errors.emailContactPerson
+                        }
+                        className={scss.company_edit_form_input}
+                    >
+                        <Input
+                            placeholder="Не указано"
+                            disabled={!isEdit}
+                            needErrorLabel={false}
+                            onBlur={handleBlur}
+                            handleError={
+                                isEdit &&
+                                touched.emailContactPerson &&
+                                errors.emailContactPerson
+                            }
+                            style="empty"
+                            value={values.emailContactPerson}
+                            name="emailContactPerson"
+                            onChange={handleChange}
+                        />
+                        <label>Email контактного лица</label>
+                    </div>
+                    <div
+                        data-iserror={
+                            isEdit &&
+                            touched.phoneContactPerson &&
+                            !!errors.phoneContactPerson
+                        }
+                        className={scss.company_edit_form_input}
+                    >
+                        <InputMask
+                            autoComplete="off"
+                            style="empty"
+                            name="phone"
+                            placeholder="+7(___)___-__-__"
+                            value={values.phoneContactPerson}
+                            onBlur={handleBlur}
+                            handleError={
+                                isEdit &&
+                                touched.phoneContactPerson &&
+                                errors.phoneContactPerson
+                            }
+                            needErrorLabel={false}
+                            alwaysShowMask={true}
+                            disabled={!isEdit}
+                            mask="+7(999)999-99-99"
+                            onChange={(value: string) =>
+                                setFieldValue('phoneContactPerson', value)
+                            }
+                            type="tel"
+                        />
+                        <label>Телефон контактного лица</label>
+                    </div>
+                    <div
+                        data-iserror={
+                            isEdit &&
+                            touched.additionalPhone &&
+                            !!errors.additionalPhone
+                        }
+                        className={scss.company_edit_form_input}
+                    >
+                        <InputMask
+                            autoComplete="off"
+                            style="empty"
+                            name="phone"
+                            placeholder="+7(___)___-__-__"
+                            value={values.additionalPhone}
+                            onBlur={handleBlur}
+                            handleError={
+                                isEdit &&
+                                touched.additionalPhone &&
+                                errors.additionalPhone
+                            }
+                            needErrorLabel={false}
+                            alwaysShowMask={true}
+                            disabled={!isEdit}
+                            mask="+7(999)999-99-99"
+                            onChange={(value: string) =>
+                                setFieldValue('additionalPhone', value)
+                            }
+                            type="tel"
+                        />
+                        <label>Доп. телефон контактного лица</label>
                     </div>
                 </div>
             </section>

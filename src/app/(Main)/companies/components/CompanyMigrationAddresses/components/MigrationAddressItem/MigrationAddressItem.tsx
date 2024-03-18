@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useEffect, useState } from 'react';
+import { ChangeEventHandler, FC, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 import {
@@ -6,6 +6,7 @@ import {
     deleteOrganizationAddresses,
     editOrganizationAddresses,
 } from 'http/organizationService/organizationService';
+import revalidate from 'utils/revalidate';
 
 import { MigrationAddressItemProps } from 'app/(Main)/companies/components/CompanyMigrationAddresses/types';
 
@@ -14,7 +15,6 @@ import DeleteSvg from 'app/(Main)/workers/[id]/svg/trash.svg';
 import CheckSvg from '/public/svg/check.svg';
 
 import scss from 'app/(Main)/companies/components/CompanyMigrationAddresses/CompanyMigrationAddresses.module.scss';
-import revalidate from 'utils/revalidate';
 
 export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
     name,
