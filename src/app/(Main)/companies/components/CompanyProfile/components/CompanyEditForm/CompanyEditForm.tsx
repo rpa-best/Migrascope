@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useFormik } from 'formik';
 
 import { Input } from 'components/UI/Inputs/Input';

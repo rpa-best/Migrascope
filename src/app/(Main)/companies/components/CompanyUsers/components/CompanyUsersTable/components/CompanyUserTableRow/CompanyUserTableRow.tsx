@@ -8,10 +8,10 @@ export const CompanyUserTableRow: FC<CompanyUsersRowProps> = ({ user }) => {
     return (
         <tr className={scss.company_user_table_row}>
             <td>
-                <p>{user.user}</p>
+                <p>{user.first_name}</p>
             </td>
             <td>
-                <p>{user.phone}</p>
+                <p>{user.user}</p>
             </td>
             <td>
                 <p>{user.role}</p>

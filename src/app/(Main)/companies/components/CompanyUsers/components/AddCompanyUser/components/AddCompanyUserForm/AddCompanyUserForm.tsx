@@ -11,12 +11,10 @@ import {
     AddCompanyUserFormSubmit,
     AddCompanyUserFormValidate,
 } from 'app/(Main)/companies/components/CompanyUsers/components/AddCompanyUser/components/AddCompanyUserForm/AddCompanyUserForm.utils';
-import { inviteUser } from 'http/organizationService/organizationService';
 
 import ExitSvg from '/public/svg/x.svg';
 import { RolesConst } from 'const/RolesConst';
 
-import { InviteUserBody } from 'http/organizationService/types';
 import {
     AddCompanyUserFormProps,
     AddCompanyUserFormValues,
