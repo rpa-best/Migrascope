@@ -1,4 +1,5 @@
 import { ChangeEventHandler, FC, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 import {
     createOrganizationAddresses,
@@ -13,6 +14,7 @@ import DeleteSvg from 'app/(Main)/workers/[id]/svg/trash.svg';
 import CheckSvg from '/public/svg/check.svg';
 
 import scss from 'app/(Main)/companies/components/CompanyMigrationAddresses/CompanyMigrationAddresses.module.scss';
+import revalidate from 'utils/revalidate';
 
 export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
     name,
@@ -21,6 +23,7 @@ export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
     index,
     setCurrentAddresses,
 }) => {
+    const path = usePathname();
     const [currentValue, setCurrentValue] = useState(name);
     const [isEdit, setIsEdit] = useState(!name);
 
@@ -30,14 +33,30 @@ export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
 
     const handleConfirm = async () => {
         if (addressId) {
-            await editOrganizationAddresses(
+            const newAddress = await editOrganizationAddresses(
                 addressId,
                 orgId,
                 currentValue as string
             );
+            setCurrentAddresses((prevState) =>
+                prevState.map((value, i) =>
+                    value.id === addressId ? newAddress : value
+                )
+            );
+            setCurrentValue(newAddress.name);
         } else {
-            await createOrganizationAddresses(orgId, currentValue as string);
+            const newAddress = await createOrganizationAddresses(
+                orgId,
+                currentValue as string
+            );
+            setCurrentAddresses((prevState) =>
+                prevState.map((value, i) =>
+                    i === prevState.length - 1 ? newAddress : value
+                )
+            );
+            setCurrentValue(newAddress.name);
         }
+        revalidate(path);
         setIsEdit(false);
     };
 
@@ -46,16 +65,17 @@ export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
             try {
                 await deleteOrganizationAddresses(addressId);
                 setCurrentAddresses((prevState) =>
-                    prevState.filter((_, indx) => indx !== index)
+                    prevState.filter((address) => address.id !== addressId)
                 );
+                return;
             } catch (e) {
                 console.log(e);
             }
-            return;
+        } else {
+            setCurrentAddresses((prevState) =>
+                prevState.filter((_, i) => i !== index)
+            );
         }
-        setCurrentAddresses((prevState) =>
-            prevState.filter((_, indx) => indx !== index)
-        );
     };
 
     return (

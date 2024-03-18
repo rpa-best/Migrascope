@@ -8,6 +8,7 @@ import { inviteUser } from 'http/organizationService/organizationService';
 import { Dispatch, SetStateAction } from 'react';
 import { FormikConfig, FormikErrors } from 'formik';
 import { AxiosError } from 'axios';
+import revalidate from 'utils/revalidate';
 
 export const AddCompanyUserFormValidate = (
     values: AddCompanyUserFormValues
@@ -34,7 +35,8 @@ export const AddCompanyUserFormSubmit = async (
     values: AddCompanyUserFormValues,
     setLoading: Dispatch<SetStateAction<boolean>>,
     setVisible: (v: boolean) => void,
-    errors: FormikErrors<AddCompanyUserFormValues>
+    errors: FormikErrors<AddCompanyUserFormValues>,
+    path: string
 ) => {
     try {
         setLoading(true);
@@ -44,6 +46,7 @@ export const AddCompanyUserFormSubmit = async (
             first_name: values.firstName,
         };
         await inviteUser(orgId, body);
+        revalidate(path);
         setVisible(false);
     } catch (e) {
         if (e instanceof AxiosError) {

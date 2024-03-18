@@ -48,7 +48,7 @@ export type GetOrganizationAddressesSsr = (
 export type CreateOrganizationAddress = (
     organization: number,
     name: string
-) => Promise<void>;
+) => Promise<OrgMigrationAddress>;
 
 export type DeleteOrganizationAddress = (addressId: number) => Promise<void>;
 
@@ -56,7 +56,7 @@ export type EditOrganizationAddress = (
     addressId: number,
     organization: number,
     name: string
-) => Promise<void>;
+) => Promise<OrgMigrationAddress>;
 
 export interface CreateOrgBody {
     organizational_form: number;

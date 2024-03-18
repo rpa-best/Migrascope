@@ -14,6 +14,8 @@ export const CompanyUsers: FC<CompanyUsersProps> = async ({
 }) => {
     const users = await getUsersSsr(selectedOrgId);
 
+    console.log(users.results);
+
     return (
         <section className={scss.company_profile_section}>
             <div className={scss.worker_page_section_content}>
