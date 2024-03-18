@@ -61,6 +61,7 @@ export interface WorkerWithDocuments extends Worker {
 export interface OrganizationUser {
     id: number;
     role: string;
+    first_name: string;
     user: string;
     phone: string;
     organization: number;
