@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Button } from 'components/UI/Buttons/Button';
 import { MigrationAddressItem } from 'app/(Main)/companies/components/CompanyMigrationAddresses/components/MigrationAddressItem';
@@ -16,6 +16,10 @@ export const CompanyMigrationAddresses: FC<CompanyMigrationAddressesProps> = ({
 }) => {
     const [currentAddresses, setCurrentAddresses] =
         useState<Partial<OrgMigrationAddress>[]>(addresses);
+
+    useEffect(() => {
+        setCurrentAddresses(addresses);
+    }, [addresses]);
 
     const handleButtonClick = () => {
         setCurrentAddresses((prevState) => [...prevState, { name: '' }]);
@@ -38,7 +42,7 @@ export const CompanyMigrationAddresses: FC<CompanyMigrationAddressesProps> = ({
                             name={address.name}
                             addressId={address.id}
                             orgId={selectedOrgId}
-                            key={index}
+                            key={address.id}
                         />
                     ))}
                 </div>

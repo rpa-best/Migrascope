@@ -21,6 +21,7 @@ import {
 } from 'app/(Main)/companies/components/CompanyUsers/components/AddCompanyUser/components/AddCompanyUserForm/AddCompanyUserForm.types';
 
 import scss from './AddCompanyUserForm.module.scss';
+import { usePathname } from 'next/navigation';
 
 export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
     opacity,
@@ -29,6 +30,7 @@ export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
     orgId,
 }) => {
     const [loading, setLoading] = useState(false);
+    const path = usePathname();
 
     const {
         handleSubmit,
@@ -53,7 +55,8 @@ export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
                 values,
                 setLoading,
                 setVisible,
-                errors
+                errors,
+                path
             );
         },
     });

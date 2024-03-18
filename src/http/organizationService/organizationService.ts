@@ -63,7 +63,7 @@ export const createOrganizationAddresses: T.CreateOrganizationAddress = async (
 export const deleteOrganizationAddresses: T.DeleteOrganizationAddress = async (
     addressId
 ) => {
-    const res: AxiosResponse<ReturnType<typeof createOrganizationAddresses>> =
+    const res: AxiosResponse<ReturnType<typeof deleteOrganizationAddresses>> =
         await $clientOrganization.delete(`migration-address/${addressId}`);
 
     return res.data;
@@ -74,7 +74,7 @@ export const editOrganizationAddresses: T.EditOrganizationAddress = async (
     organization,
     name
 ) => {
-    const res: AxiosResponse<ReturnType<typeof createOrganizationAddresses>> =
+    const res: AxiosResponse<ReturnType<typeof editOrganizationAddresses>> =
         await $clientOrganization.patch(`migration-address/${addressId}/`, {
             organization,
             name,

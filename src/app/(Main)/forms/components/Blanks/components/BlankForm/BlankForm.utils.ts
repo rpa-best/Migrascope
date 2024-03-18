@@ -98,7 +98,6 @@ export const submitFormByType = async (
             })
             .filter((entry) => entry[0] !== 'checked')
     );
-    console.log(values);
     camelToSnakeCaseDeep(modifiedValues);
 
     switch (type) {
