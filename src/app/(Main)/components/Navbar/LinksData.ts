@@ -5,7 +5,6 @@ import Tasks from 'app/(Main)/components/Navbar/svg/case.svg';
 import Forms from '/public/svg/notifications.svg';
 import Building from '/public/svg/building.svg';
 import People from 'app/(Main)/components/Navbar/svg/people.svg';
-import Globe from 'app/(Main)/components/Navbar/svg/globe.svg';
 
 export const LinksData: NavbarLink[] = [
     { href: '/', text: 'Личный кабинет', svg: Profile },
@@ -23,11 +22,6 @@ export const LinksData: NavbarLink[] = [
         href: '/workers',
         text: 'Сотрудники',
         svg: People,
-    },
-    {
-        href: '/news',
-        text: 'Новости',
-        svg: Globe,
     },
     {
         href: '/tasks',

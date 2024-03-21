@@ -1,4 +1,4 @@
-import { Response } from 'http/types';
+import { QueryType, Response } from 'http/types';
 import { WorkerDocumentType } from 'components/DocumentForm/DocumentForm.types';
 
 export interface Worker {
@@ -62,6 +62,8 @@ export interface OrganizationUser {
     id: number;
     role: string;
     firstName: string;
+    surname: string;
+    patronymic: string;
     user: string;
     phone: string;
     organization: number;
@@ -93,7 +95,10 @@ export type GetWorker = (
     access: string
 ) => Promise<Worker>;
 
-export type GetWorkers = (orgId: number) => Promise<Response<Worker>>;
+export type GetWorkers = (
+    orgId: number,
+    query?: QueryType
+) => Promise<Response<Worker>>;
 
 export type GetWorkerDocuments = (
     workerId: number,

@@ -1,10 +1,12 @@
+import { NewsType } from 'http/newsService/types';
+
 function generateRandomDate(from: Date, to: Date) {
     return new Date(
         from.getTime() + Math.random() * (to.getTime() - from.getTime())
     );
 }
 
-export interface NewsType {
+/*export interface NewsType {
     type:
         | 'completed' //
         | 'moved' //
@@ -16,13 +18,13 @@ export interface NewsType {
     title: string;
     platform: string;
     time: Date;
-}
+}*/
 
 export interface NewsItemProps extends NewsType {
     last: boolean;
 }
 
-export const temporaryNews: NewsType[] = [
+/*export const temporaryNews: NewsType[] = [
     {
         avatar: 'test',
         platform: 'Web',
@@ -56,4 +58,4 @@ export const temporaryNews: NewsType[] = [
         type: 'moved',
         username: 'test@mail.ru',
     },
-];
+];*/

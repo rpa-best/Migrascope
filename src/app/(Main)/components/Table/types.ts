@@ -18,7 +18,8 @@ export interface ColumnHeaderProps {
 }
 
 interface PaginationData {
-    totalPages: number;
+    count: number;
+    offset: number;
 }
 
 export interface TableProps {
@@ -34,6 +35,7 @@ export interface ColumnProps {
 
 export interface PaginatorProps {
     totalPages: number;
+    offset: number;
 }
 
 export interface ColumnRowProps {

@@ -31,9 +31,12 @@ export const useSearchQuery = (replace?: boolean) => {
         [searchQuery]
     );
 
-    const has = (name: string) => {
-        return searchQuery.has(name);
-    };
+    const has = useCallback(
+        (name: string) => {
+            return searchQuery.has(name);
+        },
+        [searchQuery]
+    );
 
     const deleteSearchParams = (name: string) => {
         searchQuery.delete(name);

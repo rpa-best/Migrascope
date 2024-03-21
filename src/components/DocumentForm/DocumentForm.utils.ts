@@ -125,9 +125,9 @@ export const createNewFormSubmit = async (
 
 export const setDocumentFormValues = (
     type: T.WorkerDocumentType,
-    document?: WorkerDocuments
+    document?: Partial<WorkerDocuments>
 ): T.DocumentFormValues => {
-    return setDocumentFormInitialValues(type, document);
+    return setDocumentFormInitialValues(type, document as WorkerDocuments);
 };
 
 const defaultValues = (document?: WorkerDocuments) => {

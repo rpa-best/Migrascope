@@ -42,6 +42,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
     loading,
     disablePlaceholder = false,
     fetchable = false,
+    css,
 }) => {
     const opacity = useSpring(0);
 
@@ -177,6 +178,7 @@ export const InputSelect: React.FC<IInputSelectProps> = ({
                         className={scss.input_wrapper}
                     >
                         <input
+                            style={css}
                             onFocus={() => {
                                 setVisible(true);
                                 if (disablePlaceholder) return;

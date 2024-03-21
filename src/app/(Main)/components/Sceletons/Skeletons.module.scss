@@ -33,12 +33,12 @@
 .skeleton_table_wrapper {
   position: relative;
   height: 472px;
-  width: 100%;
+  width: calc(100% - 20px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   row-gap: 4px;
-  margin-top: 24px;
+  margin: 24px auto 0;
   @include thousandThreeWidth {
     height: 482px;
   }

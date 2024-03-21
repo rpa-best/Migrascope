@@ -1,0 +1,64 @@
+@import "scss/utils";
+@import "app/(Main)/companies/components/CompanyUsers/CompanyUsers.module.scss";
+
+.tasks_table_layout {
+  @extend .company_users_table_layout;
+  max-width: calc(100vw - 320px);
+  margin: 24px 20px 0;
+  @include bigtablet {
+    max-width: calc(100vw - 270px);
+  }
+  @include phoneOrTablet {
+    max-width: calc(100vw - 30px)
+  }
+}
+
+.tasks_table {
+  @extend .company_users_table;
+  min-width: 1000px;
+  @include phoneOrTablet {
+    min-width: 600px;
+  }
+}
+
+.tasks_table_header {
+  @extend .company_user_column_header;
+  text-align: unset!important;
+}
+
+.tasks_table_row {
+  @extend .company_user_table_row;
+  & > td {
+    text-align: unset!important;
+    @include PoppinsRegular(12px);
+    color: #727880;
+  }
+}
+
+.tasks_table_worker {
+  @include InterSemiBold(14px);
+  color: $active-color;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.tasks_expiration {
+  color: #E5A559;
+}
+
+.tasks_table_action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & > button {
+    width: 80px;
+    height: 32px;
+    min-height: 32px;
+    padding: 5px;
+    font-size: 16px;
+    @include laptopWidth {
+      width: 50px;
+    }
+  }
+}

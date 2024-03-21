@@ -23,7 +23,7 @@ export const Navbar = () => {
                     {LinksData.map((el, index) => (
                         <NavbarLink key={index} {...el} />
                     ))}
-                    <Accounts />
+                    {/*<Accounts />*/}
                 </nav>
             )}
             <nav className={scss.navbar_container_mobile}>

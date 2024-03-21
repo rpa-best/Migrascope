@@ -92,6 +92,9 @@
 
 .event_description {
   @include InterRegular(14px);
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
 }
 
 .event_type {

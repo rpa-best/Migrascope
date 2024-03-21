@@ -10,12 +10,20 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Input } from 'components/UI/Inputs/Input';
 
 import scss from './Pagination.module.scss';
+import { useSearchQuery } from 'hooks/useSearchQuery';
 
-export const PaginationInput = () => {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
-    const currentPage = Number(searchParams.get('page')) || 1;
+interface PaginationInputProps {
+    currentPage: number;
+    totalPages: number;
+    offset: number;
+}
+
+export const PaginationInput = ({
+    currentPage,
+    totalPages,
+    offset,
+}: PaginationInputProps) => {
+    const { setSearchParams } = useSearchQuery(true);
 
     const [inputValue, setInputValue] = useState(currentPage.toString());
 
@@ -25,24 +33,30 @@ export const PaginationInput = () => {
 
     const handleEnterKey: EventHandler<KeyboardEvent<Element>> = (e) => {
         if (e.key === 'Enter') {
-            const params = new URLSearchParams(searchParams);
-            params.set('page', inputValue);
-            router.replace(pathname + `?${params.toString()}`, {
-                scroll: false,
-            });
+            if (+inputValue <= 0) {
+                handleBlur();
+                return;
+            }
+            setSearchParams('offset', ((+inputValue - 1) * offset).toString());
         }
     };
 
+    const handleBlur = () => {
+        setInputValue(currentPage.toString());
+    };
+
     const handleChangePage = (e: ChangeEvent<HTMLInputElement>) => {
+        const page = e.target.value;
+
+        if (+page > totalPages) return;
+
         setInputValue(e.target.value);
     };
     return (
         <div className={scss.pagination_input}>
             <p>Страница</p>
             <Input
-                onBlur={() => {
-                    setInputValue(currentPage.toString());
-                }}
+                onBlur={handleBlur}
                 onKeyDown={handleEnterKey}
                 type="number"
                 value={inputValue}

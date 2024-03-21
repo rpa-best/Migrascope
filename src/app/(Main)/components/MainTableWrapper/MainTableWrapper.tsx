@@ -4,46 +4,10 @@ import { MainTable } from 'app/(Main)/components/Table/MainTable';
 import { Column } from 'app/(Main)/components/Table/Column';
 
 import scss from './MainTableWrapper.module.scss';
+import { FC } from 'react';
+import { MainTableWrapperProps } from 'app/(Main)/components/MainTableWrapper/types';
 
-const tableData = [
-    {
-        id: 1,
-        name1: 'testim0',
-        name2: 'testiruem0',
-        name3: 'testiruemдлинную',
-        name4: 'testiruemдли',
-    },
-    {
-        id: 2,
-        name1: 'testim1',
-        name2: 'testiruem1',
-        name3: 'testiruem длинную',
-        name4: 'testiruem ',
-    },
-    {
-        id: 3,
-        name1: 'testim2',
-        name2: 'testiruem2',
-        name3: 'testiruem длинную',
-        name4: 'testiruem ',
-    },
-    {
-        id: 4,
-        name1: 'testim3',
-        name2: 'testiruem3',
-        name3: 'testiruem длинную',
-        name4: 'testiruem',
-    },
-    {
-        id: 5,
-        name1: 'testim4',
-        name2: 'testiruem4',
-        name3: 'testiruem длинную',
-        name4: 'testiruem',
-    },
-];
-
-export const MainTableWrapper = () => {
+export const MainTableWrapper: FC<MainTableWrapperProps> = ({ tableData }) => {
     return (
         <>
             <div className={scss.table_title_wrapper}>
@@ -51,14 +15,13 @@ export const MainTableWrapper = () => {
                 <span className={scss.table_title_role}>Владелец</span>
             </div>
             <MainTable
-                paginationData={{ totalPages: 15 }}
-                tableData={tableData}
+                paginationData={{ count: tableData.count, offset: 15 }}
+                tableData={tableData.results}
             >
-                <Column field="id" header="Айдишник" />
-                <Column field="name1" header="Имя пользователя" />
-                <Column field="name2" header="Активность" />
-                <Column field="name3" header="Длинная строка" />
-                <Column field="name4" header="Длинная новая" />
+                <Column field="firstName" header="Имя пользователя" />
+                <Column field="role" header="Роль в команде" />
+                <Column field="user" header="Почта" />
+                <Column field="phone" header="Телефон" />
             </MainTable>
         </>
     );

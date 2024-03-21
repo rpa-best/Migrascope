@@ -3,6 +3,7 @@ import * as T from 'http/organizationService/types';
 import { $clientOrganization } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 import { $serverOrganization } from 'http/indexes/serverIndex';
+import { setQuery } from 'utils/setQuery';
 
 export const getServerOrganization: T.GetOrganizations = async (access) => {
     try {
@@ -112,9 +113,17 @@ export const getUsersSsr: T.GetUsers = async (orgId) => {
 
     return res.data;
 };
-export const getUsers: T.GetUsers = async (orgId) => {
+export const getUsers: T.GetUsers = async (orgId, query) => {
+    const params = setQuery(query);
     const res: AxiosResponse<ReturnType<typeof getUsersSsr>> =
-        await $clientOrganization.get(`${orgId}/users/`);
+        await $clientOrganization.get(`${orgId}/users/`, { params });
+
+    return res.data;
+};
+
+export const editUser: T.EditUser = async (userId, orgId, body) => {
+    const res: AxiosResponse<ReturnType<typeof editUser>> =
+        await $clientOrganization.patch(`${orgId}/users/${userId}/`, body);
 
     return res.data;
 };

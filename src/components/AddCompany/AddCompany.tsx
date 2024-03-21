@@ -70,6 +70,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
         setFieldTouched,
         handleSubmit,
         setValues,
+        setFieldError,
         touched,
     } = useFormik<AddCompanyValues>({
         initialValues: {
@@ -152,7 +153,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                         onBlur={() => {
                             setFieldTouched('inn', true);
                         }}
-                        placeholder="ИНН/ОГРН"
+                        placeholder="Укажите ИНН/ОГРН"
                         bgColor="white"
                         value={values.inn}
                         name="search"

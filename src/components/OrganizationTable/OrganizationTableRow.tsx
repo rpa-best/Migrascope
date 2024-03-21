@@ -18,6 +18,8 @@ import BuildingSvg from '/public/svg/building.svg';
 import Spinner from '/public/svg/spinner.svg';
 
 import scss from 'components/OrganizationTable/OrganizationTable.module.scss';
+import { Response } from 'http/types';
+import { useSearchQuery } from 'hooks/useSearchQuery';
 
 export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     id,
@@ -29,9 +31,12 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     ChildrenComponent,
     refresh,
 }) => {
-    const [orgUsers, setOrgUsers] = useState<
-        (OrganizationUser | TemporaryDataType)[] | null
-    >(null);
+    const { getSearchParams } = useSearchQuery();
+    const [orgUsers, setOrgUsers] = useState<Response<
+        OrganizationUser | TemporaryDataType
+    > | null>(null);
+
+    const offset = getSearchParams('offset') || '0';
 
     const [loading, setLoading] = useState(false);
 
@@ -46,18 +51,20 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     const fetchData = useCallback(async () => {
         try {
             setLoading(true);
-            let data: (TemporaryDataType | OrganizationUser)[];
+            let data: Response<TemporaryDataType | OrganizationUser>;
             if (which === 'users') {
-                const res = await getUsers(id);
-                data = res.results;
+                data = await getUsers(id, { offset, limit: 15 });
             } else {
-                const workers = await getWorkers(id);
+                const workers = await getWorkers(id, { offset, limit: 15 });
 
                 const workersWithDocuments = await fetchWorkersDocuments(
                     workers.results
                 );
 
-                data = formatToTableData(workersWithDocuments);
+                data = {
+                    results: formatToTableData(workersWithDocuments),
+                    count: workers.count,
+                };
             }
 
             setOrgUsers(data);
@@ -66,7 +73,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [id, setClickedId, which]);
+    }, [id, offset, setClickedId, which]);
 
     const handleOrgClick = useCallback(async () => {
         if (visible) {
@@ -87,7 +94,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
         if (visible) {
             fetchData();
         }
-    }, [fetchData, refresh, visible]);
+    }, [fetchData, refresh, visible, offset]);
 
     return (
         <div className={scss.organization_row}>
@@ -103,6 +110,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
             <AnimatePresence>
                 {visible && (
                     <motion.div
+                        layout
                         exit={{ height: 0, opacity: 0 }}
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'max-content', opacity: 1 }}

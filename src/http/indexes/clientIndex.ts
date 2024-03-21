@@ -21,7 +21,17 @@ export const $clientBlank = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BLANK_API_URL,
 });
 
-[$account, $clientOrganization, $clientWorker, $clientBlank].forEach((item) => {
+export const $clientTask = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_TASK_API_URL,
+});
+
+[
+    $account,
+    $clientOrganization,
+    $clientWorker,
+    $clientBlank,
+    $clientTask,
+].forEach((item) => {
     item.interceptors.request.use(async (req) => setClientBearer(req));
 
     item.interceptors.response.use(
