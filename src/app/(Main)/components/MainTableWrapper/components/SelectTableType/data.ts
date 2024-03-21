@@ -9,10 +9,6 @@ export const TableTypesData = [
     },
     {
         id: 3,
-        name: 'Уведомления',
-    },
-    {
-        id: 4,
         name: 'Документы',
     },
 ];

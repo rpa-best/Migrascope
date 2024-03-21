@@ -12,6 +12,7 @@ export const WorkerOrgTable = async () => {
     const access = cookieStore.get('access')?.value as string;
 
     const organizations = await getServerOrganization(access);
+
     return (
         <div className={scss.orgs_wrapper}>
             <OrgTableWrapper

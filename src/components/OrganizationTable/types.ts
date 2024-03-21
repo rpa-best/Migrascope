@@ -2,9 +2,10 @@ import React from 'react';
 import { OrganizationType } from 'http/organizationService/types';
 import { TemporaryDataType } from 'app/(Main)/workers/components/WorkersDocsTable/types';
 import { OrganizationUser } from 'http/workerService/types';
+import { Response } from 'http/types';
 
 type ChildrenComponentType = React.FC<{
-    tableData: (OrganizationUser | TemporaryDataType)[] | null;
+    tableData: Response<OrganizationUser | TemporaryDataType> | null;
 }>;
 
 export interface OrganizationTableRowProps {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, Suspense, useEffect, useMemo, useState } from 'react';
 import Tippy from '@tippyjs/react/headless';
 import { AnimatePresence, motion, MotionValue, useSpring } from 'framer-motion';
 
@@ -61,13 +61,15 @@ export const Tooltip: FC<TooltipProps> = ({
                 placement="bottom-start"
                 onClickOutside={() => setVisible(!visible)}
                 render={(attrs) => (
-                    <RenderedComponent
-                        {...propsToComponent}
-                        visible={visible}
-                        setVisible={setVisible}
-                        opacity={opacity}
-                        {...attrs}
-                    />
+                    <Suspense fallback={<></>}>
+                        <RenderedComponent
+                            {...propsToComponent}
+                            visible={visible}
+                            setVisible={setVisible}
+                            opacity={opacity}
+                            {...attrs}
+                        />
+                    </Suspense>
                 )}
             >
                 <div onClick={() => setVisible(!visible)}>{children}</div>

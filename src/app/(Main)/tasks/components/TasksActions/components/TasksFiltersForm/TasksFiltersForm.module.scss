@@ -1,0 +1,23 @@
+@import "scss/utils";
+@import "src/components/DocumentForm/DocumentForm.module.scss";
+
+
+.tasks_filter_form_wrapper {
+  @extend .document_form_wrapper;
+  margin-left: 0;
+}
+
+.filters_buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+
+  & > div {
+    width: 100%;
+    @include phoneOrTablet {
+      width: calc(50% - 20px);
+      min-width: 0;
+    }
+  }
+}

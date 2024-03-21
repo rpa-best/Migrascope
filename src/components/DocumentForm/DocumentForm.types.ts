@@ -8,7 +8,7 @@ export interface DocumentFormProps extends RenderedComponentProps {
     documentType?: WorkerDocumentType;
     documentId?: number;
     workerId?: number;
-    document?: WorkerDocuments;
+    document?: Partial<WorkerDocuments>;
 }
 
 export type DocumentFormErrorType = {

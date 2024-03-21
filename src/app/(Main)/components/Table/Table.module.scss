@@ -16,7 +16,7 @@
   border-spacing: 0;
   table-layout: fixed;
   @include bigtablet {
-    min-width: 600px;
+    min-width: 720px;
   }
 }
 
@@ -41,7 +41,7 @@
 }
 
 .row_td {
-  @include PoppinsRegular(14px);
+  @include PoppinsRegular(12px);
   border: 1px solid $border-color;
   padding: 16px 13px;
 
@@ -57,6 +57,7 @@
   &:last-child {
     border-radius: 0 12px 12px 0;
     border-left: none;
+    text-align: right;
   }
 }
 

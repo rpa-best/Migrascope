@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { $clientOrganization, $clientWorker } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 import { $serverWorker } from 'http/indexes/serverIndex';
+import { setQuery } from 'utils/setQuery';
 
 export const createWorker: T.CreateWorker = async (body) => {
     const WorkerFormData = new FormData();
@@ -54,9 +55,11 @@ export const getWorkerSsr: T.GetWorker = async (orgId, workerId, access) => {
     return parsedRes;
 };
 
-export const getWorkers: T.GetWorkers = async (orgId) => {
+export const getWorkers: T.GetWorkers = async (orgId, query) => {
+    const params = setQuery(query);
+
     const res: AxiosResponse<ReturnType<typeof getWorkers>> =
-        await $clientWorker.get(`${orgId}/list/`);
+        await $clientWorker.get(`${orgId}/list/`, { params });
 
     return res.data;
 };

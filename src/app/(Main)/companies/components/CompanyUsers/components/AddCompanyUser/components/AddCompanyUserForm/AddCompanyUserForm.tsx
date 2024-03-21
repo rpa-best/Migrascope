@@ -3,13 +3,14 @@ import { Input } from 'components/UI/Inputs/Input';
 import React, { FC, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useFormik } from 'formik';
-
+import { usePathname } from 'next/navigation';
 import { InputSelect } from 'components/UI/Inputs/InputSelect';
 import { Button } from 'components/UI/Buttons/Button';
 
 import {
-    AddCompanyUserFormSubmit,
     AddCompanyUserFormValidate,
+    CompanyUserFormSubmit,
+    setInitialCompanyUserFormValues,
 } from 'app/(Main)/companies/components/CompanyUsers/components/AddCompanyUser/components/AddCompanyUserForm/AddCompanyUserForm.utils';
 
 import ExitSvg from '/public/svg/x.svg';
@@ -21,13 +22,14 @@ import {
 } from 'app/(Main)/companies/components/CompanyUsers/components/AddCompanyUser/components/AddCompanyUserForm/AddCompanyUserForm.types';
 
 import scss from './AddCompanyUserForm.module.scss';
-import { usePathname } from 'next/navigation';
 
 export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
     opacity,
     visible,
     setVisible,
     orgId,
+    user,
+    type,
 }) => {
     const [loading, setLoading] = useState(false);
     const path = usePathname();
@@ -43,20 +45,18 @@ export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
         isValid,
         resetForm,
     } = useFormik<AddCompanyUserFormValues>({
-        initialValues: {
-            role: null,
-            firstName: '',
-            username: '',
-        },
+        initialValues: setInitialCompanyUserFormValues(user),
         validate: AddCompanyUserFormValidate,
         onSubmit: async () => {
-            await AddCompanyUserFormSubmit(
+            await CompanyUserFormSubmit(
                 orgId,
                 values,
                 setLoading,
                 setVisible,
                 errors,
-                path
+                path,
+                type,
+                user?.id
             );
         },
     });
@@ -69,9 +69,8 @@ export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
 
     return (
         <motion.form
+            onClick={(e) => e.stopPropagation()}
             onSubmit={handleSubmit}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
             style={{ opacity }}
             transition={{ duration: 1 }}
             className={scss.company_wrapper}
@@ -84,12 +83,14 @@ export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
                         бланке
                     </h4>
                 </div>
-                <ExitSvg
-                    onClick={() => {
-                        setVisible(false);
-                    }}
-                    className={scss.exit_svg}
-                />
+                {type !== 'edit' && (
+                    <ExitSvg
+                        onClick={() => {
+                            setVisible(false);
+                        }}
+                        className={scss.exit_svg}
+                    />
+                )}
             </div>
             <div className={scss.input_wrapper}>
                 <label>
@@ -121,11 +122,39 @@ export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
             </div>
             <div className={scss.input_wrapper}>
                 <label>
+                    Фамилия<span>*</span>
+                </label>
+
+                <Input
+                    handleError={touched.surname && errors.surname}
+                    value={values.surname}
+                    placeholder="Фамилия"
+                    onBlur={handleBlur}
+                    name="surname"
+                    onChange={handleChange}
+                />
+            </div>
+            <div className={scss.input_wrapper}>
+                <label>
+                    Отчество<span>*</span>
+                </label>
+
+                <Input
+                    handleError={touched.patronymic && errors.patronymic}
+                    value={values.patronymic}
+                    placeholder="Отчество"
+                    onBlur={handleBlur}
+                    name="patronymic"
+                    onChange={handleChange}
+                />
+            </div>
+            <div className={scss.input_wrapper}>
+                <label>
                     Роль в компании<span>*</span>
                 </label>
 
                 <InputSelect
-                    listValues={RolesConst}
+                    listValues={RolesConst.slice(1)}
                     onChange={(selectedRole) => {
                         setFieldValue('role', selectedRole);
                     }}
@@ -137,7 +166,7 @@ export const AddCompanyUserForm: FC<AddCompanyUserFormProps> = ({
                 />
             </div>
             <Button disabled={!isValid} loading={loading} type="submit">
-                Пригласить
+                {type === 'edit' ? 'Сохранить' : 'Пригласить'}
             </Button>
         </motion.form>
     );

@@ -1,22 +1,22 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { ChangeEvent, useState } from 'react';
-import { SearchParamsHelper } from 'utils/searchParamsHelper';
+import { useSearchParams } from 'next/navigation';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import { Input } from 'components/UI/Inputs/Input';
+
 import useDebouncedFunction from 'hooks/useDebouncedFunction';
+import { useSearchQuery } from 'hooks/useSearchQuery';
+
 import { SearchInputProps } from 'components/SearchInput/types';
 
 export const SearchInput: React.FC<SearchInputProps> = ({
     placeholder = 'Поиск',
 }) => {
-    const query = useSearchParams();
-    const pathname = usePathname();
-    const router = useRouter();
-    const queryHelper = new SearchParamsHelper(query.entries);
+    const { getSearchParams, setSearchParams, deleteSearchParams, has } =
+        useSearchQuery();
 
-    const searchValue = query.get('search') ?? '';
+    const searchValue = getSearchParams('search') ?? '';
 
     const [inputValue, setInputValue] = useState(searchValue);
 
@@ -28,11 +28,10 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 
     function handleQueryChange(value: string) {
         if (!value) {
-            queryHelper.delete('search');
+            deleteSearchParams('search');
         } else {
-            queryHelper.set('search', value);
+            setSearchParams('search', value);
         }
-        router.replace(pathname + queryHelper.getParams, { scroll: false });
     }
 
     function handleInputValueChange(event: ChangeEvent<HTMLInputElement>) {
@@ -41,6 +40,12 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 
         debouncedQueryChange(value);
     }
+
+    useEffect(() => {
+        if (!searchValue) {
+            setInputValue('');
+        }
+    }, [searchValue]);
 
     return (
         <Input

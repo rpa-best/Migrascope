@@ -1,0 +1,21 @@
+@import "scss/utils";
+@import "app/(Main)/workers/components/WorkersActions/WorkersActions.module.scss";
+
+.tasks_actions_wrapper {
+  @extend .actions_wrapper;
+  @include bigtablet {
+    flex-direction: row;
+  }
+
+  & > div {
+    &:first-child {
+      min-width: 300px;
+      @include bigtablet {
+
+      }
+      @include phone {
+        width: 100%;
+      }
+    }
+  }
+}

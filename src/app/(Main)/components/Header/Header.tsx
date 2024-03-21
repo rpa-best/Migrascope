@@ -11,11 +11,11 @@ export const Header = () => {
             <h2 className={scss.header_description}>
                 <Description />
             </h2>
-            <div className={scss.header_actions}>
+            {/*   <div className={scss.header_actions}>
                 <Search />
                 <Notifications />
                 <Profile />
-            </div>
+            </div>*/}
         </header>
     );
 };

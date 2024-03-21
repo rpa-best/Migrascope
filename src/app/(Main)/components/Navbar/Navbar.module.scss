@@ -51,6 +51,19 @@
   @include InterMediumBold(14px);
 }
 
+.tasks_count {
+  width: 21px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #7B61FF;
+  color: white;
+  border-radius: 9px;
+  @include PoppinsSemiBold(10px);
+  margin-left: auto;
+}
+
 .accounts {
   display: flex;
   align-items: center;

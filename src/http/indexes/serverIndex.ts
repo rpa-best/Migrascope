@@ -20,9 +20,23 @@ export const $serverWorker = axios.create({
 export const $serverBlank = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BLANK_API_URL,
 });
-[$serverAccount, $serverOrganization, $serverWorker, $serverBlank].forEach(
-    (instance) => {
-        instance.interceptors.request.use(async (req) => setServerBearer(req));
-        instance.interceptors.response.use((res) => toCamelCase(res));
-    }
-);
+
+export const $serverTask = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_TASK_API_URL,
+});
+
+export const $serverNews = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_NEWS_API_URL,
+});
+
+[
+    $serverAccount,
+    $serverOrganization,
+    $serverWorker,
+    $serverBlank,
+    $serverTask,
+    $serverNews,
+].forEach((instance) => {
+    instance.interceptors.request.use(async (req) => setServerBearer(req));
+    instance.interceptors.response.use((res) => toCamelCase(res));
+});

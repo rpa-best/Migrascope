@@ -95,8 +95,11 @@
   margin-top: auto;
   padding-bottom: 6.5px;
   @include InterRegular(14px);
-  @include phone {
+  @include phoneOrTablet {
     font-size: 12px;
+  }
+  @include phone {
+    font-size: 11px;
   }
 }
 
@@ -107,9 +110,9 @@
   column-gap: 8px;
   @include phone {
     & button {
-      &:first-child {
-        display: none;
-      }
+      width: max-content;
+      font-size: 12px;
+      padding: 8px 16px;
     }
   }
 }

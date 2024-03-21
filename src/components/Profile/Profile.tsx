@@ -7,13 +7,20 @@ import { getRandomColor } from 'utils/getRandomColor';
 import { cookies } from 'next/headers';
 
 import scss from 'components/Profile/Profile.module.scss';
+import { redirect } from 'next/navigation';
 
 export const Profile = async () => {
     const cookie = cookies();
 
     const access = cookie.get('access')?.value as string;
 
-    const user = await getServerUser(access);
+    let user;
+
+    try {
+        user = await getServerUser(access);
+    } catch (e) {
+        redirect('/login');
+    }
 
     return (
         <section className={scss.profile_layout}>
@@ -29,7 +36,7 @@ export const Profile = async () => {
                     <p className={scss.profile_email}>{user.username}</p>
                 </div>
                 <div className={scss.profile_actions}>
-                    <AdditionalButton size="big" svg="ellipsis" type="button" />
+                    {/* <AdditionalButton size="big" svg="ellipsis" type="button" />*/}
                     <ProfileLogoutButton />
                 </div>
             </div>

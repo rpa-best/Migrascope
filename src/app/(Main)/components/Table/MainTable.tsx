@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, createContext, memo } from 'react';
+import React, { useState, createContext, memo, useMemo } from 'react';
 
 import { ColumnHeader } from 'app/(Main)/components/Table/ColumnHeader';
 
@@ -22,6 +22,12 @@ export const MainTable = memo(function MemoTable({
     paginationData,
 }: TableProps) {
     const [headers, setHeaders] = useState<IHeader[]>([]);
+
+    const totalPages = useMemo(() => {
+        return paginationData?.count
+            ? Math.ceil(paginationData?.count / paginationData.offset)
+            : null;
+    }, [paginationData?.count, paginationData?.offset]);
 
     return (
         <>
@@ -55,9 +61,13 @@ export const MainTable = memo(function MemoTable({
                     </TableContext.Provider>
                 </table>
             </div>
-            {paginationData?.totalPages && (
-                <Pagination totalPages={paginationData.totalPages} />
-            )}
+            {paginationData?.count &&
+                paginationData.count > paginationData.offset && (
+                    <Pagination
+                        totalPages={totalPages as number}
+                        offset={paginationData.offset}
+                    />
+                )}
         </>
     );
 });

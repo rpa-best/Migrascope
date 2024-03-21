@@ -1,4 +1,4 @@
-import { Response } from 'http/types';
+import { QueryType, Response } from 'http/types';
 import { OrganizationUser } from 'http/workerService/types';
 
 export interface OrganizationType {
@@ -113,11 +113,24 @@ interface OrganizationInfo extends Omit<OrganizationType, 'name'> {
 
 export type GetOrganizationByInfo = (info: string) => Promise<OrganizationInfo>;
 
-export type GetUsers = (orgId: number) => Promise<Response<OrganizationUser>>;
+export type GetUsers = (
+    orgId: number,
+    query?: QueryType
+) => Promise<Response<OrganizationUser>>;
+
+export interface EditUserBody extends Partial<InviteUserBody> {}
+
+export type EditUser = (
+    userId: number,
+    orgId: number,
+    body: EditUserBody
+) => Promise<void>;
 
 export interface InviteUserBody {
     username: string;
     first_name: string;
+    surname: string;
+    patronymic: string;
     role: string;
 }
 

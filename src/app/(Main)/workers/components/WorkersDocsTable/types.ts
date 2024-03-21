@@ -17,7 +17,7 @@ export interface TemporaryDataType {
 }
 
 export interface WorkersTableProps extends Pick<TableProps, 'paginationData'> {
-    tableData: TemporaryDataType[];
+    tableData: { results: TemporaryDataType[]; count: number };
     headers: string[];
 }
 

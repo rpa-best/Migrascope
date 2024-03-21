@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
 
         const expireDate = new Date(parsedMiddleJwt.exp * 1000);
 
-        const isTokenExpired = expireDate < new Date();
+        const isTokenExpired = expireDate.getTime() <= Date.now();
 
         const updatedSuccessfully = await updateTokens(refresh as string);
 

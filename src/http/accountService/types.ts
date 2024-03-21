@@ -55,6 +55,7 @@ interface ValidateFieldsBody {
 export type ValidateFields = (body: ValidateFieldsBody) => Promise<void>;
 
 export interface UserType {
+    id: number;
     username: string;
     first_name: string;
     surname: string;
