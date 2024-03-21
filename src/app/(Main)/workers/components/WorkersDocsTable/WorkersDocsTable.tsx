@@ -15,6 +15,7 @@ export const WorkersDocsTable = memo(function MemoTable({
     headers,
 }: WorkersTableProps) {
     const [clickedId, setClickedId] = useState<number | null>(null);
+
     return (
         <>
             <div className={scss.worker_docs_table_wrapper}>
@@ -27,7 +28,7 @@ export const WorkersDocsTable = memo(function MemoTable({
                         </tr>
                     </thead>
                     <tbody className={scss.table_body}>
-                        {tableData?.map((item, index) => {
+                        {tableData?.results.map((item, index) => {
                             return (
                                 <Row
                                     clickedId={clickedId}
@@ -40,8 +41,11 @@ export const WorkersDocsTable = memo(function MemoTable({
                     </tbody>
                 </table>
             </div>
-            {paginationData?.totalPages && (
-                <Pagination totalPages={paginationData.totalPages} />
+            {paginationData?.count && (
+                <Pagination
+                    offset={paginationData.offset}
+                    totalPages={paginationData.count}
+                />
             )}
         </>
     );

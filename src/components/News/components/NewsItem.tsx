@@ -4,11 +4,7 @@ import React from 'react';
 
 import { EventSvg } from 'components/News/components/EventSvg';
 
-import { getTimeDescription, getTitleDesc } from 'components/News/utils';
-
 import { NewsItemProps } from 'components/News/types';
-
-import AvatarSvg from 'components/News/svg/Avatar.svg';
 
 import scss from 'components/News/News.module.scss';
 

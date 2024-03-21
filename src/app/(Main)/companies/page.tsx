@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { cookies } from 'next/headers';
 
 import { ProfileSkeleton } from 'components/Profile/Skeleton';
 import { Profile } from 'components/Profile';
@@ -10,18 +11,18 @@ import {
     getServerOrganization,
 } from 'http/organizationService/organizationService';
 import { CompanyInputSelect } from 'app/(Main)/companies/components/CompanyInputSelect';
-import { cookies } from 'next/headers';
-
-import scss from './Companies.module.scss';
 import { CompanyMigrationAddresses } from 'app/(Main)/companies/components/CompanyMigrationAddresses';
 import { CompanyUsers } from 'app/(Main)/companies/components/CompanyUsers';
+
+import scss from './Companies.module.scss';
+
+const cookie = cookies();
 
 export default async function CompaniesPage({
     searchParams,
 }: {
     searchParams: { org?: string };
 }) {
-    const cookie = cookies();
     const access = cookie.get('access')?.value as string;
 
     const organizations = await getServerOrganization(access);

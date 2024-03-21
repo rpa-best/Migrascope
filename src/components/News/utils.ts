@@ -1,8 +1,7 @@
-import { NewsType } from 'components/News/types';
 import { getDateDescription } from 'utils/getDateDescription';
 import { msToTime } from 'utils/msToTime';
 
-export function getTitleDesc(
+/*export function getTitleDesc(
     type: NewsType['type'],
     username?: string,
     userTo?: string
@@ -17,7 +16,7 @@ export function getTitleDesc(
         case 'moved':
             return 'Сдвинута задача';
     }
-}
+}*/
 
 export function getTimeDescription(time: Date) {
     const ms = msToTime(Date.now() - time.getTime());
