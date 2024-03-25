@@ -1,18 +1,15 @@
-import { AdditionalButton } from 'components/UI/Buttons/AdditionalButton';
 import { ProfileLogoutButton } from 'components/Profile/components/ProfileLogoutButton';
 import { ProfileAvatarWrapper } from 'components/Profile/components/ProfileAvatarWrapper';
 
+import { redirect } from 'next/navigation';
 import { getServerUser } from 'http/accountService/accountService';
 import { getRandomColor } from 'utils/getRandomColor';
-import { cookies } from 'next/headers';
+import { getCookieAccess } from 'utils/getServerAccess';
 
 import scss from 'components/Profile/Profile.module.scss';
-import { redirect } from 'next/navigation';
 
 export const Profile = async () => {
-    const cookie = cookies();
-
-    const access = cookie.get('access')?.value as string;
+    const access = await getCookieAccess();
 
     let user;
 

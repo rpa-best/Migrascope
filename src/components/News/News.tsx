@@ -7,7 +7,6 @@ import scss from './News.module.scss';
 export const News = async () => {
     const news = await getNews();
 
-    console.log(news);
 
     return (
         <aside className={scss.news_layout}>

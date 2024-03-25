@@ -19,15 +19,17 @@ export const NavbarLink: React.FC<NavbarLinkProps> = ({
     const active = checkActive(pathname, href);
 
     useEffect(() => {
-        (async () => {
-            try {
-                const count = await getTasksCount();
-                setTasksCount(count.number);
-            } catch (e) {
-                console.log(e);
-            }
-        })();
-    }, []);
+        if (text === 'Задачи') {
+            (async () => {
+                try {
+                    const count = await getTasksCount();
+                    setTasksCount(count.number);
+                } catch (e) {
+                    console.log(e);
+                }
+            })();
+        }
+    }, [text]);
 
     return (
         <Link

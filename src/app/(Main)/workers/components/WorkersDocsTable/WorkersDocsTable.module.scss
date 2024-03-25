@@ -68,6 +68,7 @@
 .worker_docs_td_info {
   display: flex;
   flex-direction: column;
+  padding-left: 15px;
   & a {
     &:first-child {
       @include InterSemiBold(14px);

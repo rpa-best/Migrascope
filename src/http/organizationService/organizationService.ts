@@ -107,9 +107,11 @@ export const editOrganization: T.EditOrganization = async (orgId, body) => {
     return res.data;
 };
 
-export const getUsersSsr: T.GetUsers = async (orgId) => {
+export const getUsersSsr: T.GetUsers = async (orgId, query) => {
+    const params = setQuery(query);
+
     const res: AxiosResponse<ReturnType<typeof getUsersSsr>> =
-        await $serverOrganization.get(`${orgId}/users/`);
+        await $serverOrganization.get(`${orgId}/users/`, { params });
 
     return res.data;
 };

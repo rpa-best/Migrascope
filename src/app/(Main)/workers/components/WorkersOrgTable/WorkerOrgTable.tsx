@@ -1,5 +1,4 @@
-import { cookies } from 'next/headers';
-
+import { getCookieAccess } from 'utils/getServerAccess';
 import { OrgTableWrapper } from 'components/OrganizationTable/OrgTableWrapper';
 import { WorkersDocsTable } from 'app/(Main)/workers/components/WorkersDocsTable';
 
@@ -8,8 +7,7 @@ import { getServerOrganization } from 'http/organizationService/organizationServ
 import scss from 'app/(Main)/workers/WorkersPage.module.scss';
 
 export const WorkerOrgTable = async () => {
-    const cookieStore = cookies();
-    const access = cookieStore.get('access')?.value as string;
+    const access = await getCookieAccess();
 
     const organizations = await getServerOrganization(access);
 

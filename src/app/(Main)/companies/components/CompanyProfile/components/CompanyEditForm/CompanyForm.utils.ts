@@ -68,6 +68,7 @@ export const setInitialEditCompanyValues = (
         dateEndPassport: values.dateEndPassport
             ? new Date(values.dateEndPassport)
             : null,
+        actualAddress: values.actualAddress ?? '',
         legalAddress: values.legalAddress ?? '',
         dateIssuePassport: values.dateIssuePassport
             ? new Date(values.dateIssuePassport)

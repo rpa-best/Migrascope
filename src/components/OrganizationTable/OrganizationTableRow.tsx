@@ -31,7 +31,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     ChildrenComponent,
     refresh,
 }) => {
-    const { getSearchParams } = useSearchQuery();
+    const { getSearchParams, deleteSearchParams } = useSearchQuery();
     const [orgUsers, setOrgUsers] = useState<Response<
         OrganizationUser | TemporaryDataType
     > | null>(null);
@@ -76,6 +76,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     }, [id, offset, setClickedId, which]);
 
     const handleOrgClick = useCallback(async () => {
+        deleteSearchParams('offset');
         if (visible) {
             setVisible(false);
             setClickedId(null);

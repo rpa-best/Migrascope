@@ -447,6 +447,31 @@ export const CompanyEditForm: FC<EditCompanyFormProps> = ({ selectedOrg }) => {
                     <div
                         data-iserror={
                             isEdit &&
+                            touched.actualAddress &&
+                            !!errors.actualAddress
+                        }
+                        className={scss.company_edit_form_input}
+                    >
+                        <Input
+                            disabled={!isEdit}
+                            placeholder="Не указано"
+                            style="empty"
+                            value={values.actualAddress}
+                            onBlur={handleBlur}
+                            needErrorLabel={false}
+                            handleError={
+                                isEdit &&
+                                touched.actualAddress &&
+                                errors.actualAddress
+                            }
+                            name="actualAddress"
+                            onChange={handleChange}
+                        />
+                        <label>Фактический адрес</label>
+                    </div>
+                    <div
+                        data-iserror={
+                            isEdit &&
                             touched.fullNameContactPerson &&
                             !!errors.fullNameContactPerson
                         }

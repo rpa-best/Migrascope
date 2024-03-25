@@ -2,10 +2,11 @@ import { OrganizationUser } from 'http/workerService/types';
 
 export interface CompanyUsersProps {
     selectedOrgId: number;
+    offset?: string;
 }
 
 export interface CompanyUsersTableProps {
-    users: OrganizationUser[];
+    users: { results: OrganizationUser[]; count: number };
     headers: string[];
 }
 

@@ -21,17 +21,16 @@ import {
     TranslatedLabels,
 } from 'components/DocumentForm/data';
 
+const fieldsToExclude = ['archive'];
+
 export const DocumentFormValidate = (values: T.DocumentFormValues) => {
     const errors: Partial<T.DocumentFormErrorType> = {};
 
     for (const elem in values) {
+        if (fieldsToExclude.includes(elem)) continue;
         if (!values[elem as keyof T.DocumentFormValues]) {
             errors[elem as keyof T.DocumentFormErrorType] = 'Обязательное поле';
         }
-    }
-
-    if (values.images.length === 0) {
-        errors.images = 'Обязательное поле';
     }
 
     return errors;

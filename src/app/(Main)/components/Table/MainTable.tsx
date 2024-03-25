@@ -61,13 +61,12 @@ export const MainTable = memo(function MemoTable({
                     </TableContext.Provider>
                 </table>
             </div>
-            {paginationData?.count &&
-                paginationData.count > paginationData.offset && (
-                    <Pagination
-                        totalPages={totalPages as number}
-                        offset={paginationData.offset}
-                    />
-                )}
+            {paginationData && paginationData.count > paginationData.offset && (
+                <Pagination
+                    totalPages={totalPages as number}
+                    offset={paginationData.offset}
+                />
+            )}
         </>
     );
 });
