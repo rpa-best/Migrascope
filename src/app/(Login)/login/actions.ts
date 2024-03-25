@@ -4,7 +4,6 @@ import {
     changePassword,
     registerUser,
 } from 'http/accountService/accountService';
-import { cookies } from 'next/headers';
 
 import { ILoginFormTypes } from 'app/(Login)/login/components/LoginForm/types';
 import { RegisterUserAction } from 'app/(Login)/login/components/RegisterForm/types';
@@ -15,8 +14,6 @@ import {
 } from 'http/accountService/types';
 import { AxiosError } from 'axios';
 
-const cookie = cookies();
-
 export const LoginAction = async (values: ILoginFormTypes) => {
     const body: AuthUserBody = {
         password: values.password,
@@ -24,7 +21,6 @@ export const LoginAction = async (values: ILoginFormTypes) => {
     };
     try {
         return await authUser(body);
-
     } catch (e) {
         if (e instanceof AxiosError) {
             return e.response?.data.message;

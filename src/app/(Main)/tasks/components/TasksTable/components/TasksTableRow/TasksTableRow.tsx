@@ -20,14 +20,14 @@ export const TasksTableRow: FC<TasksTableRowProps> = ({ document }) => {
     const [visible, setVisible] = useState(false);
     const opacity = useSpring(0);
 
-    const documentType = document.document.includes('_')
-        ? camelCase(document.document)
-        : document.document;
+    const documentType = document.typeDocument.includes('_')
+        ? camelCase(document.typeDocument)
+        : document.typeDocument;
 
     return (
         <tr className={scss.tasks_table_row}>
             <td>
-                <p>{document.typeDocument}</p>
+                <p>{document.document}</p>
             </td>
             <td>
                 <Link
@@ -39,7 +39,7 @@ export const TasksTableRow: FC<TasksTableRowProps> = ({ document }) => {
                 <p>{document.organization}</p>
             </td>
             <td>
-                <p>{new Date(document.expirationDate).toLocaleDateString()}</p>
+                <p>{new Date(document.dateEnd).toLocaleDateString()}</p>
                 <p
                     style={{
                         color:
@@ -76,7 +76,7 @@ export const TasksTableRow: FC<TasksTableRowProps> = ({ document }) => {
                         type="createNew"
                         workerId={document.workerId}
                         document={{
-                            id: document.documentId,
+                            id: document.id,
                             typeDocument: SelectDocumentList.find(
                                 (doc) => doc.slug === documentType
                             )?.slug as string,

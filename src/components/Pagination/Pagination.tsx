@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -47,7 +49,7 @@ export const Pagination: React.FC<PaginatorProps> = ({
                     data-isdisabled={currentPage === 1}
                     className={scss.arrow_wrapper}
                     scroll={false}
-                    href={createPageURL(currentPage - 1)}
+                    href={createPageURL(currentPage - 2)}
                 >
                     <ArrowSvg />
                 </Link>
@@ -65,7 +67,7 @@ export const Pagination: React.FC<PaginatorProps> = ({
                     scroll={false}
                     data-isdisabled={currentPage === totalPages}
                     className={scss.arrow_wrapper}
-                    href={createPageURL(currentPage + 1)}
+                    href={createPageURL(currentPage)}
                 >
                     <ArrowSvg />
                 </Link>

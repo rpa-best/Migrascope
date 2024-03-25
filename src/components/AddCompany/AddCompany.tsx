@@ -16,7 +16,6 @@ import {
     getClientOrganizationByInfo,
 } from 'http/organizationService/organizationService';
 
-import XSvg from '/public/svg/x.svg';
 import { OrgFormData } from 'components/AddCompany/tempData';
 
 import {
@@ -36,7 +35,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
     visible,
     setVisible,
 }) => {
-    const [addressesCount, setAddressesCount] = useState(1);
+    /*  const [addressesCount, setAddressesCount] = useState(1);*/
     const [loading, setLoading] = useState(false);
 
     const onSubmit = async (values: AddCompanyValues) => {
@@ -80,7 +79,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
             directorSurname: '',
             orgForm: null,
             orgName: '',
-            actualAddress: [''],
+            actualAddress: '',
             legalAddress: '',
         },
         validate: AddCompanyValidate,
@@ -116,8 +115,8 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
     useEffect(() => {
         if (!visible) {
             resetForm();
-            setAddressesCount(1);
-            values.actualAddress = [''];
+            /*setAddressesCount(1);
+            values.actualAddress = [''];*/
         }
     }, [resetForm, visible]);
 
@@ -218,7 +217,18 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                 <label>
                     Фактический адрес<span>*</span>
                 </label>
-                <div className={scss.addresses_wrapper}>
+                <Input
+                    handleError={
+                        touched.actualAddress &&
+                        (errors.actualAddress as string)
+                    }
+                    value={values.actualAddress}
+                    placeholder="Фактический адрес"
+                    onBlur={handleBlur}
+                    name="actualAddress"
+                    onChange={handleChange}
+                />
+                {/* <div className={scss.addresses_wrapper}>
                     {Array.from({ length: addressesCount }).map((el, index) => (
                         <div className={scss.address_input_wrapper} key={index}>
                             <Input
@@ -269,7 +279,7 @@ export const AddCompany: React.FC<AddCompanyProps> = ({
                     >
                         Добавить фактический адресс
                     </Button>
-                </div>
+                </div>*/}
             </div>
 
             <div className={scss.input_wrapper}>

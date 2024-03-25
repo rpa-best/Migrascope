@@ -11,8 +11,9 @@ import scss from './CompanyUsers.module.scss';
 
 export const CompanyUsers: FC<CompanyUsersProps> = async ({
     selectedOrgId,
+    offset,
 }) => {
-    const users = await getUsersSsr(selectedOrgId);
+    const users = await getUsersSsr(selectedOrgId, { offset, limit: 15 });
 
     return (
         <section className={scss.company_profile_section}>
@@ -25,7 +26,7 @@ export const CompanyUsers: FC<CompanyUsersProps> = async ({
                 </div>
                 <CompanyUsersTable
                     headers={['ФИО', 'Электронная почта', 'Роль в компании']}
-                    users={users.results}
+                    users={users}
                 />
             </div>
         </section>

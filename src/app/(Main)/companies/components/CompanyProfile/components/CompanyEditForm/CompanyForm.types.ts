@@ -11,7 +11,6 @@ export type DefaultCompanyValues = {
         | 'organizationalForm'
         | 'id'
         | 'createAt'
-        | 'actualAddress'
         | 'dateEndPassport'
         | 'dateIssuePassport'
     >]: string;

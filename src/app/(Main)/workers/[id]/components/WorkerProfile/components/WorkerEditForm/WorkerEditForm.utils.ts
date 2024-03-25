@@ -21,6 +21,8 @@ const fieldsToExclude = [
     'surname',
     'patronymic',
     'status',
+    'createAt',
+    'paid',
 ];
 
 export const WorkerEditFormDataGender = [

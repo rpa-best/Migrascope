@@ -16,7 +16,7 @@ export interface AddCompanyValues {
     orgForm: OrgFormType | null;
     orgName: string;
     legalAddress: string;
-    actualAddress: string[];
+    actualAddress: string;
     directorName: string;
     directorSurname: string;
     directorPatronymic: string;

@@ -6,6 +6,7 @@ import { CompanyUserColumnHeader } from 'app/(Main)/companies/components/Company
 import { CompanyUsersTableProps } from 'app/(Main)/companies/components/CompanyUsers/types';
 
 import scss from 'app/(Main)/companies/components/CompanyUsers/CompanyUsers.module.scss';
+import { Pagination } from 'components/Pagination';
 
 export const CompanyUsersTable: FC<CompanyUsersTableProps> = ({
     users,
@@ -26,13 +27,16 @@ export const CompanyUsersTable: FC<CompanyUsersTableProps> = ({
                         </tr>
                     </thead>
                     <tbody className={scss.table_body}>
-                        {users?.map((user, index) => {
+                        {users?.results.map((user, index) => {
                             return (
                                 <CompanyUserTableRow key={index} user={user} />
                             );
                         })}
                     </tbody>
                 </table>
+                {users.count > 15 && (
+                    <Pagination offset={15} totalPages={users.count} />
+                )}
             </div>
         </>
     );

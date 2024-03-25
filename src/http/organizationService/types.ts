@@ -25,7 +25,7 @@ export interface OrganizationType {
     emailContactPerson: string;
     phoneHostParty: string;
     legalAddress: string;
-    actualAddress: string[];
+    actualAddress: string;
     createAt: string;
     owner: number;
     okved: string;
@@ -70,7 +70,7 @@ export interface CreateOrgBody {
     surname_director: string;
     patronymic_director: string;
     legal_address: string;
-    actual_address: string[];
+    actual_address: string;
 }
 
 export type CreateOrganization = (

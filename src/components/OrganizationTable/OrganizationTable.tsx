@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { getCookieAccess } from 'utils/getServerAccess';
 
 import { OrgTableWrapper } from 'components/OrganizationTable/OrgTableWrapper';
 import { getServerOrganization } from 'http/organizationService/organizationService';
@@ -7,8 +7,7 @@ import { MainTableWrapper } from 'app/(Main)/components/MainTableWrapper';
 import scss from 'components/OrganizationTable/OrganizationTable.module.scss';
 
 export const OrganizationTable = async () => {
-    const cookieStore = cookies();
-    const access = cookieStore.get('access')?.value as string;
+    const access = await getCookieAccess();
 
     const organizations = await getServerOrganization(access);
 

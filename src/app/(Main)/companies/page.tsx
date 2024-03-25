@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
-import { cookies } from 'next/headers';
 
 import { ProfileSkeleton } from 'components/Profile/Skeleton';
 import { Profile } from 'components/Profile';
 import { CompanyProfile } from 'app/(Main)/companies/components/CompanyProfile/CompanyProfile';
 import { AddCompanyWrapper } from 'app/(Main)/companies/components/AddCompanyWrapper';
 
+import { getCookieAccess } from 'utils/getServerAccess';
 import {
     getOrganizationAddressesSsr,
     getServerOrganization,
@@ -16,14 +16,12 @@ import { CompanyUsers } from 'app/(Main)/companies/components/CompanyUsers';
 
 import scss from './Companies.module.scss';
 
-const cookie = cookies();
-
 export default async function CompaniesPage({
     searchParams,
 }: {
-    searchParams: { org?: string };
+    searchParams?: { org?: string; offset?: string };
 }) {
-    const access = cookie.get('access')?.value as string;
+    const access = await getCookieAccess();
 
     const organizations = await getServerOrganization(access);
 
@@ -53,11 +51,14 @@ export default async function CompaniesPage({
                         <AddCompanyWrapper />
                     </div>
                     <CompanyProfile selectedOrg={selectedOrg} />
-                    <CompanyMigrationAddresses
+                    {/*<CompanyMigrationAddresses
                         addresses={migrationAddresses.results}
                         selectedOrgId={selectedOrg.id}
+                    />*/}
+                    <CompanyUsers
+                        offset={searchParams?.offset}
+                        selectedOrgId={selectedOrg.id}
                     />
-                    <CompanyUsers selectedOrgId={selectedOrg.id} />
                 </div>
             </div>
         </main>

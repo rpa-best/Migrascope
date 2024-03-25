@@ -21,9 +21,10 @@ export const CompanyInputSelect: FC<CompanyInputSelect> = ({
     const [setIsEdit] = useEditCompanyStore((state) => [state.setIsEdit]);
     const [selectedValue, setSelectedValue] =
         useState<OrganizationType>(selectedOrg);
-    const { setSearchParams } = useSearchQuery();
+    const { setSearchParams, deleteSearchParams } = useSearchQuery();
 
     const handleOrganizationChange = (org: OrganizationType) => {
+        deleteSearchParams('offset');
         setSelectedValue(org);
         setSearchParams('org', String(org.id));
         setIsEdit(false);

@@ -11,7 +11,6 @@ import scss from 'app/(Main)/workers/components/WorkersDocsTable/WorkersDocsTabl
 
 export const WorkersDocsTable = memo(function MemoTable({
     tableData,
-    paginationData,
     headers,
 }: WorkersTableProps) {
     const [clickedId, setClickedId] = useState<number | null>(null);
@@ -41,11 +40,8 @@ export const WorkersDocsTable = memo(function MemoTable({
                     </tbody>
                 </table>
             </div>
-            {paginationData?.count && (
-                <Pagination
-                    offset={paginationData.offset}
-                    totalPages={paginationData.count}
-                />
+            {tableData.count > 15 && (
+                <Pagination offset={1} totalPages={tableData.count} />
             )}
         </>
     );

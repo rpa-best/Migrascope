@@ -1,12 +1,23 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 
 import { TasksTableProps } from 'app/(Main)/tasks/components/TasksTable/types';
 import { TasksTableHeader } from 'app/(Main)/tasks/components/TasksTable/components/TasksTableHeader';
 import { TasksTableRow } from 'app/(Main)/tasks/components/TasksTable/components/TasksTableRow';
+import { Pagination } from 'components/Pagination';
 
 import scss from './TasksTable.module.scss';
 
-export const TasksTable: FC<TasksTableProps> = ({ headers, documents }) => {
+export const TasksTable: FC<TasksTableProps> = ({
+    headers,
+    documents,
+    paginationData,
+}) => {
+    const totalPages = useMemo(() => {
+        return paginationData?.total
+            ? Math.ceil(paginationData?.total / paginationData.offset)
+            : null;
+    }, [paginationData?.total, paginationData?.offset]);
+
     return (
         <>
             <div className={scss.tasks_table_layout}>
@@ -24,6 +35,12 @@ export const TasksTable: FC<TasksTableProps> = ({ headers, documents }) => {
                         })}
                     </tbody>
                 </table>
+                {paginationData.total > paginationData.offset && (
+                    <Pagination
+                        totalPages={totalPages as number}
+                        offset={paginationData.offset}
+                    />
+                )}
             </div>
         </>
     );

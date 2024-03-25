@@ -1,5 +1,3 @@
-import { cookies } from 'next/headers';
-
 import { WorkerPhoto } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/WorkerPhoto';
 import { ProfileActions } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/ProfileActions';
 import { WorkerEditForm } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/WorkerEditForm/WorkerEditForm';
@@ -7,6 +5,8 @@ import { WorkerEditForm } from 'app/(Main)/workers/[id]/components/WorkerProfile
 import { getWorkerSsr } from 'http/workerService/workerService';
 
 import scss from './WorkerProfile.module.scss';
+import { getServerOrganization } from 'http/organizationService/organizationService';
+import { getCookieAccess } from 'utils/getServerAccess';
 
 export const WorkerProfile = async ({
     orgId,
@@ -15,10 +15,12 @@ export const WorkerProfile = async ({
     orgId: number;
     workerId: number;
 }) => {
-    const cookieStore = cookies();
-    const access = cookieStore.get('access')?.value;
-
+    const access = await getCookieAccess();
     const worker = await getWorkerSsr(orgId, workerId, access!);
+
+    const orgs = await getServerOrganization(access as string);
+
+    const workerOrg = orgs?.results.find((el) => el.id === worker.organization);
 
     return (
         <section className={scss.worker_page_section}>
@@ -26,10 +28,16 @@ export const WorkerProfile = async ({
             <div className={scss.worker_page_section_content}>
                 <div className={scss.worker_layout}>
                     <div className={scss.worker_header}>
-                        <h3>
-                            {worker.surname + ' '}
-                            {worker.name}
-                        </h3>
+                        <div className={scss.worker_header_name}>
+                            <h3>
+                                {worker.surname + ' '}
+                                {worker.name}
+                            </h3>
+                            <span>
+                                {`${workerOrg?.organizationalForm} 
+                                    ${workerOrg?.name}`}
+                            </span>
+                        </div>
                         <ProfileActions />
                     </div>
                     <div className={scss.worker_content}>
