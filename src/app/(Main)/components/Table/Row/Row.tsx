@@ -37,6 +37,7 @@ export const Row: React.FC<ColumnRowProps> = ({ item, headers }) => {
                     className={scss.row_td}
                 >
                     <InputSelect
+                        disabled={selectedRole?.name === 'Владелец'}
                         css={{ paddingBottom: '20px' }}
                         needErrorLabel={false}
                         style="hollow"

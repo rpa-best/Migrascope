@@ -29,7 +29,7 @@ export const OrgTableWrapper: React.FC<OrgTableWrapperProps> = ({
             id={el.id}
             ChildrenComponent={ChildrenComponent}
             propsToComponent={propsToComponent}
-            name={`"${el.organizationalForm}" ${el.name}`}
+            name={`${el.organizationalForm} ${el.name}`}
         />
     ));
 };
