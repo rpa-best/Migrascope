@@ -21,6 +21,7 @@ export interface WorkerEditFormValues {
     phone: string;
     email: string;
     registrationAddress: string;
+    actualWorkAddress: string;
     identificationCard: IdentificationCardType;
     placeBirth: string;
     processingPersonalData: ProcessingPersonalDataType | null;

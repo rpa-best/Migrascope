@@ -118,4 +118,5 @@ export interface BlankFormInputProps {
     handleChange: FormikHandlers['handleChange'];
     touched: BlankFormTouchedType;
     errors: BlankFormErrorsType;
+    orgId: number;
 }

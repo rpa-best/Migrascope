@@ -1,3 +1,5 @@
+import { Response } from 'http/types';
+
 export interface FindWorkerResponse {
     organizationId: number;
     workerId: number;
@@ -5,6 +7,13 @@ export interface FindWorkerResponse {
 }
 
 export type FindWorker = (name: string | null) => Promise<FindWorkerResponse[]>;
+
+export interface ManagerType {
+    managerId: number;
+    fullName: string;
+}
+
+export type GetManagers = (orgId: number) => Promise<ManagerType[]>;
 
 export interface SendCPPSBody {
     worker_id: string;

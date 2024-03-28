@@ -14,6 +14,13 @@ export const findWorker: T.FindWorker = async (name) => {
     return res.data;
 };
 
+export const getManagers: T.GetManagers = async (orgId) => {
+    const res: AxiosResponse<ReturnType<typeof getManagers>> =
+        await $clientBlank.get(`show-managers/${orgId}/`);
+
+    return res.data;
+};
+
 export const sendCPPS: T.SendCPPS = async (body) => {
     const res: AxiosResponse<ReturnType<typeof sendCPPS>> =
         await $clientBlank.post('contract-provision-paid-services/', body, {

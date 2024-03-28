@@ -13,10 +13,19 @@ import { editOrganization } from 'http/organizationService/organizationService';
 import { removePhoneMask } from 'utils/removePhoneMask';
 import { formatDate } from 'utils/formatDate';
 
+const fieldsToExclude: (keyof EditCompanyFormValues)[] = [
+    'emailContactPerson',
+    'phoneContactPerson',
+    'fullNameContactPerson',
+    'additionalPhone',
+];
+
 export const CompanyFormValidate = (values: EditCompanyFormValues) => {
     const errors: Partial<EditCompanyFormErrorType> = {};
 
     for (const [key, value] of Object.entries(values)) {
+        if (fieldsToExclude.includes(key as keyof EditCompanyFormValues))
+            continue;
         if (!value) {
             errors[key as keyof typeof errors] = 'Обязательное поле';
         }

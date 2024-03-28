@@ -27,8 +27,10 @@ export const TableSkeleton = () => {
 
 export const WorkerProfileSkeleton = () => {
     return (
-        <section className={scss.worker_page_section}>
-            <h2>Профиль сотрудника</h2>
+        <section
+            style={{ height: '500px' }}
+            className={scss.worker_page_section}
+        >
             <div className={scss.worker_page_section_content}>
                 <div className={scss.worker_layout}>
                     <div className={scss.worker_header}>

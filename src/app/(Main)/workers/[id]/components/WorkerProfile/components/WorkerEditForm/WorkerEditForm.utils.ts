@@ -95,6 +95,7 @@ export const WorkerEditSubmit = async (
         identificationCard,
         phone,
         citizenship,
+        actualWorkAddress,
     }: WorkerEditFormValues,
     setLoading: (v: boolean) => void,
     setErrors: (errors: FormikErrors<WorkerEditFormValues>) => void
@@ -106,6 +107,7 @@ export const WorkerEditSubmit = async (
         birthday: formatDate(new Date(birthday)),
         gender: gender?.slug as 'male' | 'female',
         identification_card: identificationCard.slug,
+        actual_work_address: actualWorkAddress,
         processing_personal_data: processingPersonalData?.slug,
         position,
         place_birth: placeBirth,
@@ -144,6 +146,7 @@ export const setWorkerEditFormInitialValues = (
         identificationCard: identificationCardData.find(
             (el) => el.name === worker.identificationCard
         )!,
+        actualWorkAddress: worker.actualWorkAddress ?? '',
         placeBirth: worker?.placeBirth ?? '',
         position: worker?.position ?? '',
         processingPersonalData: worker?.processingPersonalData

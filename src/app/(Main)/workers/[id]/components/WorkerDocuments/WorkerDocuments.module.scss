@@ -60,6 +60,65 @@
   }
 }
 
+.documents_cards_column {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 14px;
+  margin-top: 10px;
+  & .document_card_header {
+    & h5 {
+      font-size: 20px;
+      @include bigtablet {
+        font-size: 18px;
+      }
+      @include phoneOrTablet {
+        font-size: 15px;
+      }
+    }
+  }
+  & .document_card_content {
+    row-gap: 10px;
+    & p {
+      font-size: 16px;
+      @include bigtablet {
+        font-size: 14px;
+      }
+      @include phoneOrTablet {
+        font-size: 13px;
+      }
+    }
+  }
+  & .document_card_actions {
+    & svg {
+      width: 20px;
+      height: 20px;
+      @include phoneOrTablet {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  & .content_buttons {
+    display: flex;
+    justify-content: flex-start;
+    @include thousandTwoWidth {
+      justify-content: center;
+      column-gap: 24px;
+    }
+    @include bigtablet {
+      flex-direction: column;
+      row-gap: 10px;
+    }
+    & > button {
+      width: 142px;
+      @include bigtablet {
+        width: 100%;
+      }
+    }
+  }
+}
+
 .document_card_wrapper {
   display: flex;
   flex-direction: column;
@@ -156,6 +215,33 @@
     width: max-content;
     @include bigtablet {
       width: 100%;
+    }
+  }
+}
+
+.worker_documents_actions {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  margin-right: 25px;
+  border-radius: 5px;
+  border: 1px solid $active-color;
+  background-color: white;
+  padding: 5px;
+  @include smallTablet {
+    display: none;
+  }
+  & > svg {
+    width: 18px;
+    height: 18px;
+    color: black;
+    transition: .2s all ease-in-out;
+    &:hover {
+      cursor: pointer;
+      color: $active-color;
+    }
+    &[data-isactive='true'] {
+      color: $active-color;
     }
   }
 }

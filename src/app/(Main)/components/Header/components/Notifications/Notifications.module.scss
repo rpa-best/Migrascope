@@ -11,10 +11,19 @@
   transition: .2s all ease-in-out;
   border: 1px solid transparent;
   cursor: pointer;
+  &[data-isactive='true'] {
+    background-color: $active-color;
+    .svg {
+      color: white;
+    }
+  }
   &:hover {
     background-color: $active-color;
     .svg {
       color: white;
     }
+  }
+  @include thousandTwoWidth {
+    display: none;
   }
 }

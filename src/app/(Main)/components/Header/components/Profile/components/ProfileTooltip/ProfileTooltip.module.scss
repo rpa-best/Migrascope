@@ -1,0 +1,36 @@
+
+@import "scss/utils";
+
+.profile_wrapper {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  background-color: white;
+  border-radius: 10px;
+  margin-left: -100px;
+  padding: 20px;
+  @include phoneOrTablet {
+    margin-left: 100px;
+  }
+}
+
+.profile_home {
+  cursor: pointer;
+  @include PoppinsRegular(16px);
+  color: $active-color;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.profile_balance {
+  @include PoppinsRegular(14px);
+  & > span {
+    color: $active-color;
+  }
+}
+
+.profile_button_wrapper {
+  width: 100%;
+}

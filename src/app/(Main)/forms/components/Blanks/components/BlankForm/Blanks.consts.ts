@@ -132,12 +132,12 @@ export const TranslatedBlankFormLabels: BlankTranslatedLabelsType[] = [
     },
     {
         slug: 'firstManagerId',
-        name: 'Ответственное лицо 1(номер)',
+        name: 'Ответственное лицо 1',
         placeholder: 'ответственное лицо',
     },
     {
         slug: 'secondManagerId',
-        name: 'Ответственное лицо 2(номер)',
+        name: 'Ответственное лицо 2',
         placeholder: 'ответственное лицо',
     },
     {

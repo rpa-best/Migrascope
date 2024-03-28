@@ -106,6 +106,7 @@ export const BlankForm: FC<BlankFormProps> = ({
                 </h4>
                 {Object.entries(values).map(([key, value], index) => (
                     <BlankFormInput
+                        orgId={worker.organizationId as number}
                         name={key as T.RequiredBlankFormValues}
                         value={value}
                         handleBlur={handleBlur}

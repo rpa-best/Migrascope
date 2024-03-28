@@ -1,9 +1,8 @@
-import { Search } from 'app/(Main)/components/Header/components/Search';
+import { Profile } from 'app/(Main)/components/Header/components/Profile';
 import { Notifications } from 'app/(Main)/components/Header/components/Notifications';
 import { Description } from 'app/(Main)/components/Header/components/Description';
 
 import scss from './Header.module.scss';
-import { Profile } from 'app/(Main)/components/Header/components/Profile';
 
 export const Header = () => {
     return (
@@ -11,11 +10,11 @@ export const Header = () => {
             <h2 className={scss.header_description}>
                 <Description />
             </h2>
-            {/*   <div className={scss.header_actions}>
-                <Search />
+            <div className={scss.header_actions}>
+                {/*<Search />*/}
                 <Notifications />
                 <Profile />
-            </div>*/}
+            </div>
         </header>
     );
 };

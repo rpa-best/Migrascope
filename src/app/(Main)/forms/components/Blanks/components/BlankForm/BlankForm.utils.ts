@@ -2,6 +2,7 @@ import { camelToSnakeCaseDeep } from 'utils/camelToSnakeCaseDeep';
 import { isObject } from 'utils/isObject';
 import { formatDate } from 'utils/formatDate';
 import {
+    getManagers,
     sendCPPS,
     sendEmploymentContract,
     sendNoticeConclusion,
@@ -76,6 +77,10 @@ export const handleBlankFormErrors = async (
     }
 };
 
+function setSnakeCase(value: string) {
+    return /^[A-Z]+$/.test(value) ? value : snakeCase(value);
+}
+
 export const submitFormByType = async (
     type: BlankType,
     values: BlankFormValues
@@ -83,13 +88,11 @@ export const submitFormByType = async (
     const modifiedValues = Object.fromEntries(
         Object.entries(values)
             .map(([key, value]) => {
-                if (isObject(value)) {
-                    return [
-                        key,
-                        /^[A-Z]+$/.test(value.slug)
-                            ? value.slug
-                            : snakeCase(value.slug),
-                    ];
+                if (isObject(value) && value.slug) {
+                    return [key, setSnakeCase(value.slug)];
+                }
+                if (key === 'firstManagerId' || key === 'secondManagerId') {
+                    return [key, value.id];
                 }
                 if (value instanceof Date) {
                     return [key, formatDate(value)];
@@ -99,6 +102,8 @@ export const submitFormByType = async (
             .filter((entry) => entry[0] !== 'checked')
     );
     camelToSnakeCaseDeep(modifiedValues);
+
+    console.log(values);
 
     switch (type) {
         case 'Договор возмездного оказания услуг (ГПХ)':
@@ -217,9 +222,28 @@ export const getBlankInputType = (
 
 const CasesWithDate = ['startDate', 'endDate', 'dateIssue', 'endDateUrgent'];
 
-const CasesWithSelect = ['person', 'contractType', 'base', 'reasonSuspension'];
+const CasesWithSelect = [
+    'person',
+    'contractType',
+    'base',
+    'reasonSuspension',
+    'firstManagerId',
+    'secondManagerId',
+];
 
-export const setBlankFormListValues = (objName: keyof BlankFormValues) => {
+export const setBlankFormListValues = async (
+    objName: keyof BlankFormValues,
+    orgId: number
+) => {
+    async function fetchManagers() {
+        const response = await getManagers(orgId);
+        return response.map((manager) => ({
+            ...manager,
+            id: manager.managerId,
+            name: manager.fullName,
+        }));
+    }
+
     switch (objName) {
         case 'person':
             return PersonListValues;
@@ -229,6 +253,10 @@ export const setBlankFormListValues = (objName: keyof BlankFormValues) => {
             return BaseListValues;
         case 'reasonSuspension':
             return ReasonSuspensionListValues;
+        case 'firstManagerId':
+            return await fetchManagers();
+        case 'secondManagerId':
+            return await fetchManagers();
     }
 };
 
