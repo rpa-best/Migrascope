@@ -95,6 +95,8 @@ export const WorkerEditSubmit = async (
         identificationCard,
         phone,
         citizenship,
+        actualWorkAddress,
+        dateEmployment,
     }: WorkerEditFormValues,
     setLoading: (v: boolean) => void,
     setErrors: (errors: FormikErrors<WorkerEditFormValues>) => void
@@ -103,9 +105,11 @@ export const WorkerEditSubmit = async (
         citizenship,
         email,
         phone: removePhoneMask(phone),
-        birthday: formatDate(new Date(birthday)),
+        birthday: formatDate(birthday!),
+        date_employment: formatDate(dateEmployment!),
         gender: gender?.slug as 'male' | 'female',
         identification_card: identificationCard.slug,
+        actual_work_address: actualWorkAddress,
         processing_personal_data: processingPersonalData?.slug,
         position,
         place_birth: placeBirth,
@@ -133,8 +137,12 @@ export const WorkerEditSubmit = async (
 export const setWorkerEditFormInitialValues = (
     worker: Worker
 ): WorkerEditFormValues => {
+    console.log(worker);
     return {
-        birthday: worker?.birthday ?? null,
+        birthday: worker?.birthday ? new Date(worker.birthday) : null,
+        dateEmployment: worker?.dateEmployment
+            ? new Date(worker.dateEmployment)
+            : null,
         gender: worker?.gender
             ? WorkerEditFormDataGender.find((el) => el.slug === worker.gender)!
             : null,
@@ -144,6 +152,7 @@ export const setWorkerEditFormInitialValues = (
         identificationCard: identificationCardData.find(
             (el) => el.name === worker.identificationCard
         )!,
+        actualWorkAddress: worker.actualWorkAddress ?? '',
         placeBirth: worker?.placeBirth ?? '',
         position: worker?.position ?? '',
         processingPersonalData: worker?.processingPersonalData
@@ -194,6 +203,8 @@ export const getWorkerInputType = (
         case 'gender':
             return 'select';
         case 'birthday':
+            return 'date';
+        case 'dateEmployment':
             return 'date';
         case 'phone':
             return 'mask';

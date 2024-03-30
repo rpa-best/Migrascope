@@ -13,10 +13,19 @@ import { editOrganization } from 'http/organizationService/organizationService';
 import { removePhoneMask } from 'utils/removePhoneMask';
 import { formatDate } from 'utils/formatDate';
 
+const fieldsToExclude: (keyof EditCompanyFormValues)[] = [
+    'emailContactPerson',
+    'phoneContactPerson',
+    'fullNameContactPerson',
+    'additionalPhone',
+];
+
 export const CompanyFormValidate = (values: EditCompanyFormValues) => {
     const errors: Partial<EditCompanyFormErrorType> = {};
 
     for (const [key, value] of Object.entries(values)) {
+        if (fieldsToExclude.includes(key as keyof EditCompanyFormValues))
+            continue;
         if (!value) {
             errors[key as keyof typeof errors] = 'Обязательное поле';
         }
@@ -36,12 +45,12 @@ export const companyFormSubmit = async (
     const body: EditOrganizationBody = {
         ...(newValues as unknown as EditOrganizationBody),
         organizational_form: values.organizationalForm?.id as number,
-        phone: removePhoneMask(values.phone),
+        phone: removePhoneMask(values.phone)!,
         date_end_passport: formatDate(values.dateEndPassport as Date),
         date_issue_passport: formatDate(values.dateIssuePassport as Date),
-        phone_host_party: removePhoneMask(values.phoneHostParty),
-        phone_contact_person: removePhoneMask(values.phoneContactPerson),
-        additional_phone: removePhoneMask(values.additionalPhone),
+        phone_host_party: removePhoneMask(values.phoneHostParty)!,
+        phone_contact_person: removePhoneMask(values.phoneContactPerson)!,
+        additional_phone: removePhoneMask(values.additionalPhone)!,
     };
 
     return await editOrganization(orgId, body);

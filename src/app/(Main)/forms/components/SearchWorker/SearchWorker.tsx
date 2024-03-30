@@ -58,6 +58,9 @@ export const SearchWorker = () => {
             if (!currentWorker) return;
             setSelectedWorker(currentWorker);
         }
+        return () => {
+            setSelectedWorker({ name: '' });
+        };
     }, [name, setSelectedWorker, workersList]);
 
     function handleQueryChange(searchString: string) {
@@ -90,7 +93,7 @@ export const SearchWorker = () => {
                 autoComplete="off"
                 loading={loading}
                 listValues={workersList}
-                value={selectedWorker.name ?? ''}
+                value={selectedWorker?.name ?? ''}
                 fetchable={true}
                 clearable={true}
                 placeholder="Поиск"

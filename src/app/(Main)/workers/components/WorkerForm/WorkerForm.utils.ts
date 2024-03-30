@@ -35,7 +35,7 @@ export const WorkerSubmit = async (
         surname,
         name,
         patronymic,
-        phone: removePhoneMask(phone),
+        phone: removePhoneMask(phone)!,
         organization: organization?.id as number,
         identification_card: identificationCard?.slug as string,
     };

@@ -1,24 +1,23 @@
 import { ChangeEventHandler, FC, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 import {
-    createOrganizationAddresses,
-    deleteOrganizationAddresses,
-    editOrganizationAddresses,
+    createOrganizationMiaAddresses,
+    deleteOrganizationMiaAddresses,
+    editOrganizationMiaAddresses,
 } from 'http/organizationService/organizationService';
 import revalidate from 'utils/revalidate';
 
-import { MigrationAddressItemProps } from 'app/(Main)/companies/components/CompanyMigrationAddresses/types';
-
+import { errorToastOptions } from 'config/toastConfig';
 import EditSvg from 'app/(Main)/workers/[id]/svg/edit-2.svg';
 import DeleteSvg from 'app/(Main)/workers/[id]/svg/trash.svg';
 import CheckSvg from '/public/svg/check.svg';
+import { AddressItemProps } from 'app/(Main)/companies/components/CompanyAddresses/types';
 
-import scss from 'app/(Main)/companies/components/CompanyMigrationAddresses/CompanyMigrationAddresses.module.scss';
-import { toast } from 'react-toastify';
-import { errorToastOptions } from 'config/toastConfig';
+import scss from 'app/(Main)/companies/components/CompanyAddresses/CompanyAddresses.module.scss';
 
-export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
+export const AddressItem: FC<AddressItemProps> = ({
     name,
     addressId,
     orgId,
@@ -39,7 +38,7 @@ export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
                 toast('Адрес не может быть пустым', errorToastOptions);
                 return;
             }
-            const newAddress = await editOrganizationAddresses(
+            const newAddress = await editOrganizationMiaAddresses(
                 addressId,
                 orgId,
                 currentValue as string
@@ -55,7 +54,7 @@ export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
                 toast('Адрес не может быть пустым', errorToastOptions);
                 return;
             }
-            const newAddress = await createOrganizationAddresses(
+            const newAddress = await createOrganizationMiaAddresses(
                 orgId,
                 currentValue as string
             );
@@ -73,7 +72,7 @@ export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
     const handleDelete = async () => {
         if (addressId) {
             try {
-                await deleteOrganizationAddresses(addressId);
+                await deleteOrganizationMiaAddresses(addressId);
                 setCurrentAddresses((prevState) =>
                     prevState.filter((address) => address.id !== addressId)
                 );

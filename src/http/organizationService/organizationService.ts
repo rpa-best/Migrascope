@@ -39,44 +39,43 @@ export const getOrganizationOnClient: T.GetOrganizationsOnClient = async () => {
     return res.data;
 };
 
-export const getOrganizationAddressesSsr: T.GetOrganizationAddressesSsr =
+export const getOrganizationMiaAddressesSsr: T.GetOrganizationMiaAddressesSsr =
     async (orgId) => {
         const res: AxiosResponse<
-            ReturnType<typeof getOrganizationAddressesSsr>
-        > = await $serverOrganization.get(`${orgId}/migration-address/`);
+            ReturnType<typeof getOrganizationMiaAddressesSsr>
+        > = await $serverOrganization.get(`${orgId}/bodies-mia/`);
 
         return res.data;
     };
 
-export const createOrganizationAddresses: T.CreateOrganizationAddress = async (
-    organization,
-    name
-) => {
-    const res: AxiosResponse<ReturnType<typeof createOrganizationAddresses>> =
-        await $clientOrganization.post('migration-address/', {
+export const createOrganizationMiaAddresses: T.CreateOrganizationAddress =
+    async (organization, name) => {
+        const res: AxiosResponse<
+            ReturnType<typeof createOrganizationMiaAddresses>
+        > = await $clientOrganization.post('bodies-mia/', {
             organization,
             name,
         });
 
-    return res.data;
-};
+        return res.data;
+    };
 
-export const deleteOrganizationAddresses: T.DeleteOrganizationAddress = async (
-    addressId
-) => {
-    const res: AxiosResponse<ReturnType<typeof deleteOrganizationAddresses>> =
-        await $clientOrganization.delete(`migration-address/${addressId}`);
+export const deleteOrganizationMiaAddresses: T.DeleteOrganizationAddress =
+    async (addressId) => {
+        const res: AxiosResponse<
+            ReturnType<typeof deleteOrganizationMiaAddresses>
+        > = await $clientOrganization.delete(`bodies-mia/${addressId}`);
 
-    return res.data;
-};
+        return res.data;
+    };
 
-export const editOrganizationAddresses: T.EditOrganizationAddress = async (
+export const editOrganizationMiaAddresses: T.EditOrganizationAddress = async (
     addressId,
     organization,
     name
 ) => {
-    const res: AxiosResponse<ReturnType<typeof editOrganizationAddresses>> =
-        await $clientOrganization.patch(`migration-address/${addressId}/`, {
+    const res: AxiosResponse<ReturnType<typeof editOrganizationMiaAddresses>> =
+        await $clientOrganization.patch(`bodies-mia/${addressId}/`, {
             organization,
             name,
         });
@@ -115,6 +114,13 @@ export const getUsersSsr: T.GetUsers = async (orgId, query) => {
 
     return res.data;
 };
+
+export const getResponsibleSsr: T.GetResponsible = async (orgId) => {
+    const res: AxiosResponse<ReturnType<typeof getResponsibleSsr>> =
+        await $serverOrganization.get(`${orgId}/responsible-persons/`);
+
+    return res.data;
+};
 export const getUsers: T.GetUsers = async (orgId, query) => {
     const params = setQuery(query);
     const res: AxiosResponse<ReturnType<typeof getUsersSsr>> =
@@ -133,6 +139,26 @@ export const editUser: T.EditUser = async (userId, orgId, body) => {
 export const inviteUser: T.InviteUser = async (orgId, body) => {
     const res: AxiosResponse<ReturnType<typeof inviteUser>> =
         await $clientOrganization.post(`${orgId}/users/`, body);
+
+    return res.data;
+};
+
+export const createResponsible: T.CreateResponsible = async (body) => {
+    const res: AxiosResponse<ReturnType<typeof createResponsible>> =
+        await $clientOrganization.post(`responsible-persons/`, body);
+
+    return res.data;
+};
+
+export const editResponsible: T.EditResponsible = async (
+    responsibleId,
+    body
+) => {
+    const res: AxiosResponse<ReturnType<typeof createResponsible>> =
+        await $clientOrganization.patch(
+            `responsible-persons/${responsibleId}/`,
+            body
+        );
 
     return res.data;
 };

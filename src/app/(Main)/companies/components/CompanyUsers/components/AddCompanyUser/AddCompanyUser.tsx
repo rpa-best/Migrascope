@@ -29,7 +29,7 @@ export const AddCompanyUser: FC<{ selectedOrgId: number }> = ({
         <Tooltip
             customXOffset={customOrgXOffset}
             needResize={true}
-            propsToComponent={{ orgId: selectedOrgId }}
+            propsToComponent={{ orgId: selectedOrgId, type: 'create' }}
             RenderedComponent={AddCompanyUserForm as any}
         >
             <Button type="button">Добавить</Button>

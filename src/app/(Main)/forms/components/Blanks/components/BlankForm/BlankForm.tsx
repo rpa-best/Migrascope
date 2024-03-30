@@ -106,6 +106,7 @@ export const BlankForm: FC<BlankFormProps> = ({
                 </h4>
                 {Object.entries(values).map(([key, value], index) => (
                     <BlankFormInput
+                        orgId={worker.organizationId as number}
                         name={key as T.RequiredBlankFormValues}
                         value={value}
                         handleBlur={handleBlur}
@@ -149,6 +150,12 @@ export const BlankForm: FC<BlankFormProps> = ({
                         Система не проверяет корректность данных, а только
                         переносит их в бланк из заполненных полей.
                     </p>
+                    {blankType === 'Платежное поручение' && (
+                        <p>
+                            При формировании обязательно указать что платеж
+                            осуществляется за физ лицо.
+                        </p>
+                    )}
                 </div>
                 <div className={scss.blank_form_checked}>
                     <InputCheckbox

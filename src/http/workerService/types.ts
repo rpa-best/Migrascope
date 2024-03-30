@@ -12,6 +12,8 @@ export interface Worker {
     position: string;
     placeBirth: string;
     identificationCard: string;
+    actualWorkAddress: string;
+    dateEmployment: string;
     status: string;
     phone: string;
     registrationAddress: string;
@@ -41,6 +43,8 @@ export interface UpdateWorkerBody {
     name: string;
     surname: string;
     patronymic: string;
+    actual_work_address: string;
+    date_employment: string;
     gender: 'male' | 'female';
     citizenship: string;
     birthday: string;

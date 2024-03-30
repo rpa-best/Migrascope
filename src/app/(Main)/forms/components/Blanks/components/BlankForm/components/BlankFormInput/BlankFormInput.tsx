@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { Input } from 'components/UI/Inputs/Input';
 import { InputDate } from 'components/UI/Inputs/InputDate';
@@ -34,7 +34,21 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
     setFieldValue,
     touched,
     name,
+    orgId,
 }) => {
+    const [listValues, setListValues] = useState<
+        { name: string; id: number }[]
+    >([]);
+
+    useEffect(() => {
+        if (getBlankInputType(name) === 'select') {
+            (async () => {
+                const list = await setBlankFormListValues(name, orgId);
+                setListValues(list as typeof listValues);
+            })();
+        }
+    }, [name, orgId]);
+
     if (namesToExclude.includes(name)) {
         return;
     }
@@ -70,9 +84,10 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
             case 'select':
                 return (
                     <InputSelect
+                        autoComplete="off"
                         onBlur={handleBlur}
                         handleError={touched[name] && errors[name]}
-                        listValues={setBlankFormListValues(name)!}
+                        listValues={listValues}
                         onChange={(val) => {
                             setFieldValue(name, val);
                         }}

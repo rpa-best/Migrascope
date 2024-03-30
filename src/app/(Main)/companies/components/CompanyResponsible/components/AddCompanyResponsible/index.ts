@@ -1,0 +1,1 @@
+export { AddCompanyResponsible } from './AddCompanyResponsible';

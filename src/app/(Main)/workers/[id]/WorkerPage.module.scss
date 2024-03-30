@@ -30,11 +30,17 @@
   margin-bottom: 24px;
   & h2 {
     @include InterSemiBold(20px);
-    margin-bottom: 18px;
     @include phoneOrTablet {
       font-size: 16px;
     }
   }
+}
+
+.worker_page_section_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
 }
 
 .worker_page_section_content {

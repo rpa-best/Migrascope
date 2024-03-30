@@ -1,0 +1,1 @@
+export { CompanyResponsibleTable } from './CompanyResponsibleTable';

@@ -7,6 +7,7 @@ import { getWorkerSsr } from 'http/workerService/workerService';
 import scss from './WorkerProfile.module.scss';
 import { getServerOrganization } from 'http/organizationService/organizationService';
 import { getCookieAccess } from 'utils/getServerAccess';
+import { ProfileHeaderActions } from 'app/(Main)/workers/[id]/components/WorkerProfile/components/ProfileHeaderActions/ProfileHeaderActions';
 
 export const WorkerProfile = async ({
     orgId,
@@ -24,14 +25,18 @@ export const WorkerProfile = async ({
 
     return (
         <section className={scss.worker_page_section}>
-            <h2>Профиль сотрудника</h2>
+            <div className={scss.worker_page_section_header}>
+                <h2>Профиль сотрудника</h2>
+                <ProfileHeaderActions worker={worker} />
+            </div>
             <div className={scss.worker_page_section_content}>
                 <div className={scss.worker_layout}>
                     <div className={scss.worker_header}>
                         <div className={scss.worker_header_name}>
                             <h3>
                                 {worker.surname + ' '}
-                                {worker.name}
+                                {worker.name + ' '}
+                                {worker.patronymic}
                             </h3>
                             <span>
                                 {`${workerOrg?.organizationalForm} 

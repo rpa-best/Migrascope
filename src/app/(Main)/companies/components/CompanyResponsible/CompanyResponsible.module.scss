@@ -1,0 +1,70 @@
+@import "scss/utils";
+@import "app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss";
+
+.company_users_title {
+  @extend .worker_header;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > button {
+    width: max-content;
+  }
+}
+
+.company_users_table_layout {
+  overflow-x: auto;
+  max-width: 100%;
+  @include main_offset-smaller;
+  @include bigtablet {
+    max-width: calc(100vw - 381px);
+  }
+  @include phoneOrTablet {
+    max-width: calc(100vw - 107px);
+  }
+  @include phone {
+    max-width: calc(100vw - 80px);
+  }
+}
+
+.company_users_table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  @include bigtablet {
+    min-width: 600px;
+  }
+}
+
+.company_user_column_header {
+  @include InterMediumBold(12px);
+  color: #9DA2A7;
+  padding: 15px 0;
+  border-bottom: 1px solid $border-color;
+  border-top: 1px solid $border-color;
+}
+
+.company_user_table_row {
+  height: 48px;
+  transition: .2s all ease-in-out;
+  &:hover {
+    background-color: transparentize($active-color, .9);
+    cursor: pointer;
+  }
+  & td {
+    height: inherit;
+    align-content: center;
+    min-width: 300px;
+    border-bottom: 1px solid $border-color;
+    &:nth-child(2) {
+      color: #727880;
+    }
+    &:not(&:first-child) {
+      text-align: center;
+    }
+    @include smallTablet  {
+      font-size: 12px;
+    }
+  }
+}

@@ -65,7 +65,7 @@ export const onRegisterSubmit = async (
     const userBody = {
         ...(data as RegisterFormTypes),
         pvc,
-        phone: removePhoneMask(data.phone),
+        phone: removePhoneMask(data.phone) as string,
     };
 
     const result = await RegisterAction(userBody);

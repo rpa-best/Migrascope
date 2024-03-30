@@ -4,6 +4,10 @@ const replaceArray = [
         replace: 'Пол',
     },
     {
+        search: 'actualWorkAddress',
+        replace: 'Текущее место работы',
+    },
+    {
         search: 'citizenship',
         replace: 'Гражданство',
     },
@@ -11,6 +15,11 @@ const replaceArray = [
         search: 'birthday',
         replace: 'Дата рождения',
     },
+    {
+        search: 'dateEmployment',
+        replace: 'Дата приёма на работу',
+    },
+
     {
         search: 'phone',
         replace: 'Телефон',
@@ -25,7 +34,7 @@ const replaceArray = [
     },
     {
         search: 'identificationCard',
-        replace: 'Идентификация личности',
+        replace: 'Идентификационный документ',
     },
     {
         search: 'placeBirth',
