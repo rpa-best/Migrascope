@@ -39,44 +39,43 @@ export const getOrganizationOnClient: T.GetOrganizationsOnClient = async () => {
     return res.data;
 };
 
-export const getOrganizationAddressesSsr: T.GetOrganizationAddressesSsr =
+export const getOrganizationMiaAddressesSsr: T.GetOrganizationMiaAddressesSsr =
     async (orgId) => {
         const res: AxiosResponse<
-            ReturnType<typeof getOrganizationAddressesSsr>
-        > = await $serverOrganization.get(`${orgId}/migration-address/`);
+            ReturnType<typeof getOrganizationMiaAddressesSsr>
+        > = await $serverOrganization.get(`${orgId}/bodies-mia/`);
 
         return res.data;
     };
 
-export const createOrganizationAddresses: T.CreateOrganizationAddress = async (
-    organization,
-    name
-) => {
-    const res: AxiosResponse<ReturnType<typeof createOrganizationAddresses>> =
-        await $clientOrganization.post('migration-address/', {
+export const createOrganizationMiaAddresses: T.CreateOrganizationAddress =
+    async (organization, name) => {
+        const res: AxiosResponse<
+            ReturnType<typeof createOrganizationMiaAddresses>
+        > = await $clientOrganization.post('bodies-mia/', {
             organization,
             name,
         });
 
-    return res.data;
-};
+        return res.data;
+    };
 
-export const deleteOrganizationAddresses: T.DeleteOrganizationAddress = async (
-    addressId
-) => {
-    const res: AxiosResponse<ReturnType<typeof deleteOrganizationAddresses>> =
-        await $clientOrganization.delete(`migration-address/${addressId}`);
+export const deleteOrganizationMiaAddresses: T.DeleteOrganizationAddress =
+    async (addressId) => {
+        const res: AxiosResponse<
+            ReturnType<typeof deleteOrganizationMiaAddresses>
+        > = await $clientOrganization.delete(`bodies-mia/${addressId}`);
 
-    return res.data;
-};
+        return res.data;
+    };
 
-export const editOrganizationAddresses: T.EditOrganizationAddress = async (
+export const editOrganizationMiaAddresses: T.EditOrganizationAddress = async (
     addressId,
     organization,
     name
 ) => {
-    const res: AxiosResponse<ReturnType<typeof editOrganizationAddresses>> =
-        await $clientOrganization.patch(`migration-address/${addressId}/`, {
+    const res: AxiosResponse<ReturnType<typeof editOrganizationMiaAddresses>> =
+        await $clientOrganization.patch(`bodies-mia/${addressId}/`, {
             organization,
             name,
         });

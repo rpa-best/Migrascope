@@ -45,7 +45,7 @@ export interface OrgMigrationAddress {
     name: string;
 }
 
-export type GetOrganizationAddressesSsr = (
+export type GetOrganizationMiaAddressesSsr = (
     orgId: number
 ) => Promise<Response<OrgMigrationAddress>>;
 

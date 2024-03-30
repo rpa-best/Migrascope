@@ -7,7 +7,7 @@ import { AddCompanyWrapper } from 'app/(Main)/companies/components/AddCompanyWra
 
 import { getCookieAccess } from 'utils/getServerAccess';
 import {
-    getOrganizationAddressesSsr,
+    getOrganizationMiaAddressesSsr,
     getServerOrganization,
 } from 'http/organizationService/organizationService';
 import { CompanyInputSelect } from 'app/(Main)/companies/components/CompanyInputSelect';
@@ -31,7 +31,7 @@ export default async function CompaniesPage({
         (org) => org.id === +currentOrgId
     )!;
 
-    const migrationAddresses = await getOrganizationAddressesSsr(
+    const migrationAddresses = await getOrganizationMiaAddressesSsr(
         selectedOrg.id
     );
 
@@ -51,10 +51,10 @@ export default async function CompaniesPage({
                         <AddCompanyWrapper />
                     </div>
                     <CompanyProfile selectedOrg={selectedOrg} />
-                    {/*<CompanyMigrationAddresses
+                    <CompanyMigrationAddresses
                         addresses={migrationAddresses.results}
                         selectedOrgId={selectedOrg.id}
-                    />*/}
+                    />
                     <CompanyUsers
                         offset={searchParams?.offset}
                         selectedOrgId={selectedOrg.id}

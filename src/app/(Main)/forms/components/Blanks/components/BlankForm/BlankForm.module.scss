@@ -76,7 +76,11 @@
 
   & p {
     @include InterRegular(13px);
+    &:last-child {
+      margin-top: 5px;
+    }
   }
+
 }
 
 .input_label_checkbox {
