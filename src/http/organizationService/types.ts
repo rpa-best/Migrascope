@@ -118,6 +118,23 @@ export type GetUsers = (
     query?: QueryType
 ) => Promise<Response<OrganizationUser>>;
 
+export interface ResponsibleType {
+    id: number;
+    name: string;
+    surname: string;
+    patronymic: string;
+    passportSeries: string;
+    passportNumber: string;
+    issuedWhom: string;
+    dateIssuePassport: string;
+    dateEndPassport: string;
+    organization: number;
+}
+
+export type GetResponsible = (
+    orgId: number
+) => Promise<Response<ResponsibleType>>;
+
 export interface EditUserBody extends Partial<InviteUserBody> {}
 
 export type EditUser = (
@@ -135,3 +152,14 @@ export interface InviteUserBody {
 }
 
 export type InviteUser = (orgId: number, body: InviteUserBody) => Promise<void>;
+
+export interface CreateResponsibleBody extends Omit<ResponsibleType, 'id'> {}
+
+export type CreateResponsible = (body: CreateResponsibleBody) => Promise<void>;
+
+export interface EditResponsibleBody extends Partial<CreateResponsibleBody> {}
+
+export type EditResponsible = (
+    responsibleId: number,
+    body: EditResponsibleBody
+) => Promise<void>;

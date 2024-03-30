@@ -10,14 +10,14 @@ import {
 import revalidate from 'utils/revalidate';
 
 import { errorToastOptions } from 'config/toastConfig';
-import { MigrationAddressItemProps } from 'app/(Main)/companies/components/CompanyMigrationAddresses/types';
 import EditSvg from 'app/(Main)/workers/[id]/svg/edit-2.svg';
 import DeleteSvg from 'app/(Main)/workers/[id]/svg/trash.svg';
 import CheckSvg from '/public/svg/check.svg';
+import { AddressItemProps } from 'app/(Main)/companies/components/CompanyAddresses/types';
 
-import scss from 'app/(Main)/companies/components/CompanyMigrationAddresses/CompanyMigrationAddresses.module.scss';
+import scss from 'app/(Main)/companies/components/CompanyAddresses/CompanyAddresses.module.scss';
 
-export const MigrationAddressItem: FC<MigrationAddressItemProps> = ({
+export const AddressItem: FC<AddressItemProps> = ({
     name,
     addressId,
     orgId,

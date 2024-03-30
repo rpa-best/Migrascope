@@ -114,6 +114,13 @@ export const getUsersSsr: T.GetUsers = async (orgId, query) => {
 
     return res.data;
 };
+
+export const getResponsibleSsr: T.GetResponsible = async (orgId) => {
+    const res: AxiosResponse<ReturnType<typeof getResponsibleSsr>> =
+        await $serverOrganization.get(`${orgId}/responsible-persons/`);
+
+    return res.data;
+};
 export const getUsers: T.GetUsers = async (orgId, query) => {
     const params = setQuery(query);
     const res: AxiosResponse<ReturnType<typeof getUsersSsr>> =
@@ -132,6 +139,26 @@ export const editUser: T.EditUser = async (userId, orgId, body) => {
 export const inviteUser: T.InviteUser = async (orgId, body) => {
     const res: AxiosResponse<ReturnType<typeof inviteUser>> =
         await $clientOrganization.post(`${orgId}/users/`, body);
+
+    return res.data;
+};
+
+export const createResponsible: T.CreateResponsible = async (body) => {
+    const res: AxiosResponse<ReturnType<typeof createResponsible>> =
+        await $clientOrganization.post(`responsible-persons/`, body);
+
+    return res.data;
+};
+
+export const editResponsible: T.EditResponsible = async (
+    responsibleId,
+    body
+) => {
+    const res: AxiosResponse<ReturnType<typeof createResponsible>> =
+        await $clientOrganization.patch(
+            `responsible-persons/${responsibleId}/`,
+            body
+        );
 
     return res.data;
 };

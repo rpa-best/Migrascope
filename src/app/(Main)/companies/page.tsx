@@ -11,10 +11,11 @@ import {
     getServerOrganization,
 } from 'http/organizationService/organizationService';
 import { CompanyInputSelect } from 'app/(Main)/companies/components/CompanyInputSelect';
-import { CompanyMigrationAddresses } from 'app/(Main)/companies/components/CompanyMigrationAddresses';
 import { CompanyUsers } from 'app/(Main)/companies/components/CompanyUsers';
+import { CompanyAddresses } from 'app/(Main)/companies/components/CompanyAddresses';
 
 import scss from './Companies.module.scss';
+import { CompanyResponsible } from 'app/(Main)/companies/components/CompanyResponsible';
 
 export default async function CompaniesPage({
     searchParams,
@@ -51,10 +52,11 @@ export default async function CompaniesPage({
                         <AddCompanyWrapper />
                     </div>
                     <CompanyProfile selectedOrg={selectedOrg} />
-                    <CompanyMigrationAddresses
+                    <CompanyAddresses
                         addresses={migrationAddresses.results}
                         selectedOrgId={selectedOrg.id}
                     />
+                    <CompanyResponsible selectedOrgId={selectedOrg.id} />
                     <CompanyUsers
                         offset={searchParams?.offset}
                         selectedOrgId={selectedOrg.id}

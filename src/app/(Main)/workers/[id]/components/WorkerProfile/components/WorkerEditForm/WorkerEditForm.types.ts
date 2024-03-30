@@ -16,7 +16,7 @@ interface ProcessingPersonalDataType
 export interface WorkerEditFormValues {
     gender: GenderType | null;
     citizenship: string;
-    birthday: string;
+    birthday: Date | null;
     position: string;
     phone: string;
     email: string;
@@ -25,6 +25,7 @@ export interface WorkerEditFormValues {
     identificationCard: IdentificationCardType;
     placeBirth: string;
     processingPersonalData: ProcessingPersonalDataType | null;
+    dateEmployment: Date | null;
 }
 
 export type WorkerInputType = 'select' | 'date' | 'mask' | 'default';

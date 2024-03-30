@@ -16,6 +16,11 @@ const replaceArray = [
         replace: 'Дата рождения',
     },
     {
+        search: 'dateEmployment',
+        replace: 'Дата приёма на работу',
+    },
+
+    {
         search: 'phone',
         replace: 'Телефон',
     },

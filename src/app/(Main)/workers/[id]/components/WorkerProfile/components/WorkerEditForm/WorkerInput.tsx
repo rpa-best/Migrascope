@@ -38,13 +38,13 @@ export const WorkerInput: FC<WorkerInputProps> = ({
                     placeholder="Не указано"
                     disabled={!isEdit}
                     style="hollow"
-                    value={values.birthday ? new Date(values.birthday) : null}
-                    onChange={(Data: Date) => setFieldValue('birthday', Data)}
+                    value={values[objKey] as Date}
+                    onChange={(Data: Date) => setFieldValue(objKey, Data)}
                     label={translateToRussian(objKey)}
                     mask="99.99.9999"
-                    onBlur={() => setFieldTouched('birthday', true)}
-                    handleError={touched.birthday && errors.birthday}
-                    name="birthday"
+                    onBlur={() => setFieldTouched(objKey, true)}
+                    handleError={touched[objKey] && (errors[objKey] as string)}
+                    name={objKey}
                 />
             );
         case 'default':
@@ -55,14 +55,14 @@ export const WorkerInput: FC<WorkerInputProps> = ({
                     disabled={!isEdit}
                     onBlur={handleBlur}
                     placeholder={
-                        values[
+                        (values[
                             objKey as keyof Omit<
                                 WorkerEditFormValues,
                                 | 'gender'
                                 | 'identificationCard'
                                 | 'processingPersonalData'
                             >
-                        ] || 'Не указано'
+                        ] as string) || 'Не указано'
                     }
                     handleError={touched[objKey] && (errors[objKey] as any)}
                     value={
@@ -73,7 +73,7 @@ export const WorkerInput: FC<WorkerInputProps> = ({
                                 | 'identificationCard'
                                 | 'processingPersonalData'
                             >
-                        ]
+                        ] as string
                     }
                     name={objKey}
                     onChange={handleChange}

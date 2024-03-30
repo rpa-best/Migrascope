@@ -1,7 +1,6 @@
 @import "scss/utils";
 @import "app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss";
 
-
 .company_users_title {
   @extend .worker_header;
   display: flex;
@@ -44,41 +43,27 @@
   padding: 15px 0;
   border-bottom: 1px solid $border-color;
   border-top: 1px solid $border-color;
-
-  &:not(&:first-child) {
-    text-align: center;
-  }
-
-  &:last-child {
-    text-align: right;
-  }
 }
 
 .company_user_table_row {
-  position: relative;
   height: 48px;
   transition: .2s all ease-in-out;
-
   &:hover {
     background-color: transparentize($active-color, .9);
     cursor: pointer;
   }
-
   & td {
     height: inherit;
     align-content: center;
     min-width: 300px;
     border-bottom: 1px solid $border-color;
-
     &:nth-child(2) {
       color: #727880;
     }
-
     &:not(&:first-child) {
       text-align: center;
     }
-
-    @include smallTablet {
+    @include smallTablet  {
       font-size: 12px;
     }
   }

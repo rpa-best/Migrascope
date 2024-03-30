@@ -4,11 +4,11 @@ import React, { FC, useMemo } from 'react';
 
 import { Tooltip } from 'components/Tooltip';
 import { Button } from 'components/UI/Buttons/Button';
-import { AddCompanyUserForm } from 'app/(Main)/companies/components/CompanyUsers/components/AddCompanyUser/components/AddCompanyUserForm';
 
 import { useResizeWidth } from 'hooks/useResizeWidth';
+import { AddCompanyResponsibleForm } from 'app/(Main)/companies/components/CompanyResponsible/components/AddCompanyResponsible/components/AddCompanyResponsibleForm';
 
-export const AddCompanyUser: FC<{ selectedOrgId: number }> = ({
+export const AddCompanyResponsible: FC<{ selectedOrgId: number }> = ({
     selectedOrgId,
 }) => {
     const { tabletBreak, fullHdBreak } = useResizeWidth();
@@ -30,7 +30,7 @@ export const AddCompanyUser: FC<{ selectedOrgId: number }> = ({
             customXOffset={customOrgXOffset}
             needResize={true}
             propsToComponent={{ orgId: selectedOrgId, type: 'create' }}
-            RenderedComponent={AddCompanyUserForm as any}
+            RenderedComponent={AddCompanyResponsibleForm as any}
         >
             <Button type="button">Добавить</Button>
         </Tooltip>
