@@ -12,6 +12,22 @@ const replaceArray = [
         replace: 'Гражданство',
     },
     {
+        search: 'name',
+        replace: 'Имя',
+    },
+    {
+        search: 'name',
+        replace: 'Имя',
+    },
+    {
+        search: 'surname',
+        replace: 'Фамилия',
+    },
+    {
+        search: 'patronymic',
+        replace: 'Отчество',
+    },
+    {
         search: 'birthday',
         replace: 'Дата рождения',
     },

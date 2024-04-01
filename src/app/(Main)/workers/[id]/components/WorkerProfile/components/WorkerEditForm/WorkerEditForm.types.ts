@@ -18,6 +18,9 @@ export interface WorkerEditFormValues {
     citizenship: string;
     birthday: Date | null;
     position: string;
+    name: string;
+    surname: string;
+    patronymic: string;
     phone: string;
     email: string;
     registrationAddress: string;
