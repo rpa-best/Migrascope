@@ -9,6 +9,7 @@ import { SearchParamsHelper } from 'utils/searchParamsHelper';
 import { TableTypesData } from 'app/(Main)/components/MainTableWrapper/components/SelectTableType/data';
 
 import scss from 'app/(Main)/components/MainTableWrapper/MainTableWrapper.module.scss';
+import { useEffect } from 'react';
 
 export const SelectTableType = () => {
     const query = useSearchParams();
@@ -25,6 +26,10 @@ export const SelectTableType = () => {
         searchHelper.set('type', selectedType?.name as string);
         router.replace(pathname + searchHelper.getParams, { scroll: false });
     };
+
+    useEffect(() => {
+        TableTypesData.forEach((el) => router.prefetch('?type=' + el.name));
+    }, [router]);
 
     return (
         <div className={scss.table_type_variants}>

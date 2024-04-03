@@ -3,7 +3,11 @@
 .table_actions {
   display: flex;
   column-gap: 12px;
-  @include main_offset_smaller;
+  padding: 24px 11.5px 0;
+  @include laptopWidth {
+    padding-top: 10px;
+  }
+  /*@include main_offset_smaller;
   @include thousandFourWidth {
     display: grid;
     grid-template-areas: 'a a settings company'
@@ -49,7 +53,7 @@
   @include phone {
     display: flex;
     flex-direction: column;
-  }
+  }*/
 }
 
 .table_type_variants {
@@ -58,12 +62,12 @@
   display: flex;
   & div {
     display: none;
-    @include thousandTwoWidth {
+    @include phone {
       display: block;
     }
   }
   & button {
-    @include thousandTwoWidth {
+    @include phone {
       display: none;
     }
   }

@@ -15,6 +15,7 @@ import { News } from 'components/News';
 import { ProgressBarsType } from 'app/(Main)/components/ProgressBars/types';
 
 import scss from './MainPage.module.scss';
+import { Tariff } from 'app/(Main)/components/Tariff';
 
 const barsData: ProgressBarsType[] = [
     { title: 'Выполнено', percentage: 75, color: '#7DC066' },
@@ -24,7 +25,15 @@ const barsData: ProgressBarsType[] = [
     { title: 'Отменено', percentage: 25, color: '#727880' },
 ];
 
-export default function Home() {
+export default function Home({
+    searchParams,
+}: {
+    searchParams: { type: string };
+}) {
+    const type =
+        (searchParams.type as 'Тариф' | 'Права доступа' | 'Документы') ??
+        'Права доступа';
+
     return (
         <>
             <main style={{ flex: 1 }}>
@@ -38,9 +47,12 @@ export default function Home() {
                     <TableActions />
                 </Suspense>
                 <section className={scss.table_wrapper}>
-                    <Suspense fallback={<TableSkeleton />}>
-                        <OrganizationTable />
-                    </Suspense>
+                    {type === 'Права доступа' && (
+                        <Suspense fallback={<TableSkeleton />}>
+                            <OrganizationTable />
+                        </Suspense>
+                    )}
+                    {type === 'Тариф' && <Tariff />}
                 </section>
             </main>
             <Suspense fallback={<NewsSkeleton />}>
