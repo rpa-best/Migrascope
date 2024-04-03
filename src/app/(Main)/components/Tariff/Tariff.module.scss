@@ -1,0 +1,175 @@
+@import "scss/utils";
+
+.expenses_wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 23px;
+  margin-top: 52px;
+  @include thousandTwoWidth {
+    margin-top: 30px;
+  }
+  @include bigtablet {
+    flex-flow: row wrap;
+    row-gap: 20px;
+  }
+  @include phoneOrTablet {
+    margin-top: 25px;
+    padding:  0 11.5px;
+  }
+  & > h5 {
+    @include InterSemiBold(20px);
+    white-space: nowrap;
+  }
+  & > div {
+    height: 40px;
+    display: flex;
+    align-items: center;
+
+    border-radius: 6px;
+    border: 1px solid transparentize(#1A1A1A, 0.9);
+    white-space: nowrap;
+    & p {
+      @include InterMediumBold(18px);
+      padding: 0 8px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+    }
+    & span {
+      padding: 0 45px;
+      @include PoppinsSemiBold(22px);
+      letter-spacing: 0;
+      color: $error-color;
+    }
+  }
+  & > p {
+    @include InterRegular(14px);
+    & > span {
+      @include InterSemiBold(14px);
+      color: #7B61FF;
+    }
+  }
+}
+
+.tariff_wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  margin-top: 40px;
+  @include bigtablet {
+    margin-top: 25px;
+    padding: 0 11.5px;
+  }
+}
+
+.tariff_item {
+  width: 100%;
+  display: flex;
+  border: 1px solid #E4E4E7;
+  border-radius: 10px;
+  padding: 15px 40px 15px 35px;
+  @include phoneOrTablet {
+    flex-direction: column;
+    padding: 0 15px 10px;
+  }
+  transition: .2s all ease-in-out;
+  &:hover {
+    background-color: #F3F4FF;
+  }
+}
+
+.tariff_description {
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  padding: 25px 0 15px 0;
+  border-right: 1px solid #E4E4E7;
+  @include thousandTwoWidth {
+    min-width: 230px;
+  }
+  @include bigtablet {
+    min-width: 200px;
+  }
+  @include phoneOrTablet {
+    min-width: 100%;
+
+    border-right: none;
+    border-bottom: 1px solid #E4E4E7;
+  }
+  & h4 {
+    @include InterSemiBold(20px);
+    color: $active-color;
+    @include bigtablet {
+      font-size: 18px;
+    }
+    &[data-isfirst='true'] {
+      color: #7DC066
+    }
+  }
+  & h3 {
+    display: flex;
+    align-items: center;
+    @include InterBold(36px);
+    @include thousandTwoWidth {
+      font-size: 32px;
+    }
+    @include bigtablet {
+      font-size: 28px;
+    }
+  }
+  & p {
+    @include InterRegular(18px);
+    color: transparentize(#1A1A1A, 0.3);
+    @include thousandTwoWidth {
+      font-size: 16px;
+    }
+  }
+}
+
+.tariff_benefits {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  row-gap: 10px;
+  padding: 5px 0 5px 20px;
+  @include bigtablet {
+    padding: 20px 0 0;
+  }
+  & > div {
+    @include fullHdWidth {
+      max-width: 100%;
+    }
+    width: calc(50% - 5px);
+    max-width: 218px;
+    display: flex;
+    align-items: center;
+    column-gap: 11px;
+    & > svg {
+      min-width: 18px;
+      max-width: 18px;
+      max-height: 18px;
+      min-height: 18px;
+    }
+    & > p {
+      @include InterMediumBold(14px);
+      @include thousandThreeWidth {
+        font-size: 13px;
+      }
+      @include bigtablet {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.price_subtitle {
+  @include InterMediumBold(32px)
+}
+
+.price_description {
+  @include InterSemiBold(18px);
+  margin-left: 5px;
+}

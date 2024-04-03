@@ -1,0 +1,1 @@
+export { TariffItem } from './TariffItem';

@@ -77,26 +77,17 @@ export const setWorkerCreateFormInitialValues = (worker: Worker) => {
     };
 };
 
+const fieldsToExclude = ['email', 'phone'];
+
 export const WorkerValidate = (values: WorkerFormValues) => {
     const errors: Partial<WorkerErrorTypes> = {};
     for (const elem in values) {
+        if (fieldsToExclude.includes(elem)) continue;
         // @ts-ignore
         if (!values[elem]) {
             // @ts-ignore
             errors[elem] = 'Обязательное поле';
         }
-    }
-
-    if (!values.email) {
-        errors.email = 'Обязательное поле';
-    } else if (!isEmailValid(values.email)) {
-        errors.email = 'Некорректный email';
-    }
-
-    if (!values.phone.match(/\(9..\)/)?.length) {
-        errors.phone = 'Поддерживаются номера с +79...';
-    } else if (!values.phone.match(/\d$/)?.length) {
-        errors.phone = 'Неверный формат номера';
     }
 
     if (!values.avatar) {

@@ -19,7 +19,7 @@ export const AddCompanyWrapper = () => {
             return -400;
         }
 
-        return -220;
+        return -410;
     }, [fullHdBreak, tabletBreak]);
 
     const customOrgYOffset = useMemo(() => {

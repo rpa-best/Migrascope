@@ -126,6 +126,7 @@ export const WorkerForm: React.FC<WorkerFormProps> = ({
                         Компания<span>*</span>
                     </label>
                     <InputSelect
+                        autoComplete="off"
                         onChange={(v) => setFieldValue('organization', v)}
                         value={values.organization?.name as string}
                         name="organization"
