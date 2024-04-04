@@ -16,6 +16,7 @@ export const Button: React.FC<ButtonProps> = ({
     style = 'default',
     svg,
     loading,
+    css,
 }) => {
     const buttonClass = clsx({
         [scss.button_default]: style === 'default' && size === 'default',
@@ -34,7 +35,7 @@ export const Button: React.FC<ButtonProps> = ({
 
     return (
         <button
-            style={nowrap ? { whiteSpace: 'nowrap' } : undefined}
+            style={{ whiteSpace: nowrap ? 'nowrap' : undefined, ...css }}
             disabled={disabled}
             type={type}
             className={buttonClass}

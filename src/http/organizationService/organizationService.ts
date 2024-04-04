@@ -4,6 +4,7 @@ import { $clientOrganization } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 import { $serverOrganization } from 'http/indexes/serverIndex';
 import { setQuery } from 'utils/setQuery';
+import { checkForNotEmpty } from 'utils/checkForNotEmpty';
 
 export const getServerOrganization: T.GetOrganizations = async (access) => {
     try {
@@ -47,6 +48,13 @@ export const getOrganizationMiaAddressesSsr: T.GetOrganizationMiaAddressesSsr =
 
         return res.data;
     };
+
+export const getOrgBankByBic: T.GetOrgBankByBic = async (bic) => {
+    const res: AxiosResponse<ReturnType<typeof getOrgBankByBic>> =
+        await $clientOrganization.get(`${bic}/search-bank/`);
+
+    return res.data;
+};
 
 export const createOrganizationMiaAddresses: T.CreateOrganizationAddress =
     async (organization, name) => {
@@ -104,6 +112,30 @@ export const editOrganization: T.EditOrganization = async (orgId, body) => {
         await $clientOrganization.patch(`organization/${orgId}/`, body);
 
     return res.data;
+};
+
+export const createBank: T.CreateBank = async (orgId, body) => {
+    const res: AxiosResponse<ReturnType<typeof createBank>> =
+        await $clientOrganization.post(`${orgId}/bank/`, body);
+    return res.data;
+};
+
+export const getBanks: T.GetBanks = async (orgId) => {
+    const res: AxiosResponse<ReturnType<typeof getBanks>> =
+        await $clientOrganization.get(`${orgId}/bank/`);
+
+    return res.data;
+};
+
+export const editBank: T.EditBank = async (bankId, body) => {
+    const res: AxiosResponse<ReturnType<typeof editBank>> =
+        await $clientOrganization.patch(`bank/${bankId}/`, body);
+
+    return res.data;
+};
+
+export const deleteBank: T.DeleteBank = async (bankId, orgId) => {
+    return await $clientOrganization.delete(`${orgId}/bank/${bankId}/`);
 };
 
 export const getUsersSsr: T.GetUsers = async (orgId, query) => {

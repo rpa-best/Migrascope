@@ -43,7 +43,7 @@ export const WorkerProfile = async ({
                                     ${workerOrg?.name}`}
                             </span>
                         </div>
-                        <ProfileActions />
+                        <ProfileActions workerId={workerId} />
                     </div>
                     <div className={scss.worker_content}>
                         <WorkerPhoto id={worker.id} photo={worker.avatar} />

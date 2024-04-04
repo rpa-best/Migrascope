@@ -93,6 +93,8 @@ export type UpdateWorker = (
     body: Partial<UpdateWorkerBody>
 ) => Promise<void>;
 
+export type DeleteWorker = (workerId: number) => Promise<void>;
+
 export type GetWorker = (
     orgId: number,
     workerId: number,

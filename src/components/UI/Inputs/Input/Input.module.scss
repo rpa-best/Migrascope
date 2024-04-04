@@ -33,6 +33,13 @@
   }
 }
 
+.field_search_disabled {
+  @extend .field_search;
+  &::after {
+   display: none;
+  }
+}
+
 .field_without_label {
   @extend .field;
   height: 59px;
@@ -123,11 +130,6 @@
   }
 }
 
-.input_empty {
-  @extend .input_hollow;
-  border-bottom: none;
-  color: black;
-}
 
 .input_big {
   min-height: 48px;
@@ -150,6 +152,18 @@
   background-color: #F5F5F5;
   border-radius: 24px;
   padding-left: 40px;
+}
+
+.input_empty {
+  @extend .input_hollow;
+  border-bottom: none;
+  color: black;
+  border-radius: 0;
+}
+
+.input_search_disabled {
+  @extend .input_search;
+  padding-left: 0;
 }
 
 .input_label {
@@ -205,6 +219,15 @@
   color: white;
   background-color: $active-color;
   cursor: pointer;
+}
+
+.input_submit_button_empty {
+  @extend .input_submit_button;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  top: calc(50% - 15px);
+  border-radius: 5px;
 }
 
 .eye_wrapper {

@@ -49,6 +49,16 @@ export type GetOrganizationMiaAddressesSsr = (
     orgId: number
 ) => Promise<Response<OrgMigrationAddress>>;
 
+export interface BankInfo {
+    bic: string;
+    nameBank: string;
+    paymentAccount: string;
+    correspondentAccount: string;
+    cityBank: string;
+}
+
+export type GetOrgBankByBic = (bic: string) => Promise<BankInfo>;
+
 export type CreateOrganizationAddress = (
     organization: number,
     name: string
@@ -106,6 +116,32 @@ export type EditOrganization = (
     orgId: number,
     body: Partial<EditOrganizationBody>
 ) => Promise<Response<OrganizationType>>;
+
+export interface CreateBankBody {
+    bic: string;
+    name_bank: string;
+    payment_account: string;
+    correspondent_account: string;
+    city_bank: string;
+}
+
+interface CreateBankResponse extends BankInfo {
+    id: number;
+}
+
+export type CreateBank = (
+    orgId: number,
+    body: CreateBankBody
+) => Promise<CreateBankResponse | undefined>;
+
+export type GetBanks = (orgId: number) => Promise<Response<BankInfo>>;
+
+export type EditBank = (
+    bankId: number,
+    body: Partial<CreateBankBody>
+) => Promise<void>;
+
+export type DeleteBank = (bankId: number, orgId: number) => Promise<void>;
 
 interface OrganizationInfo extends Omit<OrganizationType, 'name'> {
     nameOrganization: string;
