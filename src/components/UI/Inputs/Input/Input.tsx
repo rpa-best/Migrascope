@@ -55,7 +55,8 @@ export const Input: React.FC<IInputProps> = ({
         [scss.field_without_label_and_error]: !label && !needErrorLabel,
         [scss.field_with_label]: size !== 'big' && label && needErrorLabel,
         [scss.field_with_label_big]: size === 'big' && label && needErrorLabel,
-        [scss.field_search]: name === 'search',
+        [scss.field_search]: name === 'search' && !disabled,
+        [scss.field_search_disabled]: name === 'search' && disabled,
         [scss.field_big]: size === 'big',
     });
     const labelErrorClass = clsx({
@@ -73,7 +74,13 @@ export const Input: React.FC<IInputProps> = ({
         [scss.input_hollow]: style === 'hollow',
         [scss.input_big]: style === 'default' && size === 'big',
         [scss.input_error]: handleError,
-        [scss.input_search]: name === 'search',
+        [scss.input_search]: name === 'search' && !disabled,
+        [scss.input_search_disabled]: name === 'search' && disabled,
+    });
+
+    const submitButtonClass = clsx({
+        [scss.input_submit_button]: style === 'default',
+        [scss.input_submit_button_empty]: style === 'empty',
     });
 
     const handleClearClick = () => {
@@ -107,9 +114,10 @@ export const Input: React.FC<IInputProps> = ({
                     onBlur={onBlur}
                     disabled={disabled}
                 />
-                {submitButton?.text && (
-                    <div className={scss.input_submit_button}>
+                {submitButton?.text && !disabled && (
+                    <div className={submitButtonClass}>
                         <Button
+                            css={{ minHeight: '30px', padding: '6.5px 16px' }}
                             loading={submitButton.loading}
                             type="button"
                             onClick={submitButton.onClick}

@@ -1,5 +1,6 @@
 @import "scss/utils";
 @import "app/(Main)/workers/[id]/components/WorkerProfile/WorkerProfile.module.scss";
+@import "components/AddCompany/AddCompany.module.scss";
 
 
 .company_edit_form_section {
@@ -27,7 +28,7 @@
 .company_edit_form_input {
   width: calc(50% - 27.5px);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   border-bottom: 1px solid #D4D4D4;
   &[data-iserror='true'] {
@@ -36,6 +37,7 @@
   & > label {
     white-space: nowrap;
     @include InterRegular(12px);
+    padding: 10px 0;
     color: #A0A0A0;
   }
   @include thousandTwoWidth {
@@ -43,6 +45,67 @@
   }
   @include bigtablet {
     width: 100%;
+  }
+}
+
+.company_edit_form_input_full {
+  @extend .company_edit_form_input;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: max-content;
+  & > label {
+    color: $error-color;
+  }
+  & > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    & > label {
+      white-space: nowrap;
+      @include InterRegular(12px);
+      color: #A0A0A0;
+    }
+  }
+}
+
+.add_bic_button_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  column-gap: 10px;
+  width: calc(50% - 27.5px);
+  @include thousandTwoWidth {
+    width: calc(50% - 10px);
+  }
+  @include bigtablet {
+    width: 100%;
+  }
+  @include bigtablet {
+    margin-top: 10px;
+  }
+}
+.add_bic_button_wrapper_first {
+  @extend .add_bic_button_wrapper;
+  justify-content: flex-start;
+}
+
+.company_edit_form_search_wrapper {
+  @extend .search_wrapper;
+  width: calc(50% - 27.5px);
+  height: max-content;
+  background-color: transparent;
+  padding: 15px 0 0;
+  margin: 0;
+  @include thousandTwoWidth {
+    width: calc(50% - 10px);
+  }
+  @include bigtablet {
+    width: 100%;
+  }
+  &[data-isdisabled='true'] {
+    padding: 0;
   }
 }
 

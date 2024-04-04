@@ -9,9 +9,16 @@ import {
 import { OrgFormData } from 'components/AddCompany/tempData';
 import { setPhoneMask } from 'utils/setPhoneMask';
 import { camelToSnakeCaseDeep } from 'utils/camelToSnakeCaseDeep';
-import { editOrganization } from 'http/organizationService/organizationService';
+import {
+    createBank,
+    editBank,
+    editOrganization,
+} from 'http/organizationService/organizationService';
 import { removePhoneMask } from 'utils/removePhoneMask';
 import { formatDate } from 'utils/formatDate';
+import { checkForNotEmpty } from 'utils/checkForNotEmpty';
+import { toast } from 'react-toastify';
+import { errorToastOptions } from 'config/toastConfig';
 
 const fieldsToExclude: (keyof EditCompanyFormValues)[] = [
     'emailContactPerson',
@@ -37,9 +44,10 @@ export const CompanyFormValidate = (values: EditCompanyFormValues) => {
 export const companyFormSubmit = async (
     orgId: number,
     values: EditCompanyFormValues,
-    initialValues: OrganizationType
+    initialValues: OrganizationType,
+    setIsEdit: (v: boolean) => void
 ) => {
-    const newValues = structuredClone(values);
+    const { bankInfo, ...newValues } = structuredClone(values);
     camelToSnakeCaseDeep(newValues);
 
     const body: EditOrganizationBody = {
@@ -53,13 +61,40 @@ export const companyFormSubmit = async (
         additional_phone: removePhoneMask(values.additionalPhone)!,
     };
 
-    return await editOrganization(orgId, body);
+    await editOrganization(orgId, body);
+
+    bankInfo.forEach((bank, index) => {
+        camelToSnakeCaseDeep(bank);
+        if (bank.id) {
+            editBank(bank.id, bank);
+            setIsEdit(false);
+        } else {
+            console.log(bank);
+            if (!checkForNotEmpty(bank)) {
+                toast('Заполните все поля в новом банке', errorToastOptions);
+                return;
+            }
+            createBank(
+                orgId,
+                bank as unknown as Parameters<typeof createBank>[1]
+            ).then((res) => {
+                const currentBank = values.bankInfo.find(
+                    (_, i) => i === index
+                )!;
+                currentBank.id = res?.id;
+            });
+            setIsEdit(false);
+        }
+    });
+
+    return;
 };
 
 export const setInitialEditCompanyValues = (
     values: Partial<OrganizationType>
 ): EditCompanyFormValues => {
     return {
+        bankInfo: [],
         owner: values.owner?.toString() ?? '',
         inn: values.inn ?? '',
         kpp: values.kpp ?? '',

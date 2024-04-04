@@ -1,6 +1,6 @@
 import * as T from './types';
 import { AxiosResponse } from 'axios';
-import { $clientOrganization, $clientWorker } from 'http/indexes/clientIndex';
+import { $clientWorker } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 import { $serverWorker } from 'http/indexes/serverIndex';
 import { setQuery } from 'utils/setQuery';
@@ -9,6 +9,7 @@ export const createWorker: T.CreateWorker = async (body) => {
     const WorkerFormData = new FormData();
 
     for (const [key, value] of Object.entries(body)) {
+        if (!value) continue;
         WorkerFormData.append(key, value);
     }
 
@@ -35,6 +36,10 @@ export const updateWorker: T.UpdateWorker = async (workerId, body) => {
         await $clientWorker.patch(`update/${workerId}/`, WorkerFormData);
 
     return workers.data;
+};
+
+export const deleteWorker: T.DeleteWorker = async (workerId) => {
+    return await $clientWorker.delete(`update/${workerId}/`);
 };
 
 export const getWorkerSsr: T.GetWorker = async (orgId, workerId, access) => {
