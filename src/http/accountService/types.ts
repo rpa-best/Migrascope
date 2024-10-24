@@ -34,6 +34,14 @@ export type AuthUser = (
     body: AuthUserBody
 ) => Promise<Omit<RegisterUserResponse, 'user'>>;
 
+interface UpdateTariffBody {
+    service_rate: 'pro' | 'standard';
+}
+
+export type UpdateTariff = (
+    body: UpdateTariffBody
+) => Promise<UpdateTariffBody>;
+
 export interface ChangePasswordBody {
     pvc: string;
     email: string;
@@ -63,6 +71,7 @@ export interface UserType {
     phone: string;
     avatar: string;
     birthday: string;
+    balance: number;
 }
 
 export type GetUser = () => Promise<UserType>;

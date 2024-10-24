@@ -71,3 +71,11 @@ export const sendNoticeTermination: T.SendNoticeTermination = async (body) => {
         });
     return res.data;
 };
+
+export const sendArrivalNotice: T.SendNoticeArrival = async (body) => {
+    const res: AxiosResponse<ReturnType<typeof sendNoticeTermination>> =
+        await $clientBlank.post('arrival-notice/', body, {
+            responseType: 'blob',
+        });
+    return res.data;
+};

@@ -127,9 +127,9 @@ export const BankSection: FC<MainSectionProps> = ({
                                                 ),
                                             text: 'Поиск',
                                         }}
-                                        onBlur={() => {
-                                            setFieldTouched('bic', true);
-                                        }}
+                                        onBlur={() =>
+                                            setFieldTouched('bic', true)
+                                        }
                                         placeholder="Не указано"
                                         bgColor="transparent"
                                         value={bank.bic}

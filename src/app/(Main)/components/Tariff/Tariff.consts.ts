@@ -6,14 +6,15 @@ export interface TariffDataContentType {
 
 export interface TariffDataType {
     id: number;
+    type: 'free' | 'standard' | 'pro';
     content: TariffDataContentType;
     benefits: string[];
 }
-[];
 
 export const TariffData: TariffDataType[] = [
     {
         id: 1,
+        type: 'free',
         content: {
             title: 'Промо',
             description: 'Для всех пользователей',
@@ -30,6 +31,7 @@ export const TariffData: TariffDataType[] = [
     },
     {
         id: 2,
+        type: 'standard',
         content: {
             title: 'Стандарт',
             description: 'Стандартный пакет',
@@ -46,8 +48,9 @@ export const TariffData: TariffDataType[] = [
     },
     {
         id: 3,
+        type: 'pro',
         content: {
-            title: 'Стандарт',
+            title: 'Про',
             description: 'Расширенный пакет',
             price: '2 400',
         },

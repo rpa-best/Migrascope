@@ -54,7 +54,7 @@ export const DocumentCard: FC<DocumentCard> = ({ index, document }) => {
         }
 
         if (thousandTwoBreak) {
-            return -250;
+            return index % 3 === 0 || index === 0 ? -100 : -250;
         }
 
         if (fullHdBreak) {

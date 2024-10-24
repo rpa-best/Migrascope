@@ -4,7 +4,7 @@ export interface TaskItemWithInfo extends TaskItem, TaskInfo {}
 
 export interface TasksTableProps {
     headers: string[];
-    documents: TaskItemWithInfo[];
+    documents: TaskItem[];
     paginationData: { total: number; offset: number };
 }
 
@@ -13,5 +13,5 @@ export interface TasksTableHeaderProps {
 }
 
 export interface TasksTableRowProps {
-    document: TaskItemWithInfo;
+    document: TaskItem;
 }

@@ -86,7 +86,6 @@ export const CompanyResponsibleFormSubmit = async (
     } catch (e) {
         if (e instanceof AxiosError) {
             toast('Ошибка', errorToastOptions);
-            console.log(e.response?.data);
         }
     } finally {
         setLoading(false);

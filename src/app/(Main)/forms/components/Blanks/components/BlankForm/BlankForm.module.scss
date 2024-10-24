@@ -6,6 +6,34 @@
   margin: 0;
 }
 
+.blank_form_wrapper_blanks {
+    width: 750px;
+    background-color: white;
+    border-radius: 20px;
+    margin-left: -20vw;
+    padding: 20px;
+    @include fullHdWidth {
+      margin-left: -15vw;
+    }
+    @include thousandThreeWidth {
+      margin-left: -25vw;
+    }
+    @include bigtablet {
+      width: 650px;
+      margin-left: 4vw;
+    }
+    @include phoneOrTablet {
+      width: 95vw;
+      margin-left: 0;
+    }
+    @include phone {
+      width: 93vw;
+      padding: 10px;
+      margin: 0 auto;
+    }
+
+}
+
 .blank_form_title {
   @extend .worker_form_title;
   margin-bottom: 20px;
@@ -109,4 +137,19 @@
 
 .blank_form_input_wrapper {
   @extend .input_wrapper;
+  flex-flow: nowrap;
+  & > label {
+    flex-shrink: 2;
+  }
+  @include bigtablet {
+    flex-flow: row wrap;
+  }
+}
+
+.shrinked_input {
+  margin-top: 0;
+  max-width: calc(100% - 423px);
+  @include bigtablet {
+    max-width: 100%;
+  }
 }

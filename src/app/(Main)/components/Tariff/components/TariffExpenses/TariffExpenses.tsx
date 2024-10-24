@@ -1,3 +1,5 @@
+'use client';
+
 import scss from 'app/(Main)/components/Tariff/Tariff.module.scss';
 
 export const TariffExpenses = () => {

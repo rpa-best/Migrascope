@@ -105,3 +105,47 @@ export interface SendNoticeTerminationBody {
 export type SendNoticeTermination = (
     body: SendNoticeTerminationBody
 ) => Promise<Blob>;
+
+interface SendNoticeArrivalBody {
+    document_type: string;
+    series: string;
+    number: string;
+    date_issue: string;
+    validity_period: string;
+    purpose_departure: string;
+    position: string;
+    duration_stay: string;
+    address_former_place_residence: string;
+    place_stay_region: string;
+    place_stay_area: string;
+    place_stay_city: string;
+    place_stay_street: string;
+    object_type: string;
+    place_stay_house: string;
+    place_stay_frame: string;
+    place_stay_structure: string;
+    room_type: string;
+    place_stay_apartment: string;
+    stated_period_stay: string;
+    place_stay: string;
+    document_right_use: string;
+    receiving_side: string;
+    surname_receiving_side: string;
+    name_receiving_side: string;
+    patronymic_receiving_side: string;
+    type_of_identity_document: string;
+    series_receiving_side: string;
+    number_receiving_side: string;
+    date_issue_receiving_side: string;
+    sell_by_receiving_side: string;
+    region: string;
+    area: string;
+    city: string;
+    street: string;
+    house: string;
+    frame: string;
+    structure: string;
+    apartment: string;
+}
+
+export type SendNoticeArrival = (body: SendNoticeArrivalBody) => Promise<Blob>;

@@ -22,11 +22,7 @@ export const BlanksItem: React.FC<BlankItemProps> = ({ name }) => {
             </div>
             <button className={scss.download_link}>Скачать бланк</button>
             <Modal visible={visible} setVisible={setVisible}>
-                <BlankForm
-                    visible={visible}
-                    setVisible={setVisible}
-                    blankType={name}
-                />
+                <BlankForm setVisible={setVisible} blankType={name} />
             </Modal>
         </li>
     );

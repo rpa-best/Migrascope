@@ -37,6 +37,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
     > | null>(null);
 
     const offset = getSearchParams('offset') || '0';
+    const search = getSearchParams('search');
 
     const [loading, setLoading] = useState(false);
 
@@ -55,7 +56,11 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
             if (which === 'users') {
                 data = await getUsers(id, { offset, limit: 15 });
             } else {
-                const workers = await getWorkers(id, { offset, limit: 15 });
+                const workers = await getWorkers(id, {
+                    offset,
+                    limit: 15,
+                    search,
+                });
 
                 const workersWithDocuments = await fetchWorkersDocuments(
                     workers.results
@@ -73,7 +78,7 @@ export const OrganizationTableRow: React.FC<OrganizationTableRowProps> = ({
         } finally {
             setLoading(false);
         }
-    }, [id, offset, setClickedId, which]);
+    }, [id, offset, setClickedId, which, search]);
 
     const handleOrgClick = useCallback(async () => {
         deleteSearchParams('offset');

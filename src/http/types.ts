@@ -4,7 +4,7 @@ export interface Response<T> {
 }
 
 export interface QueryType {
-    search?: string;
+    search?: string | null;
     offset?: string;
     limit?: number;
 }

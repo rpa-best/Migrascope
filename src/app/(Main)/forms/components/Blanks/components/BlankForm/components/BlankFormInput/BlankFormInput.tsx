@@ -16,6 +16,7 @@ import {
 import { BlankFormInputProps } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 
 import scss from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.module.scss';
+import clsx from 'clsx';
 
 const namesToExclude = ['services', 'workerId', 'checked', 'initiator'];
 const casesWithInt = [
@@ -71,7 +72,9 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
             case 'date':
                 return (
                     <InputDate
-                        maxDate={name === 'dateIssue' ? new Date() : undefined}
+                        maxDate={
+                            name.includes('dateIssue') ? new Date() : undefined
+                        }
                         placeholder={`Укажите ${getBlankPlaceholder(name)}`}
                         value={value ? new Date(value as string) : null}
                         onChange={(Data: Date) => setFieldValue(name, Data)}
@@ -117,7 +120,11 @@ export const BlankFormInput: FC<BlankFormInputProps> = ({
 
     return (
         <div className={scss.blank_form_input_wrapper}>
-            <label>
+            <label
+                className={clsx({
+                    [scss.shrinked_input]: getBlankLabel(name).length > 40,
+                })}
+            >
                 {getBlankLabel(name)}
                 <span>*</span>
             </label>

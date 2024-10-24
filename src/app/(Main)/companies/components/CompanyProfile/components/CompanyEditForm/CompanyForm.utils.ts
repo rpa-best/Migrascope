@@ -69,7 +69,6 @@ export const companyFormSubmit = async (
             editBank(bank.id, bank);
             setIsEdit(false);
         } else {
-            console.log(bank);
             if (!checkForNotEmpty(bank)) {
                 toast('Заполните все поля в новом банке', errorToastOptions);
                 return;

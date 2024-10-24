@@ -5,6 +5,7 @@ import {
     GetUser,
     RegisterUser,
     RegisterUserResponse,
+    UpdateTariff,
     UpdateTokens,
     ValidateFields,
 } from 'http/accountService/types';
@@ -79,6 +80,15 @@ export const getServerUser: GetServerUser = async (access) => {
 export const authUser: AuthUser = async (body) => {
     const res: AxiosResponse<ReturnType<typeof authUser>> =
         await $serverAccount.post('auth/', body);
+
+    return res.data;
+};
+
+export const updateTariff: UpdateTariff = async (body) => {
+    const res: AxiosResponse<ReturnType<UpdateTariff>> = await $account.post(
+        'subscription/',
+        body
+    );
 
     return res.data;
 };

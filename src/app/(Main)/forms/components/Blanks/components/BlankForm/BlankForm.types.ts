@@ -7,12 +7,12 @@ export type BlankType =
     | 'Уведомление о заключении'
     | 'Платежное поручение'
     | 'Приказ об отстранении'
-    | 'Уведомление о прекращении';
+    | 'Уведомление о прекращении'
+    | 'Уведомление на постановку на миграционный учет';
 
 export interface BlankFormProps {
     blankType: BlankType;
     setVisible: Dispatch<SetStateAction<boolean>>;
-    visible: boolean;
 }
 
 export interface BlankServiceType {
@@ -53,6 +53,39 @@ export interface ReasonSuspensionType extends DefaultSelectValues {
         | 'checks';
 }
 
+export interface ArrivalDocumentType extends DefaultSelectValues {
+    slug:
+        | 'notDocuments'
+        | 'visa'
+        | 'residentCard'
+        | 'temporaryResidencePermit'
+        | 'temporaryResidencePermitEducational';
+}
+
+export interface PurposeDepartureType extends DefaultSelectValues {
+    slug:
+        | 'tourism'
+        | 'business'
+        | 'studies'
+        | 'work'
+        | 'private'
+        | 'transit'
+        | 'humanitarian'
+        | 'other';
+}
+
+export interface PlaceStayType extends DefaultSelectValues {
+    slug: 'residentialPremises' | 'otherPremises' | 'organization';
+}
+
+export interface ReceivingSideType extends DefaultSelectValues {
+    slug: 'legalEntity' | 'individual';
+}
+
+export interface IdentityDocumentType extends DefaultSelectValues {
+    slug: 'passport' | 'residencePermit' | 'certificateAsylum';
+}
+
 export interface BlankFormValues {
     workerId?: number;
     number?: string;
@@ -61,7 +94,7 @@ export interface BlankFormValues {
     address?: string;
     services?: BlankServiceType[];
     position?: string;
-    salary?: '';
+    salary?: string;
     contractType?: ContractType | null;
     initiator?: boolean;
     endDateUrgent?: Date | null;
@@ -76,10 +109,45 @@ export interface BlankFormValues {
     checked?: boolean;
     person?: PersonType | null;
     issuedBy?: string;
-    numberMonths?: '';
+    numberMonths?: string;
     reasonSuspension?: ReasonSuspensionType | null;
-    firstManagerId?: '';
-    secondManagerId?: '';
+    firstManagerId?: string;
+    secondManagerId?: string;
+    documentType?: string;
+    validityPeriod?: Date | null;
+    purposeDeparture?: string;
+    durationStay?: Date | null;
+    addressFormerPlaceResidence?: string;
+    placeStayRegion?: string;
+    placeStayArea?: string;
+    placeStayCity?: string;
+    placeStayStreet?: string;
+    objectType?: string;
+    placeStayHouse?: string;
+    placeStayFrame?: string;
+    placeStayStructure?: string;
+    roomType?: string;
+    placeStayApartment?: string;
+    statedPeriodStay?: Date | null;
+    placeStay?: string;
+    documentRightUse?: string;
+    receivingSide?: string;
+    surnameReceivingSide?: string;
+    nameReceivingSide?: string;
+    patronymicReceivingSide?: string;
+    typeOfIdentityDocument?: string;
+    seriesReceivingSide?: string;
+    numberReceivingSide?: string;
+    dateIssueReceivingSide?: Date | null;
+    sellByReceivingSide?: Date | null;
+    region?: string;
+    area?: string;
+    city?: string;
+    street?: string;
+    house?: string;
+    frame?: string;
+    structure?: string;
+    apartment?: string;
 }
 
 export type BlankFormErrorsType = {

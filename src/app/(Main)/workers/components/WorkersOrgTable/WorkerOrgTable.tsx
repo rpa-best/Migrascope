@@ -6,7 +6,7 @@ import { getServerOrganization } from 'http/organizationService/organizationServ
 
 import scss from 'app/(Main)/workers/WorkersPage.module.scss';
 
-export const WorkerOrgTable = async () => {
+export const WorkerOrgTable = async ({ search }: { search: string }) => {
     const access = await getCookieAccess();
 
     const organizations = await getServerOrganization(access);

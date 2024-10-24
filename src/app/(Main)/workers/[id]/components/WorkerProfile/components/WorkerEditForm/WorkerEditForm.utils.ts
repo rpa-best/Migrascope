@@ -108,8 +108,10 @@ export const WorkerEditSubmit = async (
         name,
         patronymic,
         surname,
-        birthday: formatDate(birthday!),
-        date_employment: formatDate(dateEmployment!),
+        birthday: birthday ? formatDate(birthday) : undefined,
+        date_employment: dateEmployment
+            ? formatDate(dateEmployment)
+            : undefined,
         gender: gender?.slug as 'male' | 'female',
         identification_card: identificationCard.slug,
         actual_work_address: actualWorkAddress,
@@ -140,7 +142,6 @@ export const WorkerEditSubmit = async (
 export const setWorkerEditFormInitialValues = (
     worker: Worker
 ): WorkerEditFormValues => {
-    console.log(worker);
     return {
         birthday: worker?.birthday ? new Date(worker.birthday) : null,
         dateEmployment: worker?.dateEmployment

@@ -1,9 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useState } from 'react';
 
-import { useResizeWidth } from 'hooks/useResizeWidth';
 import { camelCase } from 'change-case';
 import { useSpring } from 'framer-motion';
 

@@ -4,7 +4,6 @@ import { $clientOrganization } from 'http/indexes/clientIndex';
 import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 import { $serverOrganization } from 'http/indexes/serverIndex';
 import { setQuery } from 'utils/setQuery';
-import { checkForNotEmpty } from 'utils/checkForNotEmpty';
 
 export const getServerOrganization: T.GetOrganizations = async (access) => {
     try {

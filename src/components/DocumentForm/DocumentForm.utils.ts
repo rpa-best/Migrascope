@@ -153,6 +153,7 @@ export const setDocumentFormInitialValues: T.SetDocumentFormInitialValues = (
             return {
                 images: document?.fileDocument ?? [],
                 number: document?.number ?? '',
+                series: document?.series ?? '',
                 dateIssue: document?.dateIssue
                     ? new Date(document.dateIssue)
                     : null,

@@ -19,14 +19,14 @@ import { useBlankWorkerStore } from 'app/(Main)/forms/components/store/useBlankW
 import * as T from './BlankForm.types';
 
 import scss from './BlankForm.module.scss';
+import { usePathname } from 'next/navigation';
+import clsx from 'clsx';
 
-export const BlankForm: FC<BlankFormProps> = ({
-    blankType,
-    visible,
-    setVisible,
-}) => {
+export const BlankForm: FC<BlankFormProps> = ({ blankType, setVisible }) => {
     const [servicesCount, setServicesCount] = useState(1);
     const [worker] = useBlankWorkerStore((state) => [state.worker]);
+
+    const pathname = usePathname();
 
     const [loading, setLoading] = useState(false);
 
@@ -94,11 +94,13 @@ export const BlankForm: FC<BlankFormProps> = ({
         worker.workerId,
     ]);
 
+    const wrapperClass = clsx({
+        [scss.blank_form_wrapper]: pathname !== '/forms',
+        [scss.blank_form_wrapper_blanks]: pathname === '/forms',
+    });
+
     return (
-        <div
-            onClick={(e) => e.stopPropagation()}
-            className={scss.blank_form_wrapper}
-        >
+        <div onClick={(e) => e.stopPropagation()} className={wrapperClass}>
             <form onSubmit={handleSubmit}>
                 <h3 className={scss.blank_form_title}>{blankType}</h3>
                 <h4 className={scss.blank_form_subtitle}>
@@ -117,19 +119,21 @@ export const BlankForm: FC<BlankFormProps> = ({
                         key={index}
                     />
                 ))}
-                <div className={scss.input_label_checkbox}>
-                    <label>
-                        Документ расторгнут по инициативе иностранного
-                        гражданина
-                    </label>
-                    <InputCheckbox
-                        name="initiator"
-                        value={values.initiator ?? false}
-                        onChange={() => {
-                            setFieldValue('initiator', !values.initiator);
-                        }}
-                    />
-                </div>
+                {blankType === 'Уведомление о прекращении' && (
+                    <div className={scss.input_label_checkbox}>
+                        <label>
+                            Документ расторгнут по инициативе иностранного
+                            гражданина
+                        </label>
+                        <InputCheckbox
+                            name="initiator"
+                            value={values.initiator ?? false}
+                            onChange={() => {
+                                setFieldValue('initiator', !values.initiator);
+                            }}
+                        />
+                    </div>
+                )}
                 {blankType === 'Договор возмездного оказания услуг (ГПХ)' && (
                     <ServicesInput
                         values={values}

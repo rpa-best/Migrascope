@@ -9,6 +9,7 @@ export interface TaskItem {
     workerId: number;
     organizationId: number;
     dateEnd: string;
+    status: string;
     daysUntilExpiration: string;
     issuedWhom: string | null;
     territoryAction: string | null;

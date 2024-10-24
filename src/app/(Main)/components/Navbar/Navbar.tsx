@@ -2,7 +2,7 @@
 
 import { NavbarLink } from 'app/(Main)/components/Navbar/components/NavbarLink';
 import { Logo } from 'components/Logo';
-import { Accounts } from 'app/(Main)/components/Navbar/components/Accounts';
+//import { Accounts } from 'app/(Main)/components/Navbar/components/Accounts';
 import { BurgerMenu } from 'app/(Main)/components/Navbar/components/BurgerMenu';
 
 import { useResizeWidth } from 'hooks/useResizeWidth';

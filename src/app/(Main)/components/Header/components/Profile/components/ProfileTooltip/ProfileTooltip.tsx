@@ -17,7 +17,7 @@ export const ProfileTooltip = () => {
                 </button>
             </Link>
             <p className={scss.profile_balance}>
-                Баланс: <span>3000</span>
+                Баланс: <span>{user?.balance}</span>
             </p>
             <Link href="/login" className={scss.profile_button_wrapper}>
                 <Button onClick={() => onLogout()}>Выйти</Button>

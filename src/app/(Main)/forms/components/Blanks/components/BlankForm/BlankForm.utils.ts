@@ -3,6 +3,7 @@ import { isObject } from 'utils/isObject';
 import { formatDate } from 'utils/formatDate';
 import {
     getManagers,
+    sendArrivalNotice,
     sendCPPS,
     sendEmploymentContract,
     sendNoticeConclusion,
@@ -20,6 +21,11 @@ import {
     PersonListValues,
     ReasonSuspensionListValues,
     TranslatedBlankFormLabels,
+    ArrivalDocumentListValues,
+    PurposeDepartureListValues,
+    PlaceStayListValues,
+    ReceivingSideListValues,
+    IdentityDocumentListValues,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/Blanks.consts';
 
 import * as T from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
@@ -29,6 +35,7 @@ import {
     BlankType,
 } from 'app/(Main)/forms/components/Blanks/components/BlankForm/BlankForm.types';
 import { AxiosError } from 'axios';
+import { snakeToCamelCaseDeep } from 'utils/snakeTOCamelCaseDeep';
 
 export const BlankFormValidate = (values: T.BlankFormValues) => {
     const errors: T.BlankFormErrorsType = {};
@@ -46,6 +53,10 @@ export const BlankFormValidate = (values: T.BlankFormValues) => {
         errors.services = 'Обязательное поле';
     }
 
+    /*    if (values.placeStayStructure && values.placeStayStructure.length > 4) {
+        errors.placeStayStructure = 'Длина не может быть больше 4';
+    }*/
+
     return errors;
 };
 
@@ -56,24 +67,22 @@ export const handleBlankFormErrors = async (
     if (e instanceof AxiosError) {
         const response = await readBlobAsJson(e.response?.data);
 
-        toast(response.error, {
+        snakeToCamelCaseDeep(response);
+
+        for (const key in response) {
+            errors[key as keyof BlankFormErrorsType] = response[key];
+        }
+
+        const toastErrorMessage = response.error
+            ? response.error
+            : 'Ошибка, проверьте поля в форме';
+
+        toast(toastErrorMessage, {
             theme: 'colored',
             autoClose: 8000,
             position: 'bottom-right',
             type: 'error',
         });
-        if (response.first_manager_id) {
-            errors.firstManagerId = response.first_manager_id;
-        }
-        if (response.second_manager_id) {
-            errors.secondManagerId = response.second_manager_id;
-        }
-        if (response.start_time) {
-            errors.startTime = 'Неправильный формат времени';
-        }
-        if (response.end_time) {
-            errors.endTime = 'Неправильный формат времени';
-        }
     }
 };
 
@@ -103,8 +112,6 @@ export const submitFormByType = async (
     );
     camelToSnakeCaseDeep(modifiedValues);
 
-    console.log(values);
-
     switch (type) {
         case 'Договор возмездного оказания услуг (ГПХ)':
             return await sendCPPS(
@@ -129,6 +136,10 @@ export const submitFormByType = async (
         case 'Уведомление о прекращении':
             return await sendNoticeTermination(
                 modifiedValues as Parameters<typeof sendNoticeTermination>[0]
+            );
+        case 'Уведомление на постановку на миграционный учет':
+            return await sendArrivalNotice(
+                modifiedValues as Parameters<typeof sendArrivalNotice>[0]
             );
     }
 };
@@ -199,6 +210,50 @@ export const setBlankFormInitialValues: T.SetBlankFormInitialValues = (
                 initiator: initialValues.initiator ?? false,
                 person: initialValues.person,
             };
+        case 'Уведомление на постановку на миграционный учет':
+            return {
+                ...setBlankFormDefaultValues(initialValues),
+                documentType: initialValues.documentType,
+                series: initialValues.series,
+                number: initialValues.number,
+                dateIssue: initialValues.dateIssue,
+                validityPeriod: initialValues.validityPeriod,
+                purposeDeparture: initialValues.purposeDeparture,
+                position: initialValues.position,
+                durationStay: initialValues.durationStay,
+                addressFormerPlaceResidence:
+                    initialValues.addressFormerPlaceResidence,
+                placeStayRegion: initialValues.placeStayRegion,
+                placeStayArea: initialValues.placeStayArea,
+                placeStayCity: initialValues.placeStayCity,
+                placeStayStreet: initialValues.placeStayStreet,
+                objectType: initialValues.objectType,
+                placeStayHouse: initialValues.placeStayHouse,
+                placeStayFrame: initialValues.placeStayFrame,
+                placeStayStructure: initialValues.placeStayStructure,
+                roomType: initialValues.roomType,
+                placeStayApartment: initialValues.placeStayApartment,
+                statedPeriodStay: initialValues.statedPeriodStay,
+                placeStay: initialValues.placeStay,
+                documentRightUse: initialValues.documentRightUse,
+                receivingSide: initialValues.receivingSide,
+                surnameReceivingSide: initialValues.surnameReceivingSide,
+                nameReceivingSide: initialValues.nameReceivingSide,
+                patronymicReceivingSide: initialValues.patronymicReceivingSide,
+                typeOfIdentityDocument: initialValues.typeOfIdentityDocument,
+                seriesReceivingSide: initialValues.seriesReceivingSide,
+                numberReceivingSide: initialValues.numberReceivingSide,
+                dateIssueReceivingSide: initialValues.dateIssueReceivingSide,
+                sellByReceivingSide: initialValues.sellByReceivingSide,
+                region: initialValues.region,
+                area: initialValues.area,
+                city: initialValues.city,
+                street: initialValues.street,
+                house: initialValues.house,
+                frame: initialValues.frame,
+                structure: initialValues.structure,
+                apartment: initialValues.apartment,
+            };
     }
 };
 
@@ -220,7 +275,17 @@ export const getBlankInputType = (
     return 'input';
 };
 
-const CasesWithDate = ['startDate', 'endDate', 'dateIssue', 'endDateUrgent'];
+const CasesWithDate: Array<keyof BlankFormValues> = [
+    'startDate',
+    'endDate',
+    'dateIssue',
+    'endDateUrgent',
+    'durationStay',
+    'validityPeriod',
+    'statedPeriodStay',
+    'dateIssueReceivingSide',
+    'sellByReceivingSide',
+];
 
 const CasesWithSelect = [
     'person',
@@ -229,6 +294,11 @@ const CasesWithSelect = [
     'reasonSuspension',
     'firstManagerId',
     'secondManagerId',
+    'documentType',
+    'purposeDeparture',
+    'placeStay',
+    'receivingSide',
+    'typeOfIdentityDocument',
 ];
 
 export const setBlankFormListValues = async (
@@ -253,6 +323,16 @@ export const setBlankFormListValues = async (
             return BaseListValues;
         case 'reasonSuspension':
             return ReasonSuspensionListValues;
+        case 'documentType':
+            return ArrivalDocumentListValues;
+        case 'purposeDeparture':
+            return PurposeDepartureListValues;
+        case 'placeStay':
+            return PlaceStayListValues;
+        case 'receivingSide':
+            return ReceivingSideListValues;
+        case 'typeOfIdentityDocument':
+            return IdentityDocumentListValues;
         case 'firstManagerId':
             return await fetchManagers();
         case 'secondManagerId':
